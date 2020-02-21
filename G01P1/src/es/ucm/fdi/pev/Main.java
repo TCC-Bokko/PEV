@@ -11,7 +11,7 @@ public class Main
 		// Por cada problema llamamos a un AGEN
 		
 		// Definimos el agen
-		AGenetico agen = new AGenetico();
+		AGeneticoEj1<boolean> agen = new AGeneticoEj1<boolean>();
 		agen.ejecuta();		
 	}
 }
