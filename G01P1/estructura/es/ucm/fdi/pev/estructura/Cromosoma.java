@@ -19,6 +19,13 @@ public abstract class Cromosoma<T> {
 	//Tamaño total de los genes
 	int longitud;
 	
+	
+	Cromosoma()
+	{
+		
+	}
+	
+	
 	abstract public float fenotipo();
 	abstract public float evalua();
 	

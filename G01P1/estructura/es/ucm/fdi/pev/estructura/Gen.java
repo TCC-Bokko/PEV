@@ -14,7 +14,7 @@ public class Gen<T>
     }
     
     // constructor
-    Gen() {  
+    public Gen() {  
       
     }   
     

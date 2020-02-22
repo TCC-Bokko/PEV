@@ -13,5 +13,9 @@ public class Main
 		// Definimos el agen
 		//AGeneticoEj1<boolean> agen = new AGeneticoEj1<boolean>();
 		//agen.ejecuta();
+		
+		
+		Gen<Boolean> test = new Gen<Boolean>(); 
+		System.out.println("Hello, World");
 	}
 }
