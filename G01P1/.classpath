@@ -9,5 +9,6 @@
 	<classpathentry kind="src" path="evaluacion"/>
 	<classpathentry kind="src" path="seleccion"/>
 	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="cruce"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

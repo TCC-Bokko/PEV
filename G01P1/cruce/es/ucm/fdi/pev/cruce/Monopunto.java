@@ -2,8 +2,10 @@ package es.ucm.fdi.pev.cruce;
 import es.ucm.fdi.pev.estructura.*;
 import java.util.Random;
 
-public class monopunto<T> {
-	public void c_monopunto(Cromosoma<T> c1, Cromosoma<T> c2) {
+public class Monopunto<T> 
+{
+	public void monopunto(Cromosoma<T> c1, Cromosoma<T> c2) 
+	{
 		int l1 = c1.getLongitud();
 		Gen<T>[] g_c1 = c1.getGenes();
 		Gen<T>[] g_c2 = c2.getGenes();
@@ -20,7 +22,6 @@ public class monopunto<T> {
 		}
 		
 		c1.setGenes(g_c1);
-		c2.setGenes(g_c2);
-				
+		c2.setGenes(g_c2);		
 	}
 }
