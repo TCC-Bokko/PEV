@@ -15,11 +15,13 @@ public class Main
 		//AGeneticoEj1<boolean> agen = new AGeneticoEj1<boolean>();
 		//agen.ejecuta();
 		
+		int tamPoblacion = 6;
 		
-		AGeneticoEj1 ag = new AGeneticoEj1(6);
+		AGeneticoEj1 ag = new AGeneticoEj1(tamPoblacion);
 		ag.inicializaPoblacion();
 		
+		//ag.evaluacion();
+		
 		//Gen<Boolean> test = new Gen<Boolean>(20); 
-		System.out.println("Hello, World");
 	}
 }

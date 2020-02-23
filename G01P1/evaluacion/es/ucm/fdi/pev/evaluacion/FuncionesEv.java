@@ -1,9 +1,9 @@
 package es.ucm.fdi.pev.evaluacion;
 import java.util.*;
 
-public class funciones {
+public class FuncionesEv {
 	// FUNCION 1
-	public double funcion1(float x1, float x2) {
+	public static double funcion1(float x1, float x2) {
 		double pi = 3.14159265359f;
 		double y = 0.0f;
 		
@@ -14,7 +14,7 @@ public class funciones {
 	// FUNCION 2: Holder Table
 	// Existen 4 mínimos de esta función valorados en -19.2085
 	// Los valores x,y deben pertenecer a [-10,10]
-	public double f2holderTable(float x, float y) {
+	public static double f2holderTable(float x, float y) {
 		double r = 0.0d;
 		double pi = 3.14159265359f;
 		
@@ -32,7 +32,7 @@ public class funciones {
 	// FUNCION 3: Schubert
 	// Existen 18 mínimos de esta función valorados en -186.7309
 	// Los valores x1 y x2 deben pertenecer a [-10,10]
-	public double f3schubert(float x1, float x2) {
+	public static double f3schubert(float x1, float x2) {
 		double r = 0.0d;
 		double sum1 = 0.0d;
 		double sum2 = 0.0d;
@@ -54,7 +54,7 @@ public class funciones {
 	
 	// Funcion 4: Michalewicz
 	// xs puede tener de 1 a 7 x
-	public double f4michalewicz(float[] xs) {
+	public static double f4michalewicz(float[] xs) {
 		double r = 0.0d;
 		//n = xs.lenght;
 		

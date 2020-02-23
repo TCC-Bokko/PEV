@@ -2,6 +2,7 @@ package es.ucm.fdi.pev;
 
 import es.ucm.fdi.pev.evaluacion.*;
 import es.ucm.fdi.pev.seleccion.*;
+import javafx.util.Pair;
 import es.ucm.fdi.pev.estructura.*;
 import java.util.ArrayList;
 
@@ -9,24 +10,22 @@ import java.util.ArrayList;
 public abstract class AGenetico
 {
 
-	Cromosoma[] poblacion;
+	protected Cromosoma[] poblacion;
 	
-	int tamPoblacion;
-	// Numero de genes que compone cada cromosoma, y su tamaño (indice: nº de gen, valor: tam del gen)
-	ArrayList<Integer> genes_len; 
+	protected int tamPoblacion;
 	
-	Cromosoma elMejor;
-	int mejor_idx;
+	protected Cromosoma elMejor;
+	protected int mejor_idx;
 	
-	float fitness_total;
+	protected float fitness_total;
 	
-	int maxGeneraciones;
-	int generacionActual;
+	protected int maxGeneraciones;
+	protected int generacionActual;
 	
-	float prob_cruce;
-	float prob_mutacion;
+	protected float prob_cruce;
+	protected float prob_mutacion;
 	
-	float tolerancia;
+	protected float tolerancia;
 	
 	// ---------------- FUNCIONES ---------------- //
 	
@@ -50,7 +49,7 @@ public abstract class AGenetico
 		inicializaPoblacion();
 		
 		//Evalua
-		//evaluacion();
+		evaluacion();
 		
 		//
 		while (!terminado()) {
@@ -62,7 +61,7 @@ public abstract class AGenetico
 			//Mutacion
 			mutacion();
 			//
-		//	evaluacion();			
+			evaluacion();			
 		}
 		
 	}

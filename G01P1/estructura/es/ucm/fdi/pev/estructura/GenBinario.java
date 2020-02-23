@@ -6,19 +6,38 @@ import java.util.Random;
 public class GenBinario implements Gen 
 {
 
-	Boolean[] valores;
+	protected Boolean[] bits;
+	
+	protected float minRange;
+	protected float maxRange;
 	
 	
-public GenBinario(int tam) 
+public GenBinario(int tam, float minR, float maxR) 
 {
-	valores = new Boolean[tam];
+	bits = new Boolean[tam];
+	minRange = minR;
+	maxRange = maxR;
 }
 
 	
 	@Override
 	public int size() 
 	{
-		return valores.length;
+		return bits.length;
+	}
+	
+	public float minRange() {
+		return minRange;
+	}
+	public float maxRange() {
+		return maxRange;
+	}
+	
+	
+	
+	public Boolean[] getBits()
+	{
+		return bits;
 	}
 
 
@@ -30,7 +49,7 @@ public GenBinario(int tam)
 		for (int i = 0; i < size(); i++)
 		{
 			boolean v = r.nextBoolean();
-			valores[i] = v;
+			bits[i] = v;
 		}		
 	}
 }

@@ -5,20 +5,20 @@ import java.util.ArrayList;
 public abstract class Cromosoma {
 	
 	//Cromosoma compuesto de array de genes
-	ArrayList<Gen> genes; 
+	protected ArrayList<Gen> genes; 
 	
 	//Representacion de los genes
-	float fenotipo;
-	float genotipo;
+	protected float[] fenotipos;
+	//float genotipo;
 
 	//Funciones
-	float fitness;
-	float puntuacion;
-	float punt_acum;
-	float prob_rel_fitness; // Usado en ruleta y restos
+	protected float fitness;
+	protected float puntuacion;
+	protected float punt_acum;
+	protected float prob_rel_fitness; // Usado en ruleta y restos
 	
 	//Tamaño total de los genes
-	int longitud;
+	protected int longitud;
 	
 	
 	public Cromosoma()
@@ -27,7 +27,7 @@ public abstract class Cromosoma {
 	}
 	
 	
-	abstract public float[] fenotipo(); // Devuelve el fenotipo de cada gen
+	abstract public float[] fenotipos(); // Devuelve el fenotipo de cada gen
 	abstract public float evalua();
 	
 	public void addGen(Gen g)
