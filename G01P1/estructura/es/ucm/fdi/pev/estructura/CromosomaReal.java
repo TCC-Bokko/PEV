@@ -3,6 +3,7 @@ import java.lang.Math;
 import java.util.ArrayList;
 
 import es.ucm.fdi.pev.Utils.Utils;
+import es.ucm.fdi.pev.evaluacion.FuncionesEv;
 
 public class CromosomaReal extends Cromosoma {
 
@@ -45,8 +46,15 @@ public class CromosomaReal extends Cromosoma {
 	
 
 	@Override
-	public float evalua() {
-		return 0;
+	public float evalua() 
+	{	
+		float result = (float) FuncionesEv.funcion1(fenotipos[0], fenotipos[1]);
+		
+		fitness = puntuacion = result;
+		
+		System.out.println(result);
+		
+		return result;
 	}
 
 }

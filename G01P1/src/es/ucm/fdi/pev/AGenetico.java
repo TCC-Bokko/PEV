@@ -29,9 +29,10 @@ public abstract class AGenetico
 	
 	// ---------------- FUNCIONES ---------------- //
 	
-	public AGenetico(int tamPob) 
+	public AGenetico(int tamPob, int maxGen) 
 	{
 		tamPoblacion = tamPob;
+		maxGeneraciones = maxGen;
 		// Recibimos
 		// Tamaño de poblacion y genes en cada individuo
 		// Probabilidades 
@@ -52,8 +53,11 @@ public abstract class AGenetico
 		evaluacion();
 		
 		//
-		while (!terminado()) {
+		while (!terminado()) 
+		{
 			generacionActual++;
+			
+			System.out.println("GENERACION: " + generacionActual);
 			//El modifica internamente la poblacion
 			seleccion();
 			//
@@ -62,8 +66,7 @@ public abstract class AGenetico
 			mutacion();
 			//
 			evaluacion();			
-		}
-		
+		}	
 	}
 	
 	
@@ -74,7 +77,7 @@ public abstract class AGenetico
 	abstract protected void inicializaGenes();
 	abstract protected Cromosoma inicializaCromosoma();
 	
-	abstract protected void evaluaCromosoma(Cromosoma c);
+	//abstract protected void evaluaCromosoma(Cromosoma c);
 	
 	
 	private void evaluacion() 
@@ -82,7 +85,7 @@ public abstract class AGenetico
 		fitness_total = 0;
 		for (int i = 0; i < poblacion.length; i++) {
 			// Calculo de fitness de cada individuo
-			evaluaCromosoma(poblacion[i]);
+			poblacion[i].evalua();
 			
 			// Calculo del fitness total de la poblacion		
 			fitness_total += poblacion[i].getFitness();
@@ -92,8 +95,7 @@ public abstract class AGenetico
 		// Probabilidad relativa [0,1) para metodos de seleccion
 		for (int j = 0; j < poblacion.length; j++) {
 			poblacion[j].setRelFit(fitness_total);
-		}
-		
+		}	
 	}
 	
 	private void seleccion()

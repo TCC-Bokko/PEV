@@ -12,19 +12,21 @@ public class AGeneticoEj1 extends AGenetico {
 	// Numero de genes que compone cada cromosoma, y su tamaño (indice: nº de gen, valor: tam del gen)
 	protected ArrayList<Pair<Float, Float>> genes_len; 
 
-	public AGeneticoEj1(int tamPob) {
-		super(tamPob);
+	public AGeneticoEj1(int tamPob, int maxGen) {
+		super(tamPob, maxGen);
 		
 	}
 
+	/*
 	@Override
 	protected void evaluaCromosoma(Cromosoma c) 
 	{
 		float[] fenotipos = c.fenotipos();		
 		float result = (float) FuncionesEv.funcion1(fenotipos[0], fenotipos[1]);
+		c.setRelFit(result);
 		
 		System.out.println(result);
-	}
+	}*/
 	
 	@Override
 	protected void inicializaPoblacion() 
