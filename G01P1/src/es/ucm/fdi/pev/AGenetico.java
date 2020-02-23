@@ -13,7 +13,7 @@ public abstract class AGenetico
 	
 	int tamPoblacion;
 	// Numero de genes que compone cada cromosoma, y su tamaño (indice: nº de gen, valor: tam del gen)
-	ArrayList<Integer> numGenes; 
+	ArrayList<Integer> genes_len; 
 	
 	Cromosoma elMejor;
 	int mejor_idx;
@@ -26,14 +26,13 @@ public abstract class AGenetico
 	float prob_cruce;
 	float prob_mutacion;
 	
-	float toleracia;
+	float tolerancia;
 	
 	// ---------------- FUNCIONES ---------------- //
 	
-	public AGenetico(int tamPob, ArrayList<Integer> genes) 
+	public AGenetico(int tamPob) 
 	{
 		tamPoblacion = tamPob;
-		numGenes = genes;
 		// Recibimos
 		// Tamaño de poblacion y genes en cada individuo
 		// Probabilidades 
@@ -73,6 +72,7 @@ public abstract class AGenetico
 	// Funciones del blucle: 
 
 	abstract protected void inicializaPoblacion();
+	abstract protected void inicializaGenes();
 	abstract protected Cromosoma inicializaCromosoma();
 	
 	abstract protected void evaluaCromosoma(Cromosoma c);

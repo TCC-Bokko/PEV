@@ -27,13 +27,13 @@ public abstract class Cromosoma {
 	}
 	
 	
-	abstract public float fenotipo();
+	abstract public float[] fenotipo(); // Devuelve el fenotipo de cada gen
 	abstract public float evalua();
 	
 	public void addGen(Gen g)
 	{
 		genes.add(g);
-		longitud+= g.size();
+		longitud += g.size();
 	}
 	
 	public float getFitness() {
