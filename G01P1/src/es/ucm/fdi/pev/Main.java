@@ -1,6 +1,7 @@
 package es.ucm.fdi.pev;
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
+import java.util.ArrayList;
 
 
 public class Main 
@@ -14,8 +15,23 @@ public class Main
 		//AGeneticoEj1<boolean> agen = new AGeneticoEj1<boolean>();
 		//agen.ejecuta();
 		
+		ArrayList<Integer> genes = inicializaGenes();
 		
-		Gen<Boolean> test = new Gen<Boolean>(); 
+		AGeneticoEj1 ag = new AGeneticoEj1(6, genes);
+		ag.inicializaPoblacion();
+		
+		//Gen<Boolean> test = new Gen<Boolean>(20); 
 		System.out.println("Hello, World");
+	}
+	
+	
+	
+	static ArrayList<Integer> inicializaGenes() 
+	{
+		ArrayList<Integer> genes = new ArrayList<Integer>();
+		genes.add(2);
+		genes.add(6);
+		
+		return genes;
 	}
 }

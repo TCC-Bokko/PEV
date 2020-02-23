@@ -1,10 +1,11 @@
 package es.ucm.fdi.pev.estructura;
+import java.util.ArrayList;
 
 
-public abstract class Cromosoma<T> {
+public abstract class Cromosoma {
 	
 	//Cromosoma compuesto de array de genes
-	Gen<T>[] genes; 
+	ArrayList<Gen> genes; 
 	
 	//Representacion de los genes
 	float fenotipo;
@@ -20,14 +21,20 @@ public abstract class Cromosoma<T> {
 	int longitud;
 	
 	
-	Cromosoma()
+	public Cromosoma()
 	{
-		
+		genes = new ArrayList<Gen>();
 	}
 	
 	
 	abstract public float fenotipo();
 	abstract public float evalua();
+	
+	public void addGen(Gen g)
+	{
+		genes.add(g);
+		longitud+= g.size();
+	}
 	
 	public float getFitness() {
 		return fitness;
@@ -41,19 +48,15 @@ public abstract class Cromosoma<T> {
 		return longitud;
 	}
 	
-	public Gen<T>[] getGenes() {
+	public ArrayList<Gen> getGenes() {
 		return genes;
 	}
 	
-	public void setGenes(Gen<T>[] new_g) {
+	public void setGenes(ArrayList<Gen> new_g) {
 		genes = new_g;
 	}
 	
 	public void setRelFit(float fitness_total) {
 		prob_rel_fitness = fitness / fitness_total;
-	}
-	
-
-	
-	
+	}	
 }

@@ -6,8 +6,8 @@ import java.lang.Math;
 
 public class Ruleta<T> {
 	
-	public Cromosoma<T>[] ruleta(Cromosoma<T>[] poblacion, float fitness_total) {
-		Cromosoma<T>[] pob_res = new Cromosoma[poblacion.length];
+	public Cromosoma[] ruleta(Cromosoma[] poblacion, float fitness_total) {
+		Cromosoma[] pob_res = new Cromosoma[poblacion.length];
 		// Consideramos que la poblacion ya tiene evaluado su fitness
 		// Esto sucedio en la funcion de evaluacion del main.
 		
@@ -28,7 +28,7 @@ public class Ruleta<T> {
 	}
 	
 	
-	private Cromosoma<T> seleccion(Cromosoma<T>[] poblacion, float[] prob_acum) {
+	private Cromosoma seleccion(Cromosoma[] poblacion, float[] prob_acum) {
 		double r_res = Math.random();
 		
 		for(int i = 0; i < prob_acum.length; i++) {

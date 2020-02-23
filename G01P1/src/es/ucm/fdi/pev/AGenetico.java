@@ -3,15 +3,19 @@ package es.ucm.fdi.pev;
 import es.ucm.fdi.pev.evaluacion.*;
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
+import java.util.ArrayList;
 
 //Quiza necesita tipo T
-public abstract class AGenetico<T>
+public abstract class AGenetico
 {
 
-	Cromosoma<T>[] poblacion;
-	int tamPoblacion;
+	Cromosoma[] poblacion;
 	
-	Cromosoma<T> elMejor;
+	int tamPoblacion;
+	// Numero de genes que compone cada cromosoma, y su tamaño (indice: nº de gen, valor: tam del gen)
+	ArrayList<Integer> numGenes; 
+	
+	Cromosoma elMejor;
 	int mejor_idx;
 	
 	float fitness_total;
@@ -26,8 +30,10 @@ public abstract class AGenetico<T>
 	
 	// ---------------- FUNCIONES ---------------- //
 	
-	public AGenetico( ) 
+	public AGenetico(int tamPob, ArrayList<Integer> genes) 
 	{
+		tamPoblacion = tamPob;
+		numGenes = genes;
 		// Recibimos
 		// Tamaño de poblacion y genes en cada individuo
 		// Probabilidades 
@@ -35,14 +41,17 @@ public abstract class AGenetico<T>
 	}
 	
 	
+	
+	
 	public void ejecuta()
 	{
 		// Bucle del algoritmo
 		//Genera
+		generacionActual = 0;
 		inicializaPoblacion();
 		
 		//Evalua
-		evaluacion();
+		//evaluacion();
 		
 		//
 		while (!terminado()) {
@@ -54,7 +63,7 @@ public abstract class AGenetico<T>
 			//Mutacion
 			mutacion();
 			//
-			evaluacion();			
+		//	evaluacion();			
 		}
 		
 	}
@@ -63,12 +72,10 @@ public abstract class AGenetico<T>
 	
 	// Funciones del blucle: 
 
-	private void inicializaPoblacion()
-	{
-		generacionActual = 0;
-	}
+	abstract protected void inicializaPoblacion();
+	abstract protected Cromosoma inicializaCromosoma();
 	
-	abstract void evaluaCromosoma(Cromosoma<T> c);
+	abstract protected void evaluaCromosoma(Cromosoma c);
 	
 	
 	private void evaluacion() 
