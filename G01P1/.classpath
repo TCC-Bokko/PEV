@@ -11,5 +11,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="cruce"/>
 	<classpathentry kind="src" path="Utils"/>
+	<classpathentry kind="src" path="UI"/>
+	<classpathentry kind="src" path="mutacion"/>
+	<classpathentry kind="lib" path="UI/es/ucm/fdi/pev/ui/jmathplot.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

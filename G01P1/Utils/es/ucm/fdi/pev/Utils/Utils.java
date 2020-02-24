@@ -2,7 +2,7 @@ package es.ucm.fdi.pev.Utils;
 
 public class Utils {
 	
-	// Calcula el logaritmo en base 'b' de 'x'
+		// Calcula el logaritmo en base 'b' de 'x'
 		public static int log(float x, float b)
 		{
 		    return (int) (Math.log(x) / Math.log(b));

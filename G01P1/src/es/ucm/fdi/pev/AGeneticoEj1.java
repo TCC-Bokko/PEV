@@ -14,7 +14,6 @@ public class AGeneticoEj1 extends AGenetico {
 
 	public AGeneticoEj1(int tamPob, int maxGen) {
 		super(tamPob, maxGen);
-		
 	}
 
 	/*
