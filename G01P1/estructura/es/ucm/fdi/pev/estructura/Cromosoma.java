@@ -13,9 +13,8 @@ public abstract class Cromosoma {
 
 	//Funciones
 	protected float fitness;
-	protected float puntuacion;
+	protected float puntuacion; // Puntuación (o fitness relativo en función del total). Usado en ruleta y restos
 	protected float punt_acum;
-	protected float prob_rel_fitness; // Usado en ruleta y restos
 	
 	//Tamaño total de los genes
 	protected int longitud;
@@ -36,27 +35,20 @@ public abstract class Cromosoma {
 		longitud += g.size();
 	}
 	
-	public float getFitness() {
-		return fitness;
-	}
+	public void actualiza_puntuacion(float fitness_total) { puntuacion = fitness / fitness_total; }
+	public float getPuntuacion() { return puntuacion; }
 	
-	public float getRelFit() {
-		return prob_rel_fitness;
-	}
+	public void actualiza_punt_acum(float acum) { punt_acum = acum + puntuacion; }
 	
-	public int getLongitud() {
-		return longitud;
-	}
+	public void setFitness(float f) { fitness = f; }
+	public float getFitness() {	return fitness; }
 	
-	public ArrayList<Gen> getGenes() {
-		return genes;
-	}
 	
-	public void setGenes(ArrayList<Gen> new_g) {
-		genes = new_g;
-	}
+	public int getLongitud() { return longitud; }
 	
-	public void setRelFit(float fitness_total) {
-		prob_rel_fitness = fitness / fitness_total;
-	}	
+	
+	public void setGenes(ArrayList<Gen> new_g) { genes = new_g; }
+	public ArrayList<Gen> getGenes() { return genes; }
 }
+
+

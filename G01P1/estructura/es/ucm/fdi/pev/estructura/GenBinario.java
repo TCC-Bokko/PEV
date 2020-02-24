@@ -34,11 +34,8 @@ public GenBinario(int tam, float minR, float maxR)
 	}
 	
 	
-	
-	public Boolean[] getBits()
-	{
-		return bits;
-	}
+	public void setBits(Boolean[] b) { bits = b; }
+	public Boolean[] getBits(){ return bits; }
 
 
 	@Override
@@ -52,4 +49,27 @@ public GenBinario(int tam, float minR, float maxR)
 			bits[i] = v;
 		}		
 	}
+
+
+	@Override
+	public Gen cruce(int corte, Gen g) {
+		
+		// Realizamos este casting de forma segura porque sabemos que solo se cruzarán genes del mismo tipo.
+		GenBinario g2 = (GenBinario)g;
+		
+		Boolean[] g_bits = g2.getBits();
+		Boolean[] aux = bits.clone();
+			
+		for (int i = 0; i < corte; i++)
+		{	
+			bits[i] = g_bits[i];
+			g_bits[i] = aux[i];
+		}
+				
+		g2.setBits(g_bits);
+			
+		return g2;
+	}
 }
+
+

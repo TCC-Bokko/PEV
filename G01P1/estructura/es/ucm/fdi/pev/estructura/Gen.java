@@ -16,4 +16,6 @@ public interface Gen
     public int size();
     
     public void randomInit();
+    
+    public Gen cruce(int corte, Gen g);
 }

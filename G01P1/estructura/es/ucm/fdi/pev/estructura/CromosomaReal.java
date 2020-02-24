@@ -27,7 +27,12 @@ public class CromosomaReal extends Cromosoma {
 	@Override
 	public float[] fenotipos() {
 		
-
+		for(int i = 0; i < fenotipos.length; i++)
+		{
+			//addGen(g.get(i));
+			fenotipos[i] = fenotipoInd((GenBinario) genes.get(i));
+		}
+		
 		return fenotipos;
 	}
 	
@@ -50,9 +55,7 @@ public class CromosomaReal extends Cromosoma {
 	{	
 		float result = (float) FuncionesEv.funcion1(fenotipos[0], fenotipos[1]);
 		
-		fitness = puntuacion = result;
-		
-		System.out.println(result);
+		fitness = result;
 		
 		return result;
 	}

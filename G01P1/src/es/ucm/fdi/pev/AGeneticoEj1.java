@@ -31,7 +31,7 @@ public class AGeneticoEj1 extends AGenetico {
 	@Override
 	protected void inicializaPoblacion() 
 	{
-		tolerancia = 0.001f;
+		tolerancia = 0.1f;
 		inicializaGenes();
 		
 		poblacion = new CromosomaReal[tamPoblacion];
@@ -77,5 +77,17 @@ public class AGeneticoEj1 extends AGenetico {
 		}
 		
 		return new CromosomaReal(genes);
+	}
+
+	@Override
+	protected void evalua_mejor(Cromosoma c) 
+	{
+		// PARA MAXIMIZACION SERÍA ASÍ. MINIMIZACION SERÍA '<'
+		if(c.getFitness() > mejor_fitness)
+		{
+		mejor_indiv = c;
+		mejor_fitness = mejor_indiv.getFitness();
+		}
+		
 	}
 }

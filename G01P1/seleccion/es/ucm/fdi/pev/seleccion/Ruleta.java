@@ -4,9 +4,9 @@ import java.lang.Math;
 
 
 
-public class Ruleta<T> {
+public class Ruleta {
 	
-	public Cromosoma[] ruleta(Cromosoma[] poblacion, float fitness_total) {
+	public static Cromosoma[] ruleta(Cromosoma[] poblacion) {
 		Cromosoma[] pob_res = new Cromosoma[poblacion.length];
 		// Consideramos que la poblacion ya tiene evaluado su fitness
 		// Esto sucedio en la funcion de evaluacion del main.
@@ -16,19 +16,25 @@ public class Ruleta<T> {
 		float[] prob_acum = new float[poblacion.length];
 		
 		for(int i = 0; i < poblacion.length; i++) {
-			aux += poblacion[i].getRelFit();
+			aux += poblacion[i].getPuntuacion();
 			prob_acum[i] = aux; 
+			
+			System.out.println(poblacion[i].getFitness());
 		}
+		
+		System.out.println("------------------------------");
+		
 		// Tiradas
 		for (int j = 0; j < poblacion.length; j++ ) {
 			pob_res[j] = seleccion(poblacion, prob_acum);
+			System.out.println(pob_res[j].getFitness());
 		}
 				
 		return pob_res;		
 	}
 	
 	
-	private Cromosoma seleccion(Cromosoma[] poblacion, float[] prob_acum) {
+	private static Cromosoma seleccion(Cromosoma[] poblacion, float[] prob_acum) {
 		double r_res = Math.random();
 		
 		for(int i = 0; i < prob_acum.length; i++) {
