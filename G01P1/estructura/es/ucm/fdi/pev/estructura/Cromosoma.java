@@ -43,7 +43,6 @@ public abstract class Cromosoma {
 	public void setFitness(float f) { fitness = f; }
 	public float getFitness() {	return fitness; }
 	
-	
 	public int getLongitud() { return longitud; }
 	
 	

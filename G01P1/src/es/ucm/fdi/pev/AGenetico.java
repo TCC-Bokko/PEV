@@ -18,6 +18,7 @@ public abstract class AGenetico
 	
 	protected Cromosoma mejor_indiv;
 	protected float mejor_fitness;
+	protected Cromosoma mejor_abs;
 	
 	protected float fitness_total;
 	
@@ -40,9 +41,6 @@ public abstract class AGenetico
 		// Probabilidades 
 		// Funcion de evaluacion
 	}
-	
-	
-	
 	
 	public void ejecuta()
 	{
@@ -68,27 +66,33 @@ public abstract class AGenetico
 			
 			evaluacion();			
 			
+			actualizaGrafica(); //Pasa los datos de esta generación a la gráfica, calcula media y compara maxAbsoluto.
+			
 			generacionActual++;
 		}	
+		
+		dibujaGrafica();
 	}
 	
 	
 	
-	// Funciones del blucle: 
+	// Funciones del bucle: 
 
 	abstract protected void inicializaPoblacion();
 	abstract protected void inicializaGenes();
 	abstract protected Cromosoma inicializaCromosoma();
 	abstract protected void evalua_mejor(Cromosoma c); // Actualiza el mejor individuo en función del problema
-	
+	abstract protected double calculaMedia(); //Calcula la media de cada generación
+	abstract protected void actualizaGrafica();
+	abstract protected void dibujaGrafica();
 	//abstract protected void evaluaCromosoma(Cromosoma c);
 	
 	
 	private void evaluacion() 
 	{
 		fitness_total = mejor_fitness = 0;
-		for (int i = 0; i < poblacion.length; i++) 
-		{
+		
+		for (int i = 0; i < poblacion.length; i++){
 			// Calculo de fitness de cada individuo
 			poblacion[i].evalua();
 			
@@ -107,6 +111,10 @@ public abstract class AGenetico
 			poblacion[j].actualiza_punt_acum(punt_acum);
 			punt_acum = punt_acum + poblacion[j].getPuntuacion();
 		}
+		
+		if (generacionActual == 1) mejor_abs = mejor_indiv;
+		else if (mejor_indiv.getFitness() > mejor_abs.getFitness()) mejor_abs = mejor_indiv;
+		
 	}
 	
 	private void seleccion()
