@@ -70,6 +70,13 @@ public GenBinario(int tam, float minR, float maxR)
 			
 		return g2;
 	}
+
+
+	@Override
+	public void muta() {
+		// TODO Auto-generated method stub
+		
+	}
 }
 
 

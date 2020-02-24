@@ -26,6 +26,17 @@ public abstract class Cromosoma {
 	}
 	
 	
+	public Cromosoma(Cromosoma c)
+	{
+		this.genes = c.genes;
+		this.fenotipos = c.fenotipos;
+		this.fitness = c.fitness;
+		this.puntuacion = c.puntuacion;
+		this.punt_acum = c.punt_acum;
+		this.longitud = c.longitud;
+	}
+	
+	
 	abstract public float[] fenotipos(); // Devuelve el fenotipo de cada gen
 	abstract public float evalua();
 	
@@ -38,6 +49,7 @@ public abstract class Cromosoma {
 	public void actualiza_puntuacion(float fitness_total) { puntuacion = fitness / fitness_total; }
 	public float getPuntuacion() { return puntuacion; }
 	
+	public float getPuntuacionAcum() { return punt_acum; }
 	public void actualiza_punt_acum(float acum) { punt_acum = acum + puntuacion; }
 	
 	public void setFitness(float f) { fitness = f; }

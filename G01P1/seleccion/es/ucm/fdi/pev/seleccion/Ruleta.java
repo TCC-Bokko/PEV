@@ -1,5 +1,6 @@
 package es.ucm.fdi.pev.seleccion;
 import es.ucm.fdi.pev.estructura.Cromosoma;
+import es.ucm.fdi.pev.estructura.CromosomaReal;
 import java.lang.Math;
 
 
@@ -11,39 +12,27 @@ public class Ruleta {
 		// Consideramos que la poblacion ya tiene evaluado su fitness
 		// Esto sucedio en la funcion de evaluacion del main.
 		
-		//Calculo propor
-		float aux = 0.0f;
-		float[] prob_acum = new float[poblacion.length];
-		
-		for(int i = 0; i < poblacion.length; i++) {
-			aux += poblacion[i].getPuntuacion();
-			prob_acum[i] = aux; 
-			
-			System.out.println(poblacion[i].getFitness());
-		}
-		
-		System.out.println("------------------------------");
 		
 		// Tiradas
 		for (int j = 0; j < poblacion.length; j++ ) {
-			pob_res[j] = seleccion(poblacion, prob_acum);
-			System.out.println(pob_res[j].getFitness());
+			pob_res[j] = seleccion(poblacion);
 		}
 				
 		return pob_res;		
 	}
 	
 	
-	private static Cromosoma seleccion(Cromosoma[] poblacion, float[] prob_acum) {
-		double r_res = Math.random();
+	private static Cromosoma seleccion(Cromosoma[] poblacion) {
+		double r = Math.random();
 		
-		for(int i = 0; i < prob_acum.length; i++) {
-			if (prob_acum[i] >= r_res) {
-				return poblacion[i];
+		for(int i = 0; i < poblacion.length; i++) {
+			if (poblacion[i].getPuntuacionAcum() >= r) {
+				
+				Cromosoma c = new CromosomaReal(poblacion[i]);
+				return c; //poblacion[i];
 			}
 		}
 		
 		return null;
 	}
-
 }

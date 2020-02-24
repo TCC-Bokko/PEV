@@ -17,8 +17,11 @@ public abstract class AGenetico
 	protected int tamPoblacion;
 	
 	protected Cromosoma mejor_indiv;
-	protected float mejor_fitness;
 	protected Cromosoma mejor_abs;
+	
+	protected float mejor_fitness;
+	protected float abs_fitness = 0;
+
 	
 	protected float fitness_total;
 	
@@ -42,21 +45,32 @@ public abstract class AGenetico
 		// Funcion de evaluacion
 	}
 	
+	abstract protected void inicializaPoblacion();
+	abstract protected void inicializaGenes();
+	abstract protected Cromosoma inicializaCromosoma();
+	abstract protected void evalua_mejor(Cromosoma c); // Actualiza el mejor individuo en función del problema
+	abstract protected double calculaMedia(); //Calcula la media de cada generación
+	abstract protected void actualizaGrafica();
+	abstract protected void dibujaGrafica();
+	//abstract protected void evaluaCromosoma(Cromosoma c);
+	
 	public void ejecuta()
 	{
 		// Bucle del algoritmo
 		//Genera
 		System.out.println("-------- INICIO DE POBLACION"  + " --------" );
 		generacionActual = 1;
-		inicializaPoblacion();
 		
+		inicializaPoblacion();
 		//Evalua
 		evaluacion();
+		actualizaGrafica();
 		
 		//
 		while (!terminado()) 
 		{	
 			System.out.println("-------- GENERACION " + generacionActual + " --------" );
+			
 			//El modifica internamente la poblacion
 			seleccion();
 		
@@ -67,25 +81,15 @@ public abstract class AGenetico
 			evaluacion();			
 			
 			actualizaGrafica(); //Pasa los datos de esta generación a la gráfica, calcula media y compara maxAbsoluto.
-			
+		
 			generacionActual++;
 		}	
 		
 		dibujaGrafica();
 	}
 	
-	
-	
-	// Funciones del bucle: 
 
-	abstract protected void inicializaPoblacion();
-	abstract protected void inicializaGenes();
-	abstract protected Cromosoma inicializaCromosoma();
-	abstract protected void evalua_mejor(Cromosoma c); // Actualiza el mejor individuo en función del problema
-	abstract protected double calculaMedia(); //Calcula la media de cada generación
-	abstract protected void actualizaGrafica();
-	abstract protected void dibujaGrafica();
-	//abstract protected void evaluaCromosoma(Cromosoma c);
+	// Funciones del bucle: 
 	
 	
 	private void evaluacion() 
@@ -111,10 +115,6 @@ public abstract class AGenetico
 			poblacion[j].actualiza_punt_acum(punt_acum);
 			punt_acum = punt_acum + poblacion[j].getPuntuacion();
 		}
-		
-		if (generacionActual == 1) mejor_abs = mejor_indiv;
-		else if (mejor_indiv.getFitness() > mejor_abs.getFitness()) mejor_abs = mejor_indiv;
-		
 	}
 	
 	private void seleccion()
@@ -126,7 +126,7 @@ public abstract class AGenetico
 	private void cruce() 
 	{
 		//PARA PROBAR: LO PONEMOS AQUI
-		prob_cruce = 0.8f;
+		prob_cruce = 0.6f;
 		
 		
 		// Array con los índices de los padres seleccionados para cruzarse
@@ -151,8 +151,9 @@ public abstract class AGenetico
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
 			
+			
 			Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
-		}		
+		}	
 	}
 	
 	private void mutacion()

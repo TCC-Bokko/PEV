@@ -24,6 +24,12 @@ public class CromosomaReal extends Cromosoma {
 	
 	
 
+	public CromosomaReal(Cromosoma c) {
+		super(c);
+	}
+
+
+
 	@Override
 	public float[] fenotipos() {
 		
@@ -53,11 +59,16 @@ public class CromosomaReal extends Cromosoma {
 	@Override
 	public float evalua() 
 	{	
+		for(int i = 0; i < fenotipos.length; i++)
+		{
+			//addGen(g.get(i));
+			fenotipos[i] = fenotipoInd((GenBinario) genes.get(i));
+		}
+		
 		float result = (float) FuncionesEv.funcion1(fenotipos[0], fenotipos[1]);
 		
 		fitness = result;
 		
 		return result;
 	}
-
 }

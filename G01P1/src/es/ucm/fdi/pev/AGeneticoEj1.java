@@ -23,7 +23,7 @@ public class AGeneticoEj1 extends AGenetico {
 	protected double[] x_plot = new double[maxGeneraciones]; //Empezamos en generación 1! OJO!
 	
 	// Tendremos 3 líneas, necesitamos 3 ys // PLOT LINE USA DOUBLES
-	protected double[] genMax_y_plot = new double[maxGeneraciones]; // Máximo de la generación
+	protected double[] maxGen_y_plot = new double[maxGeneraciones]; // Máximo de la generación
 	protected double[] genMed_y_plot = new double[maxGeneraciones]; // media generación
 	protected double[] maxAbs_y_plot = new double[maxGeneraciones]; // Maximo absoluto
 	
@@ -42,14 +42,14 @@ public class AGeneticoEj1 extends AGenetico {
 		for (int i = 0; i < maxGeneraciones; i++) {
 			x_plot[i] = i;
 		}
-		
-
 	}
 	
 	@Override
-	protected void dibujaGrafica() {
+	protected void dibujaGrafica() 
+	{
+		
 		//Dibujamos las líneas
-		_panel.addLinePlot("MaxGen", Color.blue, x_plot, genMax_y_plot);
+		_panel.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
 		_panel.addLinePlot("MaxAbs", Color.red, x_plot, maxAbs_y_plot);
 		_panel.addLinePlot("genMed", Color.green, x_plot, genMed_y_plot);
 		
@@ -88,19 +88,24 @@ public class AGeneticoEj1 extends AGenetico {
 	
 	@Override
 	protected void actualizaGrafica() {
-		//Calcular media
-		double media = calculaMedia();
 		
 		// Rellena valores grafica
-		genMax_y_plot[generacionActual-1] = (double)mejor_indiv.getFitness(); // Generacion -1 por que empezamos en 1! 
-		genMed_y_plot[generacionActual-1] = media;
-		genMed_y_plot[generacionActual-1] = (double)mejor_abs.getFitness();
-	}
+		maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
+		maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
+		genMed_y_plot[generacionActual-1] = calculaMedia();
+		
+		
+		for (double d : maxAbs_y_plot)
+		{
+			System.out.print(d + " ");
+		}
+		System.out.println("");
+		}
 	
 	@Override
 	protected void inicializaPoblacion() 
 	{
-		tolerancia = 0.1f;
+		tolerancia = 0.001f;
 		inicializaGenes();
 		
 		poblacion = new CromosomaReal[tamPoblacion];
@@ -150,14 +155,17 @@ public class AGeneticoEj1 extends AGenetico {
 
 	@Override
 	protected void evalua_mejor(Cromosoma c) 
-	{
+	{	
+		System.out.println("Fitness: " + c.getFitness());
+		System.out.println("Abs: " + abs_fitness + "  Gen: " + mejor_fitness);
 		// PARA MAXIMIZACION SERÍA ASÍ. MINIMIZACION SERÍA '<'
 		if(c.getFitness() > mejor_fitness)
 		{
-			mejor_indiv = c;
-			mejor_fitness = mejor_indiv.getFitness();
+			mejor_fitness = c.getFitness();
 		}
 		
+		if (generacionActual == 1) abs_fitness = mejor_fitness;
+		else if (mejor_fitness > abs_fitness) abs_fitness = mejor_fitness;		
 	}
 	
 }
