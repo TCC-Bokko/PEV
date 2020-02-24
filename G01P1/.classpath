@@ -13,6 +13,7 @@
 	<classpathentry kind="src" path="Utils"/>
 	<classpathentry kind="src" path="UI"/>
 	<classpathentry kind="src" path="mutacion"/>
+	<classpathentry kind="src" path="reemplazo"/>
 	<classpathentry kind="lib" path="UI/es/ucm/fdi/pev/ui/jmathplot.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
