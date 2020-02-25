@@ -158,7 +158,11 @@ public abstract class AGenetico
 	
 	private void mutacion()
 	{
-		//Switch dependiendo del tipo de mutacion
+		//PARA PROBAR: LO PONEMOS AQUI
+		prob_mutacion = 0.05f;
+				
+		for (Cromosoma c : poblacion)
+			c.muta(prob_mutacion);
 	}
 	
 	

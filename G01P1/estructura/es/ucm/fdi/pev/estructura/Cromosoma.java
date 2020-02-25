@@ -46,6 +46,12 @@ public abstract class Cromosoma {
 		longitud += g.size();
 	}
 	
+	public void muta(float prob)
+	{
+		for(Gen g: genes)
+			g.muta(prob);
+	}
+	
 	public void actualiza_puntuacion(float fitness_total) { puntuacion = fitness / fitness_total; }
 	public float getPuntuacion() { return puntuacion; }
 	

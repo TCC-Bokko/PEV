@@ -47,7 +47,6 @@ public class AGeneticoEj1 extends AGenetico {
 	@Override
 	protected void dibujaGrafica() 
 	{
-		
 		//Dibujamos las líneas
 		_panel.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
 		_panel.addLinePlot("MaxAbs", Color.red, x_plot, maxAbs_y_plot);

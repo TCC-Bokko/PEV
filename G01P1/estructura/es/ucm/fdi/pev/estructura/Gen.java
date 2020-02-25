@@ -17,7 +17,7 @@ public interface Gen
     
     public void randomInit();
     
-    public void muta();
+    public void muta(float prob);
     
     public Gen cruce(int corte, Gen g);
 }

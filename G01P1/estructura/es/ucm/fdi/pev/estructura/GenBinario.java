@@ -73,9 +73,16 @@ public GenBinario(int tam, float minR, float maxR)
 
 
 	@Override
-	public void muta() {
-		// TODO Auto-generated method stub
-		
+	public void muta(float prob) 
+	{
+		Random r = new Random();
+		for (boolean b : bits)
+		{
+			float rand = r.nextFloat();
+			
+			if(rand < prob)
+				b = !b;
+		}	
 	}
 }
 
