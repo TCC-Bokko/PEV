@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import es.ucm.fdi.pev.Utils.Utils;
 import es.ucm.fdi.pev.evaluacion.FuncionesEv;
 
-public class CromosomaReal extends Cromosoma {
+public class CromosomaP1f1 extends Cromosoma {
 
 
 	
-	public CromosomaReal(ArrayList<GenBinario> g) {
+	public CromosomaP1f1(ArrayList<GenBinario> g) {
 		super();
 		
 		fenotipos = new float[g.size()];
@@ -24,7 +24,7 @@ public class CromosomaReal extends Cromosoma {
 	
 	
 
-	public CromosomaReal(Cromosoma c) {
+	public CromosomaP1f1(Cromosoma c) {
 		super(c);
 	}
 
@@ -61,7 +61,6 @@ public class CromosomaReal extends Cromosoma {
 	{	
 		for(int i = 0; i < fenotipos.length; i++)
 		{
-			//addGen(g.get(i));
 			fenotipos[i] = fenotipoInd((GenBinario) genes.get(i));
 		}
 		
@@ -70,5 +69,12 @@ public class CromosomaReal extends Cromosoma {
 		fitness = result;
 		
 		return result;
+	}
+
+
+
+	@Override
+	public boolean compara_mejor_fitness(Cromosoma c) {
+		return fitness > c.getFitness();
 	}
 }

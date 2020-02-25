@@ -1,8 +1,8 @@
 package es.ucm.fdi.pev;
 
-import es.ucm.fdi.pev.evaluacion.*;
 import es.ucm.fdi.pev.seleccion.*;
-import es.ucm.fdi.pev.cruce.Monopunto;
+import es.ucm.fdi.pev.cruce.*;
+import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
 
 import java.util.ArrayList;
@@ -48,6 +48,7 @@ public abstract class AGenetico
 	abstract protected void inicializaPoblacion();
 	abstract protected void inicializaGenes();
 	abstract protected Cromosoma inicializaCromosoma();
+	abstract protected Cromosoma sustituyeCromosoma(Cromosoma c);
 	abstract protected void evalua_mejor(Cromosoma c); // Actualiza el mejor individuo en función del problema
 	abstract protected double calculaMedia(); //Calcula la media de cada generación
 	abstract protected void actualizaGrafica();
@@ -118,17 +119,30 @@ public abstract class AGenetico
 	}
 	
 	private void seleccion()
-	{
+	{	
+		Cromosoma[] nueva_pob = new Cromosoma[poblacion.length];
+		int[] pob_idx = new int[poblacion.length]; // Indices de los individuos seleccionados
 		//Switch dependiendo del tipo de cruce
-		poblacion = Ruleta.ruleta(poblacion);
+		
+		pob_idx = Torneo.torneo(poblacion, 3);
+		//pob_idx = Ruleta.ruleta(poblacion);
+		
+		
+		// Sustitucion de los individuos seleccionados
+		for(int i = 0; i < poblacion.length; i++)
+		{
+			int idx = pob_idx[i];
+			nueva_pob[i] = sustituyeCromosoma(poblacion[idx]);
+		}
+		
+		poblacion = nueva_pob;
 	}
 	
 	private void cruce() 
 	{
 		//PARA PROBAR: LO PONEMOS AQUI
 		prob_cruce = 0.6f;
-		
-		
+			
 		// Array con los índices de los padres seleccionados para cruzarse
 		ArrayList<Integer> sel = new ArrayList<Integer>();
 		
@@ -153,13 +167,13 @@ public abstract class AGenetico
 			
 			
 			Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
-		}	
+		}
 	}
 	
 	private void mutacion()
 	{
 		//PARA PROBAR: LO PONEMOS AQUI
-		prob_mutacion = 0.05f;
+		prob_mutacion = 0.5f;
 				
 		for (Cromosoma c : poblacion)
 			c.muta(prob_mutacion);

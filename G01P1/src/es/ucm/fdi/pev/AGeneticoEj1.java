@@ -33,6 +33,88 @@ public class AGeneticoEj1 extends AGenetico {
 		iniciaGrafica();
 	}
 	
+	
+	
+	@Override
+	protected void inicializaPoblacion() 
+	{
+		inicializaGenes();
+		
+		poblacion = new CromosomaP1f1[tamPoblacion];
+		
+		for(int i = 0; i < tamPoblacion; i++)
+		{
+			poblacion[i] = inicializaCromosoma();
+		}	
+	}
+
+	
+	// Inicializa la division en genes de los cromosomas, asi como el rango de valores de cada uno
+	protected void inicializaGenes() 
+	{
+		tolerancia = 0.001f;
+		
+		float Xmin, Xmax;
+		ArrayList<Pair<Float, Float>> genes_l = new ArrayList<Pair<Float, Float>>();
+		
+		 Xmin = -3f; Xmax = 12.1f;
+		genes_l.add(new Pair<Float, Float>(Xmin, Xmax));
+		
+		 Xmin = 4.1f; Xmax = 5.8f;
+		genes_l.add(new Pair<Float, Float>(Xmin, Xmax));
+		
+		genes_len = genes_l;
+	}
+
+
+	@Override
+	protected Cromosoma inicializaCromosoma() 
+	{
+		ArrayList<GenBinario> genes = new ArrayList<GenBinario>();
+		
+		for(Pair<Float, Float> genRange : genes_len)
+		{
+			float min = genRange.getKey();
+			float max = genRange.getValue();
+			
+			int len = Utils.longitud_bits(min, max, tolerancia);
+			
+			GenBinario g = new GenBinario(len, min, max);
+			g.randomInit();
+			genes.add(g);
+		}
+		
+		return new CromosomaP1f1(genes);
+	}
+	
+	@Override
+	protected Cromosoma sustituyeCromosoma(Cromosoma c) {
+		Cromosoma nuevo = new CromosomaP1f1(c);
+		return nuevo;
+	}
+
+	@Override
+	protected void evalua_mejor(Cromosoma c) 
+	{	
+		//System.out.println("Fitness: " + c.getFitness());
+		//System.out.println("Abs: " + abs_fitness + "  Gen: " + mejor_fitness);
+		// PARA MAXIMIZACION SERÍA ASÍ. MINIMIZACION SERÍA '<'
+		if(c.getFitness() > mejor_fitness)
+		{
+			mejor_fitness = c.getFitness();
+		}
+		
+		if (generacionActual == 1) abs_fitness = mejor_fitness;
+		else if (mejor_fitness > abs_fitness) abs_fitness = mejor_fitness;		
+	}
+	
+	
+	
+	
+	
+	// -------------------------- GRAFICA -------------------------- // 
+	
+	
 	private void iniciaGrafica() {
 		_panel = new Plot2DPanel();
 		_marco = new JFrame("Funcion1");
@@ -71,6 +153,9 @@ public class AGeneticoEj1 extends AGenetico {
 		
 		media = (double)sum / (double)tamPoblacion;		
 		
+		
+		System.out.println("Media: " + media);
+		
 		return media;		
 	}
 	
@@ -92,79 +177,5 @@ public class AGeneticoEj1 extends AGenetico {
 		maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
 		maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
 		genMed_y_plot[generacionActual-1] = calculaMedia();
-		
-		
-		for (double d : maxAbs_y_plot)
-		{
-			System.out.print(d + " ");
 		}
-		System.out.println("");
-		}
-	
-	@Override
-	protected void inicializaPoblacion() 
-	{
-		tolerancia = 0.001f;
-		inicializaGenes();
-		
-		poblacion = new CromosomaReal[tamPoblacion];
-		
-		for(int i = 0; i < tamPoblacion; i++)
-		{
-			poblacion[i] = inicializaCromosoma();
-		}	
-	}
-
-	
-	// Inicializa la division en genes de los cromosomas, asi como el rango de valores de cada uno
-	protected void inicializaGenes() 
-	{
-		float Xmin, Xmax;
-		ArrayList<Pair<Float, Float>> genes_l = new ArrayList<Pair<Float, Float>>();
-		
-		 Xmin = -3f; Xmax = 12.1f;
-		genes_l.add(new Pair<Float, Float>(Xmin, Xmax));
-		
-		 Xmin = 4.1f; Xmax = 5.8f;
-		genes_l.add(new Pair<Float, Float>(Xmin, Xmax));
-		
-		genes_len = genes_l;
-	}
-
-
-	@Override
-	protected Cromosoma inicializaCromosoma() 
-	{
-		ArrayList<GenBinario> genes = new ArrayList<GenBinario>();
-		
-		for(Pair<Float, Float> genRange : genes_len)
-		{
-			float min = genRange.getKey();
-			float max = genRange.getValue();
-			
-			int len = Utils.longitud_bits(min, max, tolerancia);
-			
-			GenBinario g = new GenBinario(len, min, max);
-			g.randomInit();
-			genes.add(g);
-		}
-		
-		return new CromosomaReal(genes);
-	}
-
-	@Override
-	protected void evalua_mejor(Cromosoma c) 
-	{	
-		System.out.println("Fitness: " + c.getFitness());
-		System.out.println("Abs: " + abs_fitness + "  Gen: " + mejor_fitness);
-		// PARA MAXIMIZACION SERÍA ASÍ. MINIMIZACION SERÍA '<'
-		if(c.getFitness() > mejor_fitness)
-		{
-			mejor_fitness = c.getFitness();
-		}
-		
-		if (generacionActual == 1) abs_fitness = mejor_fitness;
-		else if (mejor_fitness > abs_fitness) abs_fitness = mejor_fitness;		
-	}
-	
 }
