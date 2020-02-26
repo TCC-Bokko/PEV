@@ -81,7 +81,12 @@ public GenBinario(int tam, float minR, float maxR)
 			float rand = r.nextFloat();
 			
 			if(rand < prob)
-				b = !b;
+			{
+				if(b == true)
+					b = false;
+				else
+					b = true;
+			}
 		}	
 	}
 }
