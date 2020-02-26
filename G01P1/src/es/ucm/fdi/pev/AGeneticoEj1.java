@@ -34,7 +34,6 @@ public class AGeneticoEj1 extends AGenetico {
 	}
 	
 	
-	
 	@Override
 	protected void inicializaPoblacion() 
 	{
@@ -182,5 +181,5 @@ public class AGeneticoEj1 extends AGenetico {
 		maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
 		maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
 		genMed_y_plot[generacionActual-1] = calculaMedia();
-		}
+	}
 }

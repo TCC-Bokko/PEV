@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import es.ucm.fdi.pev.estructura.Cromosoma;
 import es.ucm.fdi.pev.ui.ConfigPanel.ChoiceOption;
 import es.ucm.fdi.pev.ui.ConfigPanel.ConfigListener;
 import es.ucm.fdi.pev.ui.ConfigPanel.DoubleOption;
@@ -18,27 +19,42 @@ import es.ucm.fdi.pev.ui.ConfigPanel.InnerOption;
 import es.ucm.fdi.pev.ui.ConfigPanel.IntegerOption;
 import es.ucm.fdi.pev.ui.ConfigPanel.StrategyOption;
 
+import org.math.plot.Plot2DPanel;
+
 /**
  * Demo para el panel de configuracion
  * 
  * @author mfreire
  */
 
-public class Demo extends JFrame {
+public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 5393378737313833016L;
+
+	//ENUMS
+	public enum TipoGen { BINARIO, REAL }
+	public enum TipoSel { RULETA, TORNEO, MUE }
+	public enum TipoCru { MONOPUNTO, UNIFORME }
 	
-	public Demo() {
+	// CONSTRUCTORA
+	public GUI() {
 		// Título de la ventana
 		super("Demo de panel de configuracion");
 		// Opciones de ventana
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// Tipo de organización
 		setLayout(new BorderLayout());
 		
-		//JPanel panelCentral = new JPanel(new GridLayout(3, 2, 4, 4));
+		///////////////////////////////////////
+		//
+		//     PANEL CENTRAL
+		//
+		///////////////////////////////////////
+		
 		JPanel panelCentral = new JPanel(new GridLayout(3, 2, 4, 4));
 		add(panelCentral, BorderLayout.EAST);
-
+		
+		/*
 		// crea dos figuras
 		final Figura f1 = new Figura("Primera");
 		final Figura f2 = new Figura("Segunda");
@@ -67,12 +83,19 @@ public class Demo extends JFrame {
 		// crea una etiqueta que indica la figura que se esta editando
 		final JLabel panelEnEdicion = new JLabel("Editando figura 1");
 		add(panelEnEdicion, BorderLayout.NORTH);
+		*/
+		
+		//////////////////////////////////////
+		//
+		//   BOTONES
+		//
+		//////////////////////////////////////
 		
 		// usado por todos los botones
 		JButton boton;
 
 		// crea botones para mostrar el estado de las figuras por consola
-		boton = new JButton("muestra fig. 1");
+		boton = new JButton("Ejecuta Evolucion");
 		boton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -80,6 +103,8 @@ public class Demo extends JFrame {
 			}
 		});
 		panelCentral.add(boton);
+		
+		/*
 		boton = new JButton("muestra fig. 2");
 		boton.addActionListener(new ActionListener() {
 			@Override
@@ -88,7 +113,7 @@ public class Demo extends JFrame {
 			}
 		});
 		panelCentral.add(boton);
-
+		
 		// crea botones para sobreescribir el panel con las figuras
 		boton = new JButton("fig. 1 a panel");
 		boton.addActionListener(new ActionListener() {
@@ -132,6 +157,7 @@ public class Demo extends JFrame {
 			}
 		});
 		panelCentral.add(boton);
+		*/
 	}
 	
 	public ConfigPanel<Figura> creaPanelConfiguracion() {
@@ -140,6 +166,11 @@ public class Demo extends JFrame {
 		Color[] colores = new Color[] { Color.red, Color.blue, Color.green };
 		Forma[] formas = new Forma[] { new Circulo(), new Rectangulo() };
 		
+		// Selectores
+		//Tipo de Gen
+		TipoGen gen;
+		//Seleccion
+		//Cruce
 		
 		
 		/////////////// NUESTRAS OPCIONES /////////////////
@@ -153,6 +184,8 @@ public class Demo extends JFrame {
 		// config.addOption( new IntegerOption<T>: Campo de datos tipo int.						)
 		//					 new DoubleOption<T>: Campo de datos tipo Double
 		// 					 new ChoiceOption<T>: Campo desplegable de opciones
+		
+		//config.addOption(new ChoiceOption<TipoGen>("Tipo de Gen", "Tipo:", "", TipoGen));
 		
 		config.addOption(new IntegerOption<Figura>(  // -- entero
 				"grosor (px)", 					     // texto a usar como etiqueta del campo
@@ -214,14 +247,65 @@ public class Demo extends JFrame {
 	
 	public static void main(String[] args) {
 		
-		Demo p = new Demo();
+		GUI p = new GUI();
 		p.setSize(600, 600);
 		p.setVisible(true);	
 	}
 	
 	// --- clases de ejemplo
 	
-	
+	/** PANEL **/
+	public static class Panel {
+		protected int maxGeneraciones;
+		protected int tamPoblacion;
+		protected Plot2DPanel _panel;
+		protected JFrame _marco;
+		protected double[] x_plot = new double[maxGeneraciones]; //Empezamos en generación 1! OJO!
+		// Tendremos 3 líneas, necesitamos 3 ys // PLOT LINE USA DOUBLES
+		protected double[] maxGen_y_plot = new double[maxGeneraciones]; // Máximo de la generación
+		protected double[] genMed_y_plot = new double[maxGeneraciones]; // media generación
+		protected double[] maxAbs_y_plot = new double[maxGeneraciones]; // Maximo absoluto
+		
+		//Constructora, inicializa las variables
+		public void panel(int maxGen, int tamPob) {
+			maxGeneraciones = maxGen;
+			tamPoblacion = tamPob;
+			_panel = new Plot2DPanel();
+			_marco = new JFrame("Gráfica Fitness");
+			
+			//Los Xs van establecidos por defecto (0,1,2,3,4,..., MAX_GENERACIONES-1), tam = maxGeneraciones
+			// OJO QUE EMPEZAMOS POR GENERACION 1, guardar los datos en una posición generación-1.
+			for (int i = 0; i < maxGeneraciones; i++) {
+				x_plot[i] = i;
+			}
+		}
+		//Método de dibujado
+		protected void dibujaGrafica() 
+		{
+			//Dibujamos las líneas
+			_panel.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
+			_panel.addLinePlot("MaxAbs", Color.red, x_plot, maxAbs_y_plot);
+			_panel.addLinePlot("genMed", Color.green, x_plot, genMed_y_plot);
+			
+			//Propiedades marco
+			_marco.setSize(600,600);
+			_marco.setContentPane(_panel);
+			_marco.setVisible(true);
+		}
+		//Actualización de datos
+		protected void actualizaGrafica(Cromosoma[] poblacion, int generacionActual, float mejor_fitness, float abs_fitness, float media) {
+			for(int i = 0; i < tamPoblacion; i++)
+			{
+				System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
+			}	
+			
+			// Rellena valores grafica
+			maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
+			maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
+			genMed_y_plot[generacionActual-1] = media; //calculaMedia
+		}
+		
+	}
 
 	/** una figura */
 	public static class Figura {
