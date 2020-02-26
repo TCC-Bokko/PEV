@@ -5,11 +5,11 @@ import java.util.Random;
 
 public class GenBinario implements Gen 
 {
-
 	protected Boolean[] bits;
 	
 	protected float minRange;
 	protected float maxRange;
+	protected String tipo;
 	
 	
 public GenBinario(int tam, float minR, float maxR) 
@@ -17,6 +17,7 @@ public GenBinario(int tam, float minR, float maxR)
 	bits = new Boolean[tam];
 	minRange = minR;
 	maxRange = maxR;
+	tipo = "binario";
 }
 
 	
@@ -33,6 +34,10 @@ public GenBinario(int tam, float minR, float maxR)
 		return maxRange;
 	}
 	
+	@Override
+	public String getType() {
+		return tipo;
+	}
 	
 	public void setBits(Boolean[] b) { bits = b; }
 	public Boolean[] getBits(){ return bits; }
@@ -70,7 +75,6 @@ public GenBinario(int tam, float minR, float maxR)
 			
 		return g2;
 	}
-
 
 	@Override
 	public void muta(float prob) 
