@@ -75,7 +75,7 @@ public abstract class AGenetico
 			//El modifica internamente la poblacion
 			seleccion();
 		
-			cruce();
+			//cruce();
 
 			mutacion();
 			
@@ -124,9 +124,15 @@ public abstract class AGenetico
 		int[] pob_idx = new int[poblacion.length]; // Indices de los individuos seleccionados
 		//Switch dependiendo del tipo de cruce
 		
-		pob_idx = Torneo.torneo(poblacion, 3);
-		//pob_idx = Ruleta.ruleta(poblacion);
+		/////////////////////////////////////
+		//
+		// CAMBIAR AQUI LA SELECCION
+		//
+		//////////////////////////////////////
 		
+		//pob_idx = Torneo.torneo(poblacion, 3);
+		pob_idx = Ruleta.ruleta(poblacion);
+		//pob_idx = MUE.mue(poblacion);
 		
 		// Sustitucion de los individuos seleccionados
 		for(int i = 0; i < poblacion.length; i++)
@@ -176,7 +182,9 @@ public abstract class AGenetico
 		prob_mutacion = 0.5f;
 				
 		for (Cromosoma c : poblacion)
+		{
 			c.muta(prob_mutacion);
+		}
 	}
 	
 	

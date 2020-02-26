@@ -45,6 +45,7 @@ public class AGeneticoEj1 extends AGenetico {
 		for(int i = 0; i < tamPoblacion; i++)
 		{
 			poblacion[i] = inicializaCromosoma();
+			//System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
 		}	
 	}
 
@@ -154,7 +155,7 @@ public class AGeneticoEj1 extends AGenetico {
 		media = (double)sum / (double)tamPoblacion;		
 		
 		
-		System.out.println("Media: " + media);
+		System.out.println("Mejor abs: " + abs_fitness);
 		
 		return media;		
 	}
@@ -172,6 +173,10 @@ public class AGeneticoEj1 extends AGenetico {
 	
 	@Override
 	protected void actualizaGrafica() {
+		for(int i = 0; i < tamPoblacion; i++)
+		{
+			System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
+		}	
 		
 		// Rellena valores grafica
 		maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
