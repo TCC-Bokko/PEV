@@ -7,10 +7,12 @@ public class GenBinario implements Gen
 {
 
 	protected ArrayList<Boolean> bits;
+	protected Boolean[] bits;
 	
 	protected float minRange;
 	protected float maxRange;
 	protected int size;
+	protected String tipo;
 	
 	
 public GenBinario(int tam, float minR, float maxR) 
@@ -19,6 +21,7 @@ public GenBinario(int tam, float minR, float maxR)
 	minRange = minR;
 	maxRange = maxR;
 	size = tam;
+	tipo = "binario";
 }
 
 	
@@ -35,6 +38,10 @@ public GenBinario(int tam, float minR, float maxR)
 		return maxRange;
 	}
 	
+	@Override
+	public String getType() {
+		return tipo;
+	}
 	
 	public void setBits(ArrayList<Boolean> b) { bits = b; }
 	public ArrayList<Boolean> getBits(){ return bits; }
@@ -58,7 +65,7 @@ public GenBinario(int tam, float minR, float maxR)
 	@Override
 	public Gen cruce(int i, Gen g) 
 	{	
-		// Realizamos este casting de forma segura porque sabemos que solo se cruzarán genes del mismo tipo.
+		// Realizamos este casting de forma segura porque sabemos que solo se cruzarï¿½n genes del mismo tipo.
 		GenBinario g2 = (GenBinario)g;
 		
 		ArrayList<Boolean> g_bits = g2.getBits();
@@ -76,7 +83,7 @@ public GenBinario(int tam, float minR, float maxR)
 	@Override
 	public Gen cruce(int corte, Gen g) {
 		
-		// Realizamos este casting de forma segura porque sabemos que solo se cruzarán genes del mismo tipo.
+		// Realizamos este casting de forma segura porque sabemos que solo se cruzarï¿½n genes del mismo tipo.
 		GenBinario g2 = (GenBinario)g;
 		
 		Boolean[] g_bits = g2.getBits();
@@ -92,7 +99,6 @@ public GenBinario(int tam, float minR, float maxR)
 			
 		return g2;
 	}*/
-
 
 	@Override
 	public void muta(float prob) 

@@ -7,8 +7,6 @@ import es.ucm.fdi.pev.evaluacion.FuncionesEv;
 
 public class CromosomaP1f1 extends Cromosoma {
 
-
-	
 	public CromosomaP1f1(ArrayList<GenBinario> g) {
 		super();
 		
@@ -23,11 +21,9 @@ public class CromosomaP1f1 extends Cromosoma {
 	}
 	
 	
-
 	public CromosomaP1f1(Cromosoma c) {
 		super(c);
 	}
-
 
 
 	@Override
@@ -55,7 +51,6 @@ public class CromosomaP1f1 extends Cromosoma {
 		return gMin + (dec * aux);
 	}
 	
-
 	@Override
 	public float evalua() 
 	{	
@@ -70,8 +65,6 @@ public class CromosomaP1f1 extends Cromosoma {
 		
 		return result;
 	}
-
-
 
 	@Override
 	public boolean compara_mejor_fitness(Cromosoma c) {

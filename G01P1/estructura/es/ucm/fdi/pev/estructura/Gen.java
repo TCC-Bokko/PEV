@@ -5,13 +5,12 @@ package es.ucm.fdi.pev.estructura;
 // Si es de floats pues floats
 public interface Gen
 { 
-    // La agrupación de alelos
+    // La agrupaciï¿½n de alelos
     // ArrayList<T> valores;
     
     // constructor
     
-    
-    //Conocer tamaño del gen
+    //Conocer tamaï¿½o del gen
     public int size();
     
     public void randomInit();
@@ -19,5 +18,8 @@ public interface Gen
     public void muta(float prob);
     
     public Gen cruce(int corte, Gen g);
+    
+    //Devuelve si es binario o real
+    public String getType();
 }
 
