@@ -28,8 +28,12 @@ public class Monopunto
 			// Si corta entre medias de un gen:
 			if(i > corte)
 			{
-				Gen g2 = g.cruce(i - corte, g_c2.get(j));
-				g_c2.set(j, g2);
+				
+				for(int c = 0; c < i - corte ; c++)
+				{
+					Gen g2 = g.cruce(c, g_c2.get(j));
+					g_c2.set(j, g2);
+				}
 				break; 
 			}
 			

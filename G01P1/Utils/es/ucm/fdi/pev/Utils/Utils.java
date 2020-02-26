@@ -1,5 +1,7 @@
 package es.ucm.fdi.pev.Utils;
 
+import java.util.ArrayList;
+
 public class Utils {
 	
 		// Calcula el logaritmo en base 'b' de 'x'
@@ -16,10 +18,10 @@ public class Utils {
 			return log(aux, 2);
 		}
 		
-		public static float bin2dec(Boolean[] bits)
+		public static float bin2dec(ArrayList<Boolean> arrayList)
 		{
 			float result = 0;
-			for (boolean bit : bits) {
+			for (boolean bit : arrayList) {
 			    result = result * 2 + (bit ? 1 : 0);    
 			}
 			

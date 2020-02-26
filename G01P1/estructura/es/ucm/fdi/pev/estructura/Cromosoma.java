@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public abstract class Cromosoma {
 	
 	//Cromosoma compuesto de array de genes
-	protected ArrayList<Gen> genes; 
+	protected ArrayList<Gen> genes;
 	
 	//Representacion de los genes
 	protected float[] fenotipos;
@@ -28,7 +28,7 @@ public abstract class Cromosoma {
 	
 	public Cromosoma(Cromosoma c)
 	{
-		this.genes = c.genes;
+		this.genes = new ArrayList<Gen>(c.genes);
 		this.fenotipos = c.fenotipos;
 		this.fitness = c.fitness;
 		this.puntuacion = c.puntuacion;

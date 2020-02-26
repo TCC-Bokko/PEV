@@ -6,24 +6,26 @@ import java.util.Random;
 public class GenBinario implements Gen 
 {
 
-	protected Boolean[] bits;
+	protected ArrayList<Boolean> bits;
 	
 	protected float minRange;
 	protected float maxRange;
+	protected int size;
 	
 	
 public GenBinario(int tam, float minR, float maxR) 
 {
-	bits = new Boolean[tam];
+	bits = new ArrayList<Boolean>();
 	minRange = minR;
 	maxRange = maxR;
+	size = tam;
 }
 
 	
 	@Override
 	public int size() 
 	{
-		return bits.length;
+		return size;
 	}
 	
 	public float minRange() {
@@ -34,8 +36,8 @@ public GenBinario(int tam, float minR, float maxR)
 	}
 	
 	
-	public void setBits(Boolean[] b) { bits = b; }
-	public Boolean[] getBits(){ return bits; }
+	public void setBits(ArrayList<Boolean> b) { bits = b; }
+	public ArrayList<Boolean> getBits(){ return bits; }
 
 
 	@Override
@@ -43,14 +45,34 @@ public GenBinario(int tam, float minR, float maxR)
 	{
 		Random r = new Random();
 		
-		for (int i = 0; i < size(); i++)
+		for (int i = 0; i < size; i++)
 		{
 			boolean v = r.nextBoolean();
-			bits[i] = v;
+			bits.add(v);
 		}		
 	}
 
 
+	
+	
+	@Override
+	public Gen cruce(int i, Gen g) 
+	{	
+		// Realizamos este casting de forma segura porque sabemos que solo se cruzarán genes del mismo tipo.
+		GenBinario g2 = (GenBinario)g;
+		
+		ArrayList<Boolean> g_bits = g2.getBits();
+		ArrayList<Boolean> aux = new ArrayList<Boolean>(bits);
+			
+			bits.set(i, g_bits.get(i));
+			g_bits.set(i, aux.get(i));
+				
+		g2.setBits(g_bits);
+		
+		return g2;
+	}
+	
+	/*
 	@Override
 	public Gen cruce(int corte, Gen g) {
 		
@@ -69,25 +91,24 @@ public GenBinario(int tam, float minR, float maxR)
 		g2.setBits(g_bits);
 			
 		return g2;
-	}
+	}*/
 
 
 	@Override
 	public void muta(float prob) 
-	{
+	{	
+		//ArrayList<Boolean> new_b = new ArrayList<Boolean>(bits);
+		
 		Random r = new Random();
-		for (boolean b : bits)
+		for (int i = 0; i < bits.size(); i++)
 		{
 			float rand = r.nextFloat();
 			
 			if(rand < prob)
-			{
-				if(b == true)
-					b = false;
-				else
-					b = true;
-			}
-		}	
+				bits.set(i, !bits.get(i));
+		}
+		
+		//bits = new ArrayList<Boolean>(new_b);
 	}
 }
 

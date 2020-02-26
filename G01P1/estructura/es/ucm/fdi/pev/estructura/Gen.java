@@ -1,5 +1,4 @@
 package es.ucm.fdi.pev.estructura;
-import java.util.ArrayList;
 
 // T es el tipo de alelo
 // Si es Binario le damos un tipo Bool
@@ -21,3 +20,4 @@ public interface Gen
     
     public Gen cruce(int corte, Gen g);
 }
+

@@ -75,7 +75,7 @@ public abstract class AGenetico
 			//El modifica internamente la poblacion
 			seleccion();
 		
-			//cruce();
+			cruce();
 
 			mutacion();
 			
@@ -179,7 +179,7 @@ public abstract class AGenetico
 	private void mutacion()
 	{
 		//PARA PROBAR: LO PONEMOS AQUI
-		prob_mutacion = 0.5f;
+		prob_mutacion = 0.05f;
 				
 		for (Cromosoma c : poblacion)
 		{
