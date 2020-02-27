@@ -35,7 +35,8 @@ public abstract class Cromosoma {
 	abstract public float[] fenotipos(); // Devuelve el fenotipo de cada gen
 	abstract public String genotipos();
 	abstract public float evalua();
-	abstract public boolean compara_mejor_fitness(Cromosoma c);
+	abstract public void actualiza_puntuacion(float fitness_total);
+	abstract public boolean compara_mejor_fitness(float f);
 	
 	
 	
@@ -45,7 +46,7 @@ public abstract class Cromosoma {
 			g.muta(prob);
 	}
 	
-	public void actualiza_puntuacion(float fitness_total) { puntuacion = fitness / fitness_total; }
+	
 	public float getPuntuacion() { return puntuacion; }
 	
 	public float getPuntuacionAcum() { return punt_acum; }

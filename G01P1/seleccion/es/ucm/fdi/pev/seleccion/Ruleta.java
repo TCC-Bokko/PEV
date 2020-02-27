@@ -25,10 +25,12 @@ public class Ruleta {
 		double r = Math.random();
 	
 		int idx = 0;
-		while(r > poblacion[idx].getPuntuacionAcum() && idx < poblacion.length) idx++;
+		while(r > poblacion[idx].getPuntuacionAcum() && idx < poblacion.length)
+		{
+		//	System.out.println("Punt acum.: " + poblacion[idx].getPuntuacionAcum());
+			idx++;
+		}
 			
-			//System.out.println("Punt acum. :" + poblacion[i].getPuntuacionAcum());
-		
 		return idx;		
 	}
 }

@@ -18,7 +18,7 @@ public class Main
 		int tamPoblacion = 100;
 		int maxGeneraciones = 100;
 		
-		AGeneticoEj1 ag = new AGeneticoEj1(tamPoblacion, maxGeneraciones);
+		AGeneticoEj2 ag = new AGeneticoEj2(tamPoblacion, maxGeneraciones);
 		ag.ejecuta();
 		
 		//ag.evaluacion();

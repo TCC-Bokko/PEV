@@ -28,7 +28,7 @@ public class Torneo {
 		for(int i = 1; i < k; i++)
 		{	
 			int idx = r.nextInt(poblacion.length);
-			if(poblacion[idx].compara_mejor_fitness(poblacion[mejor]))
+			if(poblacion[idx].compara_mejor_fitness(poblacion[mejor].getFitness()))
 				mejor = idx;	
 		}
 		

@@ -5,8 +5,13 @@ import es.ucm.fdi.pev.cruce.*;
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
 
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Random;
+
+import javax.swing.JFrame;
+
+import org.math.plot.Plot2DPanel;
 
 //Quiza necesita tipo T
 public abstract class AGenetico
@@ -33,6 +38,19 @@ public abstract class AGenetico
 	
 	protected float tolerancia;
 	
+	
+	// -------- GRAFICA --------- // 
+	
+	// Ploteo
+	protected Plot2DPanel panel;
+	protected JFrame marco;
+	protected double[] x_plot;
+	// Tendremos 3 líneas, necesitamos 3 ys // PLOT LINE USA DOUBLES
+	protected double[] maxGen_y_plot; // Máximo de la generación
+	protected double[] genMed_y_plot; // media generación
+	protected double[] maxAbs_y_plot; // Maximo absoluto
+
+	
 	// ---------------- FUNCIONES ---------------- //
 	
 	public AGenetico(int tamPob, int maxGen) 
@@ -43,16 +61,30 @@ public abstract class AGenetico
 		// Tamaño de poblacion y genes en cada individuo
 		// Probabilidades 
 		// Funcion de evaluacion
+		
+		iniciaGrafica();
 	}
 	
-	abstract protected void inicializaPoblacion();
+
 	abstract protected void inicializaGenes();
 	abstract protected Cromosoma inicializaCromosoma();
 	abstract protected Cromosoma sustituyeCromosoma(Cromosoma c);
-	abstract protected void evalua_mejor(Cromosoma c); // Actualiza el mejor individuo en función del problema
-	abstract protected double calculaMedia(); //Calcula la media de cada generación
-	abstract protected void actualizaGrafica();
-	abstract protected void dibujaGrafica();
+	abstract protected void adapta_fitness();
+	
+	
+	protected void inicializaPoblacion() 
+	{
+		inicializaGenes();
+		
+		poblacion = new Cromosoma[tamPoblacion];
+		
+		for(int i = 0; i < tamPoblacion; i++)
+		{
+			poblacion[i] = inicializaCromosoma();
+			//System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
+		}	
+	}
+	
 	//abstract protected void evaluaCromosoma(Cromosoma c);
 	
 	public void ejecuta()
@@ -172,12 +204,11 @@ public abstract class AGenetico
 			// Calculo del fitness total de la poblacion		
 			fitness_total += c.getFitness();
 			
-			//System.out.println("Fitness: " + poblacion[i].getFitness());
-		
-					
+			//System.out.println("Fitness: " + poblacion[i].getFitness());				
 			evalua_mejor(c);
 		}
 		
+		//adapta_fitness();
 		
 		// Probabilidad relativa [0,1) para metodos de seleccion
 		float punt_acum = 0;
@@ -189,9 +220,87 @@ public abstract class AGenetico
 		}
 	}
 	
+	protected void evalua_mejor(Cromosoma c) 
+	{	
+		//System.out.println("Fitness: " + c.getFitness());
+		//System.out.println("Abs: " + abs_fitness + "  Gen: " + mejor_fitness);
+		// PARA MAXIMIZACION SERÍA ASÍ. MINIMIZACION SERÍA '<'
+		
+		if (generacionActual == 1) abs_fitness = mejor_fitness;
+		if(c.compara_mejor_fitness(mejor_fitness))
+		{
+			mejor_fitness = c.getFitness();
+			
+			if(c.compara_mejor_fitness(abs_fitness))
+				abs_fitness = c.getFitness();
+		}	
+	}
+	
 	
 	private boolean terminado() 
 	{
 		return generacionActual > maxGeneraciones;
 	}
+	
+	
+	
+	// -------------------------- GRAFICA -------------------------- // 
+	
+	
+		private void iniciaGrafica() {
+			
+			x_plot = new double[maxGeneraciones]; //Empezamos en generación 1! OJO!
+			maxGen_y_plot = new double[maxGeneraciones]; // Máximo de la generación
+			genMed_y_plot = new double[maxGeneraciones]; // media generación
+			maxAbs_y_plot = new double[maxGeneraciones]; // Maximo absoluto
+
+			
+			panel = new Plot2DPanel();
+			marco = new JFrame("Funcion1");
+			
+			//Los Xs van establecidos por defecto (0,1,2,3,4,..., MAX_GENERACIONES-1), tam = maxGeneraciones
+			// OJO QUE EMPEZAMOS POR GENERACION 1, guardar los datos en una posición generación-1.
+			for (int i = 0; i < maxGeneraciones; i++) {
+				x_plot[i] = i;
+			}
+		}
+		
+		protected void dibujaGrafica() 
+		{
+			//Dibujamos las líneas
+			panel.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
+			panel.addLinePlot("MaxAbs", Color.red, x_plot, maxAbs_y_plot);
+			panel.addLinePlot("genMed", Color.green, x_plot, genMed_y_plot);
+			
+			//Propiedades marco
+			marco.setSize(800,600);
+			marco.setContentPane(panel);
+			marco.setVisible(true);
+		}
+		
+		protected double calculaMedia() {
+			//Recorre los valores de fitness de la generación y saca una media
+			float sum = 0.0f;
+			double media = 0.0f;
+			
+			//Sumamos los fitnes
+			for (int i = 0; i < tamPoblacion; i++) {
+				sum = sum + poblacion[i].getFitness();
+			}
+			
+			media = (double)sum / (double)tamPoblacion;		
+			
+			
+			System.out.println("Mejor abs: " + abs_fitness);
+			
+			return media;		
+		}
+		
+		
+		protected void actualizaGrafica() {
+			// Rellena valores grafica
+			maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
+			maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
+			genMed_y_plot[generacionActual-1] = calculaMedia();
+		}
 }
