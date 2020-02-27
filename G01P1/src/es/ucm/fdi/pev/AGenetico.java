@@ -75,7 +75,7 @@ public abstract class AGenetico
 			//El modifica internamente la poblacion
 			seleccion();
 		
-			//cruce();
+			cruce();
 
 			mutacion();
 			
@@ -106,8 +106,8 @@ public abstract class AGenetico
 		//
 		//////////////////////////////////////
 		
-		//pob_idx = Torneo.torneo(poblacion, 3);
 		pob_idx = Ruleta.ruleta(poblacion);
+		//pob_idx = Torneo.torneo(poblacion, 3);
 		//pob_idx = MUE.mue(poblacion);
 		
 		// Sustitucion de los individuos seleccionados
@@ -146,12 +146,8 @@ public abstract class AGenetico
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
 			
-			
-			Cromosoma hijo1 = inicializaCromosoma();
-			Cromosoma hijo2 = inicializaCromosoma();
-			
 			//Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
-			//Monopunto.monopunto(poblacion[padre1], poblacion[padre2], hijo1, hijo2);
+			Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
 		}
 	}
 	
@@ -161,14 +157,7 @@ public abstract class AGenetico
 		prob_mutacion = 0.05f;
 				
 		for (Cromosoma c : poblacion)
-		{
-			System.out.println("Antes mutar: " + c.genotipos());
-			c.muta(prob_mutacion);
-			
-			System.out.println("Desp. mutar: " + c.genotipos());
-		}
-		
-		System.out.println("--------------------");
+			c.muta(prob_mutacion);		
 	}
 	
 	private void evaluacion() 
@@ -177,7 +166,6 @@ public abstract class AGenetico
 		
 		for (Cromosoma c : poblacion)
 		{
-			System.out.println("Feno 2: " + c.genotipos());
 			// Calculo de fitness de cada individuo
 			c.evalua();
 			

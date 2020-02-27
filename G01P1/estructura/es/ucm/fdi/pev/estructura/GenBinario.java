@@ -51,7 +51,7 @@ public GenBinario(GenBinario g)
 		return tipo;
 	}
 	
-	public void setBits(Boolean[] b) { bits = b.clone(); }
+	public void setBits(Boolean[] b) { bits = b; }
 	public Boolean[] getBits(){ return bits; }
 
 
@@ -75,6 +75,8 @@ public GenBinario(GenBinario g)
 		
 		bits[i] =  g_bits[i];
 		g_bits[i] = aux;
+		
+		((GenBinario) g).setBits(g_bits.clone());
 		
 		return g;
 		/*

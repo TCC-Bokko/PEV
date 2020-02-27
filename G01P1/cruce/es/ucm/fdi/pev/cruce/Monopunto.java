@@ -6,14 +6,14 @@ import java.util.Random;
 
 public class Monopunto 
 {
-	/*
-	public static void monopunto(Cromosoma p1, Cromosoma p2, Cromosoma h1, Cromosoma h2) 
+	
+	public static void monopunto(Cromosoma c1, Cromosoma c2) 
 	{
-		int l1 = p1.getLongitud();
+		int l1 = c1.getLongitud();
 		
-		ArrayList<Gen> g_c1 = new ArrayList<Gen>(c1.getGenes());
-		ArrayList<Gen> g_c2 = new ArrayList<Gen>(c2.getGenes());
-		ArrayList<Gen> g_aux = new ArrayList<Gen>(g_c1);
+		Gen[] g_c1 = c1.getGenes().clone();
+		Gen[] g_c2 = c2.getGenes().clone();	
+		Gen[] g_aux = g_c1.clone();
 		
 		//Elegimos un punto al azar
 		Random r = new Random();
@@ -33,7 +33,7 @@ public class Monopunto
 				// Intercambiamos en ese gen hasta el corte
 				for(int c = 0; c < g.size() - (i - corte); c++)
 				{
-					g.cruce(c, g_c2.get(j));
+					g.cruce(c, g_c2[j]);
 					//g_c2.set(j, g2);
 				}
 				break; 
@@ -42,8 +42,8 @@ public class Monopunto
 			// Si no, intercambiamos el gen por completo
 			else
 			{
-				g_c1.set(j, g_c2.get(j));
-				g_c2.set(j, g_aux.get(j));
+				g_c1[j] = g_c2[j];
+				g_c2[j] = g_aux[j];
 			}
 				
 			i++;// Reseteamos "i", que hemos modificado para cuadrar los indices
@@ -51,8 +51,7 @@ public class Monopunto
 		}
 		
 		c1.setGenes(g_c1);
-		c2.setGenes(g_c2);				
+		c2.setGenes(g_c2);		
 	}
-	*/
 }
 
