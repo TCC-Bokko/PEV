@@ -8,7 +8,7 @@ public class Monopunto
 {
 	public static void monopunto(Cromosoma c1, Cromosoma c2) 
 	{
-		int l1 = c1.getLongitud() - 1;
+		int l1 = c1.getLongitud();
 		ArrayList<Gen> g_c1 = new ArrayList<Gen>(c1.getGenes());
 		ArrayList<Gen> g_c2 = new ArrayList<Gen>(c2.getGenes());
 		ArrayList<Gen> g_aux = new ArrayList<Gen>(g_c1);
@@ -23,16 +23,16 @@ public class Monopunto
 		// Avanzamos por genes
 		for (Gen g : g_c1)
 		{
-			i += g.size();
+			i += g.size() - 1;
 			
 			// Si corta entre medias de un gen:
 			if(i > corte)
 			{
-				
-				for(int c = 0; c < i - corte ; c++)
+				// Intercambiamos en ese gen hasta el corte
+				for(int c = 0; c < g.size() - (i - corte); c++)
 				{
-					Gen g2 = g.cruce(c, g_c2.get(j));
-					g_c2.set(j, g2);
+					g.cruce(c, g_c2.get(j));
+					//g_c2.set(j, g2);
 				}
 				break; 
 			}
@@ -43,12 +43,13 @@ public class Monopunto
 				g_c1.set(j, g_c2.get(j));
 				g_c2.set(j, g_aux.get(j));
 			}
-						
+				
+			i++;// Reseteamos "i", que hemos modificado para cuadrar los indices
 			j++;
 		}
 		
 		c1.setGenes(g_c1);
-		c2.setGenes(g_c2);			
+		c2.setGenes(g_c2);				
 	}
 }
 

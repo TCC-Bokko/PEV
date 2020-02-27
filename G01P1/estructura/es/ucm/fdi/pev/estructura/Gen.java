@@ -21,5 +21,7 @@ public interface Gen
     
     //Devuelve si es binario o real
     public String getType();
+    
+    public String fenotipo();
 }
 

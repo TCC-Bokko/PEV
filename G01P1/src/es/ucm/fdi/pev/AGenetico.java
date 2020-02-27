@@ -103,6 +103,8 @@ public abstract class AGenetico
 			
 			// Calculo del fitness total de la poblacion		
 			fitness_total += poblacion[i].getFitness();
+			
+			System.out.println("Fitness: " + poblacion[i].getFitness());
 					
 			evalua_mejor(poblacion[i]);
 		}
@@ -170,7 +172,6 @@ public abstract class AGenetico
 			//Switch dependiendo del tipo de cruce
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
-			
 			
 			Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
 		}

@@ -38,6 +38,16 @@ public class CromosomaP1f1 extends Cromosoma {
 		return fenotipos;
 	}
 	
+	@Override
+	public String genotipos() 
+	{
+		String genotipoCompleto = "";
+		for (Gen g: genes)
+			genotipoCompleto += g.fenotipo(); 
+	
+		return genotipoCompleto;
+	}
+	
 	// Calcula un fenotipo individual
 	protected float fenotipoInd(GenBinario g)
 	{	
@@ -70,4 +80,7 @@ public class CromosomaP1f1 extends Cromosoma {
 	public boolean compara_mejor_fitness(Cromosoma c) {
 		return fitness > c.getFitness();
 	}
+
+
+	
 }

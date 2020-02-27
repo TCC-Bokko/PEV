@@ -7,7 +7,7 @@ public class FuncionesEv {
 		double pi = 3.14159265359f;
 		double y = 0.0f;
 		
-		y = 25 + x1 * java.lang.Math.sin(4 * pi * x1) + x2 * java.lang.Math.sin(20 * pi * x2);
+		y = 21.5 + x1 * java.lang.Math.sin(4 * pi * x1) + x2 * java.lang.Math.sin(20 * pi * x2);
 		return y;
 	}
 	

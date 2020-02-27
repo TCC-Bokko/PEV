@@ -26,6 +26,8 @@ public class Ruleta {
 	
 		for(int i = 0; i < poblacion.length; i++) {
 				
+			
+			//System.out.println("Punt acum. :" + poblacion[i].getPuntuacionAcum());
 			if (poblacion[i].getPuntuacionAcum() >= r) 
 			{
 				//Cromosoma c = new CromosomaP1f1(poblacion[i]);

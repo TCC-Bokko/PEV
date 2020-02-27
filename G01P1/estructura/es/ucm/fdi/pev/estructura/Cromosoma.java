@@ -38,6 +38,7 @@ public abstract class Cromosoma {
 	
 	
 	abstract public float[] fenotipos(); // Devuelve el fenotipo de cada gen
+	abstract public String genotipos();
 	abstract public float evalua();
 	abstract public boolean compara_mejor_fitness(Cromosoma c);
 	

@@ -7,7 +7,6 @@ public class GenBinario implements Gen
 {
 
 	protected ArrayList<Boolean> bits;
-	protected Boolean[] bits;
 	
 	protected float minRange;
 	protected float maxRange;
@@ -65,6 +64,7 @@ public GenBinario(int tam, float minR, float maxR)
 	@Override
 	public Gen cruce(int i, Gen g) 
 	{	
+		/*
 		// Realizamos este casting de forma segura porque sabemos que solo se cruzar�n genes del mismo tipo.
 		GenBinario g2 = (GenBinario)g;
 		
@@ -77,6 +77,15 @@ public GenBinario(int tam, float minR, float maxR)
 		g2.setBits(g_bits);
 		
 		return g2;
+		*/
+		
+		ArrayList<Boolean> g_bits = ((GenBinario) g).getBits();
+		boolean aux = bits.get(i);
+		
+		bits.set(i, g_bits.get(i));
+		g_bits.set(i, aux);
+		
+		return g;
 	}
 	
 	/*
@@ -115,6 +124,18 @@ public GenBinario(int tam, float minR, float maxR)
 		}
 		
 		//bits = new ArrayList<Boolean>(new_b);
+	}
+
+
+	@Override
+	public String fenotipo() 
+	{
+		String fenotipo = "";
+		
+		for(Boolean b : bits)
+			fenotipo +=  b ? 1 : 0;
+		
+		return fenotipo;
 	}
 }
 

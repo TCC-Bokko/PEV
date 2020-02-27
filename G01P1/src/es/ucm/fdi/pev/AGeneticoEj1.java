@@ -57,7 +57,7 @@ public class AGeneticoEj1 extends AGenetico {
 		float Xmin, Xmax;
 		ArrayList<Pair<Float, Float>> genes_l = new ArrayList<Pair<Float, Float>>();
 		
-		 Xmin = -3f; Xmax = 12.1f;
+		 Xmin = -3.0f; Xmax = 12.1f;
 		genes_l.add(new Pair<Float, Float>(Xmin, Xmax));
 		
 		 Xmin = 4.1f; Xmax = 5.8f;
@@ -172,11 +172,6 @@ public class AGeneticoEj1 extends AGenetico {
 	
 	@Override
 	protected void actualizaGrafica() {
-		for(int i = 0; i < tamPoblacion; i++)
-		{
-			System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
-		}	
-		
 		// Rellena valores grafica
 		maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
 		maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
