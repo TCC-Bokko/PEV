@@ -18,10 +18,10 @@ public class Utils {
 			return log(aux, 2);
 		}
 		
-		public static float bin2dec(ArrayList<Boolean> arrayList)
+		public static float bin2dec(Boolean[] booleans)
 		{
 			float result = 0;
-			for (boolean bit : arrayList) {
+			for (boolean bit : booleans) {
 			    result = result * 2 + (bit ? 1 : 0);    
 			}
 			

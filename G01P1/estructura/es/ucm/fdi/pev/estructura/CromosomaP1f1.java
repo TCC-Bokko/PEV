@@ -7,16 +7,17 @@ import es.ucm.fdi.pev.evaluacion.FuncionesEv;
 
 public class CromosomaP1f1 extends Cromosoma {
 
-	public CromosomaP1f1(ArrayList<GenBinario> g) {
+	public CromosomaP1f1(GenBinario[] g) {
 		super();
 		
-		fenotipos = new float[g.size()];
-	
+		genes = new Gen[g.length];
+		fenotipos = new float[g.length];
 		
-		for(int i = 0; i < fenotipos.length; i++)
+		for(int i = 0; i < genes.length; i++)
 		{
-			addGen(g.get(i));
-			fenotipos[i] = fenotipoInd((GenBinario) g.get(i));
+			genes[i] = g[i]; 
+			fenotipos[i] = fenotipoInd((GenBinario) g[i]);
+			longitud += g[i].size(); 
 		}
 	}
 	
@@ -32,7 +33,7 @@ public class CromosomaP1f1 extends Cromosoma {
 		for(int i = 0; i < fenotipos.length; i++)
 		{
 			//addGen(g.get(i));
-			fenotipos[i] = fenotipoInd((GenBinario) genes.get(i));
+			fenotipos[i] = fenotipoInd((GenBinario) genes[i]);
 		}
 		
 		return fenotipos;
@@ -43,7 +44,7 @@ public class CromosomaP1f1 extends Cromosoma {
 	{
 		String genotipoCompleto = "";
 		for (Gen g: genes)
-			genotipoCompleto += g.fenotipo(); 
+			genotipoCompleto += g.genotipo(); 
 	
 		return genotipoCompleto;
 	}
@@ -66,7 +67,7 @@ public class CromosomaP1f1 extends Cromosoma {
 	{	
 		for(int i = 0; i < fenotipos.length; i++)
 		{
-			fenotipos[i] = fenotipoInd((GenBinario) genes.get(i));
+			fenotipos[i] = fenotipoInd((GenBinario) genes[i]);
 		}
 		
 		float result = (float) FuncionesEv.funcion1(fenotipos[0], fenotipos[1]);
@@ -79,6 +80,17 @@ public class CromosomaP1f1 extends Cromosoma {
 	@Override
 	public boolean compara_mejor_fitness(Cromosoma c) {
 		return fitness > c.getFitness();
+	}
+	
+	
+	@Override
+	public void setGenes(Gen[] g)
+	{
+		genes = new Gen[g.length];
+		for(int i = 0; i < g.length; i++)
+		{
+			genes[i] = new GenBinario((GenBinario) g[i]);
+		}
 	}
 
 

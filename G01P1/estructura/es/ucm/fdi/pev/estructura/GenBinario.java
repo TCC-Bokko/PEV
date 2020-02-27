@@ -3,10 +3,10 @@ import java.util.ArrayList;
 import java.util.Random;
 
 
-public class GenBinario implements Gen 
+public class GenBinario implements Gen, Cloneable
 {
 
-	protected ArrayList<Boolean> bits;
+	protected Boolean[] bits;
 	
 	protected float minRange;
 	protected float maxRange;
@@ -16,11 +16,20 @@ public class GenBinario implements Gen
 	
 public GenBinario(int tam, float minR, float maxR) 
 {
-	bits = new ArrayList<Boolean>();
+	bits = new Boolean[tam];
 	minRange = minR;
 	maxRange = maxR;
 	size = tam;
 	tipo = "binario";
+}
+
+
+public GenBinario(GenBinario g)
+{
+	bits = g.getBits().clone();
+	minRange = g.minRange();
+	maxRange = g.maxRange();
+	size = g.size();
 }
 
 	
@@ -42,8 +51,8 @@ public GenBinario(int tam, float minR, float maxR)
 		return tipo;
 	}
 	
-	public void setBits(ArrayList<Boolean> b) { bits = b; }
-	public ArrayList<Boolean> getBits(){ return bits; }
+	public void setBits(Boolean[] b) { bits = b.clone(); }
+	public Boolean[] getBits(){ return bits; }
 
 
 	@Override
@@ -52,18 +61,22 @@ public GenBinario(int tam, float minR, float maxR)
 		Random r = new Random();
 		
 		for (int i = 0; i < size; i++)
-		{
-			boolean v = r.nextBoolean();
-			bits.add(v);
-		}		
+			bits[i] = r.nextBoolean();
 	}
 
-
+	
 	
 	
 	@Override
 	public Gen cruce(int i, Gen g) 
 	{	
+		Boolean[] g_bits = ((GenBinario) g).getBits();
+		boolean aux = bits[i];
+		
+		bits[i] =  g_bits[i];
+		g_bits[i] = aux;
+		
+		return g;
 		/*
 		// Realizamos este casting de forma segura porque sabemos que solo se cruzar�n genes del mismo tipo.
 		GenBinario g2 = (GenBinario)g;
@@ -79,13 +92,7 @@ public GenBinario(int tam, float minR, float maxR)
 		return g2;
 		*/
 		
-		ArrayList<Boolean> g_bits = ((GenBinario) g).getBits();
-		boolean aux = bits.get(i);
 		
-		bits.set(i, g_bits.get(i));
-		g_bits.set(i, aux);
-		
-		return g;
 	}
 	
 	/*
@@ -112,23 +119,22 @@ public GenBinario(int tam, float minR, float maxR)
 	@Override
 	public void muta(float prob) 
 	{	
-		//ArrayList<Boolean> new_b = new ArrayList<Boolean>(bits);
+		//ArrayList<Boolean> new_b = new ArrayList<Boolean>();
 		
 		Random r = new Random();
-		for (int i = 0; i < bits.size(); i++)
+		for (int i = 0; i < bits.length; i++)
 		{
 			float rand = r.nextFloat();
-			
 			if(rand < prob)
-				bits.set(i, !bits.get(i));
+				bits[i] = !bits[i];
 		}
 		
-		//bits = new ArrayList<Boolean>(new_b);
+		//bits = new_b;
 	}
 
 
 	@Override
-	public String fenotipo() 
+	public String genotipo() 
 	{
 		String fenotipo = "";
 		

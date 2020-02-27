@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public abstract class Cromosoma {
 	
 	//Cromosoma compuesto de array de genes
-	protected ArrayList<Gen> genes;
+	protected Gen[] genes;
 	
 	//Representacion de los genes
 	protected float[] fenotipos;
@@ -19,17 +19,12 @@ public abstract class Cromosoma {
 	//Tamaño total de los genes
 	protected int longitud;
 	
-	
-	public Cromosoma()
-	{
-		genes = new ArrayList<Gen>();
-	}
-	
-	
+	public Cromosoma() {}
 	public Cromosoma(Cromosoma c)
 	{
-		this.genes = new ArrayList<Gen>(c.genes);
-		this.fenotipos = c.fenotipos;
+		
+		setGenes(c.getGenes());
+		this.fenotipos = c.fenotipos.clone();
 		this.fitness = c.fitness;
 		this.puntuacion = c.puntuacion;
 		this.punt_acum = c.punt_acum;
@@ -42,11 +37,7 @@ public abstract class Cromosoma {
 	abstract public float evalua();
 	abstract public boolean compara_mejor_fitness(Cromosoma c);
 	
-	public void addGen(Gen g)
-	{
-		genes.add(g);
-		longitud += g.size();
-	}
+	
 	
 	public void muta(float prob)
 	{
@@ -66,8 +57,8 @@ public abstract class Cromosoma {
 	public int getLongitud() { return longitud; }
 	
 	
-	public void setGenes(ArrayList<Gen> new_g) { genes = new_g; }
-	public ArrayList<Gen> getGenes() { return genes; }
+	public void setGenes(Gen[] new_g) { genes = new_g.clone(); }
+	public Gen[] getGenes() { return genes.clone(); }
 }
 
 

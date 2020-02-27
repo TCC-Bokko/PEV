@@ -75,7 +75,7 @@ public abstract class AGenetico
 			//El modifica internamente la poblacion
 			seleccion();
 		
-			cruce();
+			//cruce();
 
 			mutacion();
 			
@@ -93,32 +93,6 @@ public abstract class AGenetico
 	// Funciones del bucle: 
 	
 	
-	private void evaluacion() 
-	{
-		fitness_total = mejor_fitness = 0;
-		
-		for (int i = 0; i < poblacion.length; i++){
-			// Calculo de fitness de cada individuo
-			poblacion[i].evalua();
-			
-			// Calculo del fitness total de la poblacion		
-			fitness_total += poblacion[i].getFitness();
-			
-			System.out.println("Fitness: " + poblacion[i].getFitness());
-					
-			evalua_mejor(poblacion[i]);
-		}
-		
-		
-		// Probabilidad relativa [0,1) para metodos de seleccion
-		float punt_acum = 0;
-		for (int j = 0; j < poblacion.length; j++)
-		{
-			poblacion[j].actualiza_puntuacion(fitness_total);
-			poblacion[j].actualiza_punt_acum(punt_acum);
-			punt_acum = punt_acum + poblacion[j].getPuntuacion();
-		}
-	}
 	
 	private void seleccion()
 	{	
@@ -137,13 +111,13 @@ public abstract class AGenetico
 		//pob_idx = MUE.mue(poblacion);
 		
 		// Sustitucion de los individuos seleccionados
-		for(int i = 0; i < poblacion.length; i++)
+		for(int i = 0; i < pob_idx.length; i++)
 		{
 			int idx = pob_idx[i];
 			nueva_pob[i] = sustituyeCromosoma(poblacion[idx]);
 		}
 		
-		poblacion = nueva_pob;
+		poblacion = nueva_pob.clone();
 	}
 	
 	private void cruce() 
@@ -169,14 +143,15 @@ public abstract class AGenetico
 					
 		for (int i = 0; i < sel.size(); i+=2)
 		{
-			//Switch dependiendo del tipo de cruce
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
 			
 			
+			Cromosoma hijo1 = inicializaCromosoma();
+			Cromosoma hijo2 = inicializaCromosoma();
 			
-			Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
-			//Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
+			//Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
+			//Monopunto.monopunto(poblacion[padre1], poblacion[padre2], hijo1, hijo2);
 		}
 	}
 	
@@ -187,7 +162,42 @@ public abstract class AGenetico
 				
 		for (Cromosoma c : poblacion)
 		{
+			System.out.println("Antes mutar: " + c.genotipos());
 			c.muta(prob_mutacion);
+			
+			System.out.println("Desp. mutar: " + c.genotipos());
+		}
+		
+		System.out.println("--------------------");
+	}
+	
+	private void evaluacion() 
+	{
+		fitness_total = mejor_fitness = 0;
+		
+		for (Cromosoma c : poblacion)
+		{
+			System.out.println("Feno 2: " + c.genotipos());
+			// Calculo de fitness de cada individuo
+			c.evalua();
+			
+			// Calculo del fitness total de la poblacion		
+			fitness_total += c.getFitness();
+			
+			//System.out.println("Fitness: " + poblacion[i].getFitness());
+		
+					
+			evalua_mejor(c);
+		}
+		
+		
+		// Probabilidad relativa [0,1) para metodos de seleccion
+		float punt_acum = 0;
+		for (int j = 0; j < poblacion.length; j++)
+		{
+			poblacion[j].actualiza_puntuacion(fitness_total);
+			poblacion[j].actualiza_punt_acum(punt_acum);
+			punt_acum = punt_acum + poblacion[j].getPuntuacion();
 		}
 	}
 	

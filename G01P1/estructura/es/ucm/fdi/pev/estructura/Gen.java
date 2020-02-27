@@ -17,11 +17,12 @@ public interface Gen
     
     public void muta(float prob);
     
+    
     public Gen cruce(int corte, Gen g);
     
     //Devuelve si es binario o real
     public String getType();
     
-    public String fenotipo();
+    public String genotipo();
 }
 

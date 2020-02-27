@@ -8,6 +8,7 @@ import es.ucm.fdi.pev.estructura.GenBinario;
 public class Uniforme {
 
 	public static void uniforme(Cromosoma c1, Cromosoma c2) {
+		/*
 		//Obtenemos lista de genes
 		ArrayList<Gen> g_c1 = new ArrayList<Gen>(c1.getGenes());
 		ArrayList<Gen> g_c2 = new ArrayList<Gen>(c2.getGenes());
@@ -29,5 +30,6 @@ public class Uniforme {
 		
 		c1.setGenes(g_c1);
 		c2.setGenes(g_c2);
+		*/
 	}	
 }

@@ -24,17 +24,11 @@ public class Ruleta {
 	private static int seleccion(Cromosoma[] poblacion) {
 		double r = Math.random();
 	
-		for(int i = 0; i < poblacion.length; i++) {
-				
+		int idx = 0;
+		while(r > poblacion[idx].getPuntuacionAcum() && idx < poblacion.length) idx++;
 			
 			//System.out.println("Punt acum. :" + poblacion[i].getPuntuacionAcum());
-			if (poblacion[i].getPuntuacionAcum() >= r) 
-			{
-				//Cromosoma c = new CromosomaP1f1(poblacion[i]);
-				return i; //poblacion[i];
-			}
-		}
 		
-		return -1;		
+		return idx;		
 	}
 }

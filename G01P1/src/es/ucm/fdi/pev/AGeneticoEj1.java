@@ -70,8 +70,9 @@ public class AGeneticoEj1 extends AGenetico {
 	@Override
 	protected Cromosoma inicializaCromosoma() 
 	{
-		ArrayList<GenBinario> genes = new ArrayList<GenBinario>();
+		GenBinario[] genes = new GenBinario[genes_len.size()];
 		
+		int i = 0;
 		for(Pair<Float, Float> genRange : genes_len)
 		{
 			float min = genRange.getKey();
@@ -81,7 +82,9 @@ public class AGeneticoEj1 extends AGenetico {
 			
 			GenBinario g = new GenBinario(len, min, max);
 			g.randomInit();
-			genes.add(g);
+			genes[i] = g;
+			
+			i++;
 		}
 		
 		return new CromosomaP1f1(genes);
