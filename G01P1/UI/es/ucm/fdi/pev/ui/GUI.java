@@ -99,7 +99,7 @@ public class GUI extends JFrame {
 		boton.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.err.println(f1.toString());
+				//System.err.println(f1.toString());
 			}
 		});
 		panelCentral.add(boton);

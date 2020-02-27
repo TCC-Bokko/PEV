@@ -173,7 +173,10 @@ public abstract class AGenetico
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
 			
-			Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
+			
+			
+			Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
+			//Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
 		}
 	}
 	
