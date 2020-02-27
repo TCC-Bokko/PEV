@@ -70,23 +70,7 @@ public class AGeneticoEj1 extends AGenetico {
 	protected Cromosoma sustituyeCromosoma(Cromosoma c) {
 		return new CromosomaP1f1(c);
 	}
-
-
-
-	@Override
-	protected void adapta_fitness() 
-	{
-		float fmin = Float.POSITIVE_INFINITY;
-		
-		for (Cromosoma c : poblacion)
-		{
-			if(c.getFitness() < fmin)
-				fmin = c.getFitness();
-		}
-		
-		fmin = fmin * 1.05f; // Margen
-		
-		for (Cromosoma c : poblacion)
-			c.setFitness(c.getFitness() + fmin);
-	}
 }
+
+
+

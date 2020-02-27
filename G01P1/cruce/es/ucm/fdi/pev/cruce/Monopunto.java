@@ -8,7 +8,7 @@ public class Monopunto
 {
 	
 	public static void monopunto(Cromosoma c1, Cromosoma c2) 
-	{
+	{	
 		int l1 = c1.getLongitud();
 		
 		Gen[] g_c1 = c1.getGenes().clone();

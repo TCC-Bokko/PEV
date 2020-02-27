@@ -4,13 +4,15 @@ import es.ucm.fdi.pev.evaluacion.FuncionesEv;
 
 public class CromosomaP1f1 extends CromosomaBinario {
 
-	public CromosomaP1f1(GenBinario[] g) {
-	super(g);
-	}
 	
-
 	public CromosomaP1f1(Cromosoma c) {
 		super(c);
+	}
+	
+	
+	
+	public CromosomaP1f1(GenBinario[] g) {
+	super(g);
 	}
 
 

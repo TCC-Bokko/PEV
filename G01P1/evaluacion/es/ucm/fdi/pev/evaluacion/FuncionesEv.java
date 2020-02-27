@@ -1,5 +1,6 @@
 package es.ucm.fdi.pev.evaluacion;
 import java.util.*;
+import java.lang.Math;
 
 public class FuncionesEv {
 	// FUNCION 1
@@ -7,7 +8,7 @@ public class FuncionesEv {
 		double pi = 3.14159265359f;
 		double y = 0.0f;
 		
-		y = 21.5 + x1 * java.lang.Math.sin(4 * pi * x1) + x2 * java.lang.Math.sin(20 * pi * x2);
+		y = 21.5 + x1 * Math.sin(4 * pi * x1) + x2 * Math.sin(20 * pi * x2);
 		return y;
 	}
 	
@@ -18,14 +19,9 @@ public class FuncionesEv {
 		double r = 0.0d;
 		double pi = 3.14159265359f;
 		
-		r = - java.lang.Math.abs(java.lang.Math.sin(x)*
-				java.lang.Math.cos(y)*
-				java.lang.Math.exp(
-						java.lang.Math.abs(1-(
-								java.lang.Math.sqrt(x*x + y*y)/pi)
-								)
-						)
-				);
+		r = - Math.abs(java.lang.Math.sin(x) * Math.cos(y) *
+				Math.exp(Math.abs(1-(
+								Math.sqrt(x*x + y*y)/pi))));
 		return r;
 		}
 	
@@ -41,21 +37,16 @@ public class FuncionesEv {
 		{
 			// Summatory
 			double sum = 0.0d;
-			for (int s1 = 1; s1 < 6; s1++)
-				sum += (s1*java.lang.Math.cos((s1+1)*(xi[i]+s1)));
+			for (int s1 = 1; s1 <= 5; s1++)
+				sum += (s1*Math.cos(((s1+1)*xi[i])+s1));
 			
 		if(i == 0)
 			r = sum;
 		else
 			r *= sum;
 		}
-		/*// Summatory 2
-		for (int s2 = 1; s2 < 6; s2++) {
-			sum1 += (s2*java.lang.Math.cos((s2+1)*(x2+s2)));
-		}*/
 		
-	//	r = sum1 * sum2;
-		
+		System.out.println("Fitness: " + r);
 		return r;
 	}
 	

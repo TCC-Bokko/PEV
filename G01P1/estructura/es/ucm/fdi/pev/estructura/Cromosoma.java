@@ -48,6 +48,7 @@ public abstract class Cromosoma {
 	
 	
 	public float getPuntuacion() { return puntuacion; }
+	public void setPuntuacion(float p) {  puntuacion = p; }
 	
 	public float getPuntuacionAcum() { return punt_acum; }
 	public void actualiza_punt_acum(float acum) { punt_acum = acum + puntuacion; }

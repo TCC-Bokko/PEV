@@ -69,7 +69,7 @@ public abstract class AGenetico
 	abstract protected void inicializaGenes();
 	abstract protected Cromosoma inicializaCromosoma();
 	abstract protected Cromosoma sustituyeCromosoma(Cromosoma c);
-	abstract protected void adapta_fitness();
+
 	
 	
 	protected void inicializaPoblacion() 
@@ -138,9 +138,9 @@ public abstract class AGenetico
 		//
 		//////////////////////////////////////
 		
-		pob_idx = Ruleta.ruleta(poblacion);
+		//pob_idx = Ruleta.ruleta(poblacion);
 		//pob_idx = Torneo.torneo(poblacion, 3);
-		//pob_idx = MUE.mue(poblacion);
+		pob_idx = MUE.mue(poblacion);
 		
 		// Sustitucion de los individuos seleccionados
 		for(int i = 0; i < pob_idx.length; i++)
@@ -208,16 +208,9 @@ public abstract class AGenetico
 			evalua_mejor(c);
 		}
 		
-		//adapta_fitness();
+		adapta_puntuacion();
 		
-		// Probabilidad relativa [0,1) para metodos de seleccion
-		float punt_acum = 0;
-		for (int j = 0; j < poblacion.length; j++)
-		{
-			poblacion[j].actualiza_puntuacion(fitness_total);
-			poblacion[j].actualiza_punt_acum(punt_acum);
-			punt_acum = punt_acum + poblacion[j].getPuntuacion();
-		}
+	
 	}
 	
 	protected void evalua_mejor(Cromosoma c) 
@@ -242,6 +235,18 @@ public abstract class AGenetico
 		return generacionActual > maxGeneraciones;
 	}
 	
+	
+	protected void adapta_puntuacion() 
+	{
+		// Probabilidad relativa [0,1) para metodos de seleccion
+		float punt_acum = 0;
+		for (int j = 0; j < poblacion.length; j++)
+		{
+			poblacion[j].actualiza_puntuacion(fitness_total);
+			poblacion[j].actualiza_punt_acum(punt_acum);
+			punt_acum = punt_acum + poblacion[j].getPuntuacion();
+		}
+	}
 	
 	
 	// -------------------------- GRAFICA -------------------------- // 
