@@ -151,12 +151,7 @@ public abstract class AGenetico
 	// FUNCIONES DEL BUCLE
 	
 	private void seleccion()
-	{	
-		
-		//PRUEBA ELITISMO
-		elitismo = 0.00f;
-		
-		
+	{		
 		Cromosoma[] nueva_pob = new Cromosoma[poblacion.length];
 		int[] pob_idx = new int[poblacion.length]; // Indices de los individuos seleccionados
 		//Switch dependiendo del tipo de cruce
@@ -189,10 +184,7 @@ public abstract class AGenetico
 	}
 	
 	private void cruce() 
-	{
-		//PARA PROBAR: LO PONEMOS AQUI
-		prob_cruce = 0.6f;
-			
+	{		
 		// Array con los �ndices de los padres seleccionados para cruzarse
 		ArrayList<Integer> sel = new ArrayList<Integer>();
 		
@@ -230,13 +222,11 @@ public abstract class AGenetico
 	}
 	
 	private void mutacion()
-	{
-		//PARA PROBAR: LO PONEMOS AQUI
-		prob_mutacion = 0.03f;
-				
+	{			
 		for (Cromosoma c : poblacion)
 			c.muta(prob_mutacion);		
 	}
+	
 	
 	private void evaluacion() 
 	{

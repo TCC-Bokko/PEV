@@ -256,7 +256,7 @@ public class GUI extends JFrame {
 				case "f4: Michalewicz":
 					aGen = new AGeneticoEj4();
 					break;
-				case "f5: f4 but real":
+				case "f5: f4 con reales":
 					aGen = new AGeneticoEj5();
 					break;
 			}
