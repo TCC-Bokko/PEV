@@ -219,8 +219,11 @@ public abstract class AGenetico
 					Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
 					break;
 				case "Uniforme":
-					System.out.print("OJO CRUCE UNIFORME COMENTADO");
+					//System.out.print("OJO CRUCE UNIFORME COMENTADO");
 					Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
+					break;
+				case "Aritmetico":
+					Aritmetico.aritmetico(poblacion[padre1], poblacion[padre2]);
 					break;
 			}
 		}

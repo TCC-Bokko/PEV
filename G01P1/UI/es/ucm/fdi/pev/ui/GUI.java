@@ -125,7 +125,7 @@ public class GUI extends JFrame {
 		//String[] gen = new String[] {"Binario", "Real"};
 		String[] funciones = new String[] { "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz", "f5: f4 con reales"};
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE"};
-		String[] cruces = new String[] {"Monopunto", "Uniforme"};
+		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico"};
 		
 		////////////////////////////////////
 		// AÑADIR ELEMENTOS
@@ -180,6 +180,7 @@ public class GUI extends JFrame {
 		protected AGeneticoEj2 aGenE2;
 		protected AGeneticoEj3 aGenE3;
 		protected AGeneticoEj4 aGenE4;
+		protected AGeneticoEj5 aGenE5;
 		
 		// Constructora
 		public AlGen() {
