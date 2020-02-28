@@ -6,7 +6,7 @@ import java.util.Random;
 public class GenBinario implements Gen, Cloneable
 {
 
-	protected Boolean[] bits;
+	protected Boolean[] alelos;
 	
 	protected float minRange;
 	protected float maxRange;
@@ -16,7 +16,7 @@ public class GenBinario implements Gen, Cloneable
 	
 public GenBinario(int tam, float minR, float maxR) 
 {
-	bits = new Boolean[tam];
+	alelos = new Boolean[tam];
 	minRange = minR;
 	maxRange = maxR;
 	size = tam;
@@ -26,7 +26,7 @@ public GenBinario(int tam, float minR, float maxR)
 
 public GenBinario(GenBinario g)
 {
-	bits = g.getBits().clone();
+	alelos = g.getAlelos().clone();
 	minRange = g.minRange();
 	maxRange = g.maxRange();
 	size = g.size();
@@ -51,8 +51,8 @@ public GenBinario(GenBinario g)
 		return tipo;
 	}
 	
-	public void setBits(Boolean[] b) { bits = b; }
-	public Boolean[] getBits(){ return bits; }
+	public void setAlelos(Boolean[] b) { alelos = b; }
+	public Boolean[] getAlelos(){ return alelos; }
 
 
 	@Override
@@ -61,7 +61,7 @@ public GenBinario(GenBinario g)
 		Random r = new Random();
 		
 		for (int i = 0; i < size; i++)
-			bits[i] = r.nextBoolean();
+			alelos[i] = r.nextBoolean();
 	}
 
 	
@@ -70,13 +70,13 @@ public GenBinario(GenBinario g)
 	@Override
 	public Gen cruce(int i, Gen g) 
 	{	
-		Boolean[] g_bits = ((GenBinario) g).getBits();
-		boolean aux = bits[i];
+		Boolean[] g_bits = ((GenBinario) g).getAlelos();
+		boolean aux = alelos[i];
 		
-		bits[i] =  g_bits[i];
+		alelos[i] =  g_bits[i];
 		g_bits[i] = aux;
 		
-		((GenBinario) g).setBits(g_bits.clone());
+		((GenBinario) g).setAlelos(g_bits.clone());
 		
 		return g;
 		/*
@@ -124,11 +124,11 @@ public GenBinario(GenBinario g)
 		//ArrayList<Boolean> new_b = new ArrayList<Boolean>();
 		
 		Random r = new Random();
-		for (int i = 0; i < bits.length; i++)
+		for (int i = 0; i < alelos.length; i++)
 		{
 			float rand = r.nextFloat();
 			if(rand < prob)
-				bits[i] = !bits[i];
+				alelos[i] = !alelos[i];
 		}
 		
 		//bits = new_b;
@@ -138,12 +138,12 @@ public GenBinario(GenBinario g)
 	@Override
 	public String genotipo() 
 	{
-		String fenotipo = "";
+		String genotipo = "";
 		
-		for(Boolean b : bits)
-			fenotipo +=  b ? 1 : 0;
+		for(Boolean b : alelos)
+			genotipo +=  b ? 1 : 0;
 		
-		return fenotipo;
+		return genotipo;
 	}
 }
 

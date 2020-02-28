@@ -54,9 +54,9 @@ public abstract class AGenetico
 	protected Plot2DPanel panel;
 	protected JFrame marco;
 	protected double[] x_plot;
-	// Tendremos 3 líneas, necesitamos 3 ys // PLOT LINE USA DOUBLES
-	protected double[] maxGen_y_plot; // Máximo de la generación
-	protected double[] genMed_y_plot; // media generación
+	// Tendremos 3 lï¿½neas, necesitamos 3 ys // PLOT LINE USA DOUBLES
+	protected double[] maxGen_y_plot; // Mï¿½ximo de la generaciï¿½n
+	protected double[] genMed_y_plot; // media generaciï¿½n
 	protected double[] maxAbs_y_plot; // Maximo absoluto
 
 	//Constructora vacia
@@ -66,13 +66,11 @@ public abstract class AGenetico
 	
 	//Constructora con 2 parametros
 	public AGenetico(int tamPob, int maxGen) 
-	{
-		elite = new LinkedList<Cromosoma>();
-		
+	{	
 		tamPoblacion = tamPob;
 		maxGeneraciones = maxGen;
 		// Recibimos
-		// Tamaño de poblacion y genes en cada individuo
+		// Tamaï¿½o de poblacion y genes en cada individuo
 		// Probabilidades 
 		// Funcion de evaluacion
 		
@@ -89,6 +87,7 @@ public abstract class AGenetico
 		inicializaGenes();
 		
 		poblacion = new Cromosoma[tamPoblacion];
+		elite = new LinkedList<Cromosoma>();
 		
 		for(int i = 0; i < tamPoblacion; i++)
 		{
@@ -124,7 +123,7 @@ public abstract class AGenetico
 			
 			evaluacion();			
 			
-			actualizaGrafica(); //Pasa los datos de esta generación a la gráfica, calcula media y compara maxAbsoluto.
+			actualizaGrafica(); //Pasa los datos de esta generaciï¿½n a la grï¿½fica, calcula media y compara maxAbsoluto.
 		
 			generacionActual++;
 		}	
@@ -141,7 +140,7 @@ public abstract class AGenetico
 	{	
 		
 		//PRUEBA ELITISMO
-		elitismo = 0.1f;
+		elitismo = 0.00f;
 		
 		
 		Cromosoma[] nueva_pob = new Cromosoma[poblacion.length];
@@ -181,7 +180,7 @@ public abstract class AGenetico
 		//PARA PROBAR: LO PONEMOS AQUI
 		prob_cruce = 0.6f;
 			
-		// Array con los índices de los padres seleccionados para cruzarse
+		// Array con los ï¿½ndices de los padres seleccionados para cruzarse
 		ArrayList<Integer> sel = new ArrayList<Integer>();
 		
 		Random r = new Random();
@@ -192,7 +191,7 @@ public abstract class AGenetico
 				sel.add(i);
 		}
 		
-		// Si salen impares, eliminamos al último simplemente
+		// Si salen impares, eliminamos al ï¿½ltimo simplemente
 		if((sel.size() % 2) == 1)
 			sel.remove(sel.size() -1);
 		
@@ -277,7 +276,7 @@ public abstract class AGenetico
 	{	
 		//System.out.println("Fitness: " + c.getFitness());
 		//System.out.println("Abs: " + abs_fitness + "  Gen: " + mejor_fitness);
-		// PARA MAXIMIZACION SERÍA ASÍ. MINIMIZACION SERÍA '<'
+		// PARA MAXIMIZACION SERï¿½A ASï¿½. MINIMIZACION SERï¿½A '<'
 		
 		if (generacionActual == 1) abs_fitness = mejor_fitness;
 		if(c.compara_mejor_fitness(mejor_fitness))
@@ -314,9 +313,9 @@ public abstract class AGenetico
 	
 		private void iniciaGrafica() {
 			
-			x_plot = new double[maxGeneraciones]; //Empezamos en generación 1! OJO!
-			maxGen_y_plot = new double[maxGeneraciones]; // Máximo de la generación
-			genMed_y_plot = new double[maxGeneraciones]; // media generación
+			x_plot = new double[maxGeneraciones]; //Empezamos en generaciï¿½n 1! OJO!
+			maxGen_y_plot = new double[maxGeneraciones]; // Mï¿½ximo de la generaciï¿½n
+			genMed_y_plot = new double[maxGeneraciones]; // media generaciï¿½n
 			maxAbs_y_plot = new double[maxGeneraciones]; // Maximo absoluto
 
 			
@@ -324,7 +323,7 @@ public abstract class AGenetico
 			marco = new JFrame("Funcion1");
 			
 			//Los Xs van establecidos por defecto (0,1,2,3,4,..., MAX_GENERACIONES-1), tam = maxGeneraciones
-			// OJO QUE EMPEZAMOS POR GENERACION 1, guardar los datos en una posición generación-1.
+			// OJO QUE EMPEZAMOS POR GENERACION 1, guardar los datos en una posiciï¿½n generaciï¿½n-1.
 			for (int i = 0; i < maxGeneraciones; i++) {
 				x_plot[i] = i;
 			}
@@ -332,7 +331,7 @@ public abstract class AGenetico
 		
 		protected void dibujaGrafica() 
 		{
-			//Dibujamos las líneas
+			//Dibujamos las lï¿½neas
 			panel.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
 			panel.addLinePlot("MaxAbs", Color.red, x_plot, maxAbs_y_plot);
 			panel.addLinePlot("genMed", Color.green, x_plot, genMed_y_plot);
@@ -344,7 +343,7 @@ public abstract class AGenetico
 		}
 		
 		protected double calculaMedia() {
-			//Recorre los valores de fitness de la generación y saca una media
+			//Recorre los valores de fitness de la generaciï¿½n y saca una media
 			float sum = 0.0f;
 			double media = 0.0f;
 			

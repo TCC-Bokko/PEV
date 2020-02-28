@@ -2,19 +2,23 @@ package es.ucm.fdi.pev.estructura;
 
 import es.ucm.fdi.pev.evaluacion.FuncionesEv;
 
-public class CromosomaP1f4 extends CromosomaBinario {
+public class CromosomaP1f5 extends CromosomaReal {
 
-	public CromosomaP1f4(Cromosoma c) {
+	
+
+	public CromosomaP1f5(Cromosoma c) {
 		super(c);
 	}
-
-	public CromosomaP1f4(GenBinario[] g) {
-		super(g);
+	
+	
+	
+	public CromosomaP1f5(GenReal[] g) {
+	super(g);
 	}
-
+	
+	
 	@Override
 	public float evalua() {
-		
 		fenotipos();
 		
 		float result = (float) FuncionesEv.f4michalewicz(fenotipos);
@@ -26,12 +30,12 @@ public class CromosomaP1f4 extends CromosomaBinario {
 
 	@Override
 	public boolean compara_mejor_fitness(float f) {
-		return fitness < f;
+		return this.fitness < f;
 	}
 
 	@Override
 	public int compareTo(Cromosoma c) {
-
+		
 		if(this.fitness < c.getFitness())
 			return -1;
 		else if(this.fitness > c.getFitness())

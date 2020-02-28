@@ -21,8 +21,7 @@ public abstract class Cromosoma  implements Comparable<Cromosoma> {
 	
 	public Cromosoma() {}
 	public Cromosoma(Cromosoma c)
-	{
-		
+	{	
 		setGenes(c.getGenes());
 		this.fenotipos = c.fenotipos.clone();
 		this.fitness = c.fitness;
@@ -33,9 +32,7 @@ public abstract class Cromosoma  implements Comparable<Cromosoma> {
 	
 	
 	abstract public float[] fenotipos(); // Devuelve el fenotipo de cada gen
-	abstract public String genotipos();
 	abstract public float evalua();
-	abstract public void actualiza_puntuacion(float fitness_total);
 	abstract public boolean compara_mejor_fitness(float f);
 	
 
@@ -48,6 +45,17 @@ public abstract class Cromosoma  implements Comparable<Cromosoma> {
 			g.muta(prob);
 	}
 	
+	public String genotipos() 
+	{
+		String genotipoCompleto = "";
+		for (Gen g: genes)
+			genotipoCompleto += g.genotipo(); 
+	
+		return genotipoCompleto;
+	}
+	
+	
+	public void actualiza_puntuacion(float fitness_total) { puntuacion = fitness / fitness_total; }
 	
 	public float getPuntuacion() { return puntuacion; }
 	public void setPuntuacion(float p) {  puntuacion = p; }

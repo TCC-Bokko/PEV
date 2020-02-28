@@ -28,8 +28,7 @@ public abstract class CromosomaBinario extends Cromosoma {
 
 
 	@Override
-	public float[] fenotipos() {
-		
+	public float[] fenotipos() {	
 		for(int i = 0; i < fenotipos.length; i++)
 		{
 			//addGen(g.get(i));
@@ -39,16 +38,6 @@ public abstract class CromosomaBinario extends Cromosoma {
 		return fenotipos;
 	}
 	
-	@Override
-	public String genotipos() 
-	{
-		String genotipoCompleto = "";
-		for (Gen g: genes)
-			genotipoCompleto += g.genotipo(); 
-	
-		return genotipoCompleto;
-	}
-	
 	// Calcula un fenotipo individual
 	protected float fenotipoInd(GenBinario g)
 	{	
@@ -56,14 +45,11 @@ public abstract class CromosomaBinario extends Cromosoma {
 		float gMin = g.minRange();
 		float gMax = g.maxRange();
 		
-		float dec = Utils.bin2dec(g.getBits());
+		float dec = Utils.bin2dec(g.getAlelos());
 		float aux = (float) ((gMax - gMin) / (Math.pow(2, gTam) - 1));
 				
 		return gMin + (dec * aux);
 	}
-	
-	@Override
-	public void actualiza_puntuacion(float fitness_total) { puntuacion = fitness / fitness_total; }
 		
 	
 	@Override
