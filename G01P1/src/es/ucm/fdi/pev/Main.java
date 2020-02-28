@@ -10,24 +10,16 @@ public class Main
 	//Punto de entrada
 	public static void main(String[] args)
 	{
-		// Generamos el GUI
-		//GUI gui = new GUI();
-		//gui.setSize(600, 600);
-		//gui.setVisible(true);	
-		// Por cada problema llamamos a un AGEN
+		// EJECUCION USANDO
+		GUI gui = new GUI();
+		gui.setSize(600, 600);
+		gui.setVisible(true);	
 		
-		// Definimos el agen
-		//AGeneticoEj1<boolean> agen = new AGeneticoEj1<boolean>();
-		//agen.ejecuta();
-		
-		int tamPoblacion = 100;
-		int maxGeneraciones = 100;
-		
-		AGeneticoEj1 ag = new AGeneticoEj1(tamPoblacion, maxGeneraciones);
-		ag.ejecuta();
-		
-		//ag.evaluacion();
-		
-		//Gen<Boolean> test = new Gen<Boolean>(20); 
+		// EJECUCIÓN SIN USAR GUI
+		//int tamPoblacion = 100;
+		//int maxGeneraciones = 100;
+		//AGeneticoEj1 ag = new AGeneticoEj1(tamPoblacion, maxGeneraciones);
+		//ag.ejecuta();
+		 
 	}
 }
