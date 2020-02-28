@@ -1,5 +1,6 @@
 package es.ucm.fdi.pev.ui;
 
+//Librerías gráficas
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
@@ -11,7 +12,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import es.ucm.fdi.pev.estructura.Cromosoma;
 import es.ucm.fdi.pev.ui.ConfigPanel.ChoiceOption;
 import es.ucm.fdi.pev.ui.ConfigPanel.ConfigListener;
 import es.ucm.fdi.pev.ui.ConfigPanel.DoubleOption;
@@ -21,9 +21,10 @@ import es.ucm.fdi.pev.ui.ConfigPanel.StrategyOption;
 import es.ucm.fdi.pev.ui.Demo.Figura;
 
 import org.math.plot.Plot2DPanel;
-
 import java.io.*;
-
+//Archivos propios del Algoritmo Genético
+import es.ucm.fdi.pev.estructura.Cromosoma;
+import es.ucm.fdi.pev.*;
 /**
  * Demo para el panel de configuracion
  * 
@@ -119,15 +120,44 @@ public class GUI extends JFrame {
 	}
 	
 	//// PANEL DE CONFIGURACION: 
-	// AQUI ESTABLECEMOS LOS PARAMETROS DEL ALGORITMO GENETICO
-	public ConfigPanel<Grafica> creaPanelConfiguracion() {
-		/////////////// NUESTRAS OPCIONES /////////////////
+	public ConfigPanel<AlGen> creaConfAlGen(){
+		// DECLARACION E INICIALIZACION
+		ConfigPanel<AlGen> configAlGen = new ConfigPanel<AlGen>();
+		
+		///////////// NUESTRAS OPCIONES /////////////////
 		String[] gen = new String[] {"Binario", "Real"};
 		String[] funciones = new String[] { "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz"};
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE"};
 		String[] cruces = new String[] {"Monopunto", "Uniforme"};
-		// TODO:
-		// TICK para Elitismo BOOLEAN
+		
+		////////////////////////////////////
+		// AÑADIR ELEMENTOS
+		// se pueden añadir las opciones de forma independiente, o "de seguido"; el resultado es el mismo.
+		// LOS 3 strings son: 
+		//        "Etiqueta: Lo que se ve en la ventana"
+		//		  "Tooltip: Pista que se muestra al pasar el raton por encima"
+		//		  "Campo: Buscara Getters y Setters con ese nombre p.ej. getFuncion, setFuncion. (O eso entiendo yo que hace)
+		// ESTABLECER VALORES
+		configAlGen.addOption(new IntegerOption<Grafica>("Poblacion:","Define cantidad de individuos", "TamPob", 5, 100));
+		configAlGen.addOption(new IntegerOption<Grafica>("Generaciones:","Define cantidad de generaciones", "MaxGen", 10, 100));
+		configAlGen.addOption(new DoubleOption<Grafica>("Prob. Cruce:","Con que % se cruzaran", "ProbCruce", 0.0, 100.0));
+		configAlGen.addOption(new DoubleOption<Grafica>("Prob. Mutacion:","Con que % mutara", "ProbMut", 0.0, 100.0));
+		// CHOICE OPTION
+		configAlGen.addOption(new ChoiceOption<Grafica>("Gen","Tipo de gen","Gen", gen));
+		configAlGen.addOption(new ChoiceOption<Grafica>("Funcion", "fitness del individuo", "Funcion", funciones));                         // elecciones posibles
+		configAlGen.addOption(new ChoiceOption<Grafica>("Seleccion","Que tipo de seleccion usar","Seleccion", selectores));
+		configAlGen.addOption(new ChoiceOption<Grafica>("Cruces","Tipo de Cruce","Cruce", cruces));
+		// BOOLEAN (Elitismo, Mutación)
+		// WORK TO DO.
+		//////////////////////////////////////
+		configAlGen.endOptions();
+
+		return configAlGen;
+	}
+	
+	// AQUI ESTABLECEMOS LOS PARAMETROS DEL ALGORITMO GENETICO
+	public ConfigPanel<Grafica> creaPanelConfiguracion() {
+		/////////////// NUESTRAS OPCIONES /////////////////
 		
 		// DECLARACION / INICIALIZACION DEL PANEL
 		ConfigPanel<Grafica> config = new ConfigPanel<Grafica>();
@@ -140,13 +170,7 @@ public class GUI extends JFrame {
 		//		  "Tooltip: Pista que se muestra al pasar el raton por encima"
 		//		  "Campo: Buscara Getters y Setters con ese nombre p.ej. getFuncion, setFuncion. (O eso entiendo yo que hace)
 		// ESTABLECER VALORES
-		config.addOption(new IntegerOption<Grafica>("Poblacion:","Define cantidad de individuos", "TamPob", 5, 100));
-		config.addOption(new IntegerOption<Grafica>("Generaciones:","Define cantidad de generaciones", "MaxGen", 10, 100));
 		// CHOICE OPTION
-		config.addOption(new ChoiceOption<Grafica>("Gen","Tipo de gen","Gen", gen));
-		config.addOption(new ChoiceOption<Grafica>("Funcion", "fitness del individuo", "Funcion", funciones));                         // elecciones posibles
-		config.addOption(new ChoiceOption<Grafica>("Seleccion","Que tipo de seleccion usar","Seleccion", selectores));
-		config.addOption(new ChoiceOption<Grafica>("Cruces","Tipo de Cruce","Cruce", cruces));
 		// BOOLEAN (Elitismo, Mutación)
 		// WORK TO DO.
 		//////////////////////////////////////
@@ -168,39 +192,21 @@ public class GUI extends JFrame {
 		protected double[] maxGen_y_plot;
 		protected double[] maxAbs_y_plot;
 		protected double[] genMed_y_plot;
-		
-		// PARAMETROS QUE RECIBE DEL PANEL DE CONFIGURACION
-		// Duda, ¿no habría que hacer un AGenetico para esto? Lo coge con getters y setters??
 		protected int maxGeneraciones;
 		protected int tamPoblacion;
-		protected String gen;
-		protected String funcion;
-		protected String cruce;
-		protected String seleccion;
-		protected Boolean elitismo;
+		
+		public void setGen(int maxGen) {
+			maxGeneraciones = maxGen;
+		}
+		public void setPob(int poblacion) {
+			tamPoblacion = poblacion;
+		}
 		
 		public Grafica(JPanel panelGrafica) {
 			_grafica = new Plot2DPanel();
 			_panel = panelGrafica;
 			_panel.add(_grafica);
 		}
-		
-		//Constructora, inicializa las variables
-		/*
-		public void grafica(int maxGen, int tamPob) {
-			maxGeneraciones = maxGen;
-			tamPoblacion = tamPob;
-			// PANEL es el JPANEL (panel grafica)
-			// Grafica (plot) es Plot2DPanel()
-			_grafica = new Plot2DPanel();
-			
-			//Los Xs van establecidos por defecto (0,1,2,3,4,..., MAX_GENERACIONES-1), tam = maxGeneraciones
-			// OJO QUE EMPEZAMOS POR GENERACION 1, guardar los datos en una posición generación-1.
-			for (int i = 0; i < maxGeneraciones; i++) {
-				x_plot[i] = i;
-			}
-		}
-		 */
 		
 		// Esto debe ser llamado en caso de haber generado la gráfica
 		// con la constructora sin argumentos
@@ -220,11 +226,64 @@ public class GUI extends JFrame {
 			}
 		}
 		
-		
 		//GETTERS Y SETTERS NORMALES
 		public Plot2DPanel getGrafica() {
 			return _grafica;
 		}
+				
+		//Método de dibujado
+		protected void dibujaGrafica() 
+		{
+			//Dibujamos las líneas
+			_grafica.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
+			_grafica.addLinePlot("MaxAbs", Color.red, x_plot, maxAbs_y_plot);
+			_grafica.addLinePlot("genMed", Color.green, x_plot, genMed_y_plot);
+		}
+		
+		//Actualización de datos
+		protected void actualizaGrafica(Cromosoma[] poblacion, int generacionActual, float mejor_fitness, float abs_fitness, float media) {
+			for(int i = 0; i < tamPoblacion; i++)
+			{
+				System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
+			}				
+			// Rellena valores grafica
+			maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
+			maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
+			genMed_y_plot[generacionActual-1] = media; //calculaMedia
+		}
+		
+	}
+	
+	//////////////////////
+	//  ALGORITMO GENÉTICO
+	//////////////////////
+	// Métodos de los AG
+	//		- 
+	//		- ejecuta(): Corre el algoritmo genético, llamar con el boton del gui
+	//
+	// Pulsar el botón de ejecución:
+	// 	Inicializa lso valores en el AGen y la gráfica
+	
+	public static class AlGen{
+		// TOCARA QUITAR DE LAS CONSTRUCTORAS el tamPob y maxGen
+		// Para pasarselo mediante métodos.
+		
+		/// VARIABLES PARA CONFIGURAR EL ALGEN
+		protected int maxGeneraciones;
+		protected int tamPoblacion;
+		protected String gen;
+		protected String funcion;
+		protected String cruce;
+		protected String seleccion;
+		protected Boolean elitismo;
+		protected double probCruce;
+		protected double probMut;
+		
+		// Constructora
+		public AlGen() {
+			
+		}
+		
 		//GETTERS Y SETTERS REQUERIDOS POR EL CONTROL PANEL
 		// Si se ha llamado a la gráfica con la constructora vacía
 		// será necesario llamar a setTamPob y setMaxGen 
@@ -264,30 +323,27 @@ public class GUI extends JFrame {
 		public String getCruce() {
 			return cruce;
 		}
-		
-		
-		//Método de dibujado
-		protected void dibujaGrafica() 
-		{
-			//Dibujamos las líneas
-			_grafica.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
-			_grafica.addLinePlot("MaxAbs", Color.red, x_plot, maxAbs_y_plot);
-			_grafica.addLinePlot("genMed", Color.green, x_plot, genMed_y_plot);
+		public void setElitismo(Boolean Elitismo) {
+			elitismo = Elitismo;
+		}
+		public Boolean getElitismo() {
+			return elitismo;
+		}
+		public Double getProbCruce() {
+			return probCruce;
+		}
+		public void setProbCruce(Double ProbCruce) {
+			probCruce = ProbCruce;
+		}
+		public Double getProbMut() {
+			return probCruce;
+		}
+		public void setProbMut(Double ProbMut) {
+			probMut = ProbMut;
 		}
 		
-		//Actualización de datos
-		protected void actualizaGrafica(Cromosoma[] poblacion, int generacionActual, float mejor_fitness, float abs_fitness, float media) {
-			for(int i = 0; i < tamPoblacion; i++)
-			{
-				System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
-			}	
-			
-			// Rellena valores grafica
-			maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
-			maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
-			genMed_y_plot[generacionActual-1] = media; //calculaMedia
-		}
 		
+		//METODOS PROPIOS
 	}
 }	
 	
