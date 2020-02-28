@@ -7,6 +7,9 @@ import es.ucm.fdi.pev.Utils.*;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+
 import javax.swing.*;
 
 import org.math.plot.Plot2DPanel;
@@ -70,6 +73,7 @@ public class AGeneticoEj1 extends AGenetico {
 	protected Cromosoma sustituyeCromosoma(Cromosoma c) {
 		return new CromosomaP1f1(c);
 	}
+
 }
 
 

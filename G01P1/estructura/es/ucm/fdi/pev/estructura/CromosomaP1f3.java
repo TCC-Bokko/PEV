@@ -29,4 +29,14 @@ public class CromosomaP1f3 extends CromosomaBinario {
 		return fitness < f;
 	}
 
+	@Override
+	public int compareTo(Cromosoma c) {
+		
+		if(this.fitness < c.getFitness())
+			return -1;
+		else if(this.fitness > c.getFitness())
+			return 1;
+		
+		return 0;
+	}
 }

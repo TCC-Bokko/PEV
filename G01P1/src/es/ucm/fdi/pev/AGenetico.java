@@ -6,7 +6,11 @@ import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
 
 import java.awt.Color;
+import java.util.Queue;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.LinkedList;
 import java.util.Random;
 
 import javax.swing.JFrame;
@@ -38,6 +42,8 @@ public abstract class AGenetico
 	
 	protected float tolerancia;
 	
+	protected float elitismo;
+	protected Queue<Cromosoma> elite;
 	
 	// -------- GRAFICA --------- // 
 	
@@ -55,6 +61,8 @@ public abstract class AGenetico
 	
 	public AGenetico(int tamPob, int maxGen) 
 	{
+		elite = new LinkedList<Cromosoma>();
+		
 		tamPoblacion = tamPob;
 		maxGeneraciones = maxGen;
 		// Recibimos
@@ -95,11 +103,10 @@ public abstract class AGenetico
 		generacionActual = 1;
 		
 		inicializaPoblacion();
-		//Evalua
 		evaluacion();
 		actualizaGrafica();
+	
 		
-		//
 		while (!terminado()) 
 		{	
 			System.out.println("-------- GENERACION " + generacionActual + " --------" );
@@ -128,6 +135,11 @@ public abstract class AGenetico
 	
 	private void seleccion()
 	{	
+		
+		//PRUEBA ELITISMO
+		elitismo = 0.1f;
+		
+		
 		Cromosoma[] nueva_pob = new Cromosoma[poblacion.length];
 		int[] pob_idx = new int[poblacion.length]; // Indices de los individuos seleccionados
 		//Switch dependiendo del tipo de cruce
@@ -138,8 +150,8 @@ public abstract class AGenetico
 		//
 		//////////////////////////////////////
 		
-		//pob_idx = Ruleta.ruleta(poblacion);
-		pob_idx = Torneo.torneo(poblacion, 3);
+		pob_idx = Ruleta.ruleta(poblacion);
+		//pob_idx = Torneo.torneo(poblacion, 3);
 		//pob_idx = MUE.mue(poblacion);
 		
 		// Sustitucion de los individuos seleccionados
@@ -149,7 +161,8 @@ public abstract class AGenetico
 			nueva_pob[i] = sustituyeCromosoma(poblacion[idx]);
 		}
 		
-		poblacion = nueva_pob.clone();
+		
+		poblacion = sustituyeElite(nueva_pob);
 	}
 	
 	private void cruce() 
@@ -210,8 +223,37 @@ public abstract class AGenetico
 		
 		adapta_puntuacion();
 		
-	
+		elitismo();
 	}
+	
+	protected void elitismo()
+	{
+		// Si hay porcentaje de elitismo:
+		if(elitismo > 0.0f)
+		{
+			int tamElite = (int) (tamPoblacion * elitismo);
+			Arrays.sort(poblacion);		
+			
+			System.out.println("Tam Elite: " + tamElite);
+			
+			for(int i = 0; i < tamElite; i++)
+				elite.add(poblacion[i]);
+		}
+	}
+	
+	protected Cromosoma[] sustituyeElite(Cromosoma[] pob)
+	{
+		if(elitismo > 0 && elite.size() > 0)
+		{
+			Arrays.sort(pob, Collections.reverseOrder());
+			
+			for(int i = 0; i < elite.size(); i++)
+				pob[i] = sustituyeCromosoma(elite.poll());
+		}
+		
+		return pob.clone();
+	}
+	
 	
 	protected void evalua_mejor(Cromosoma c) 
 	{	

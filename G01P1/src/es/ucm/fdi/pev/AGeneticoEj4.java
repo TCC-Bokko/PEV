@@ -67,3 +67,5 @@ public class AGeneticoEj4 extends AGenetico {
 		return new CromosomaP1f4(c);
 	}
 }
+
+

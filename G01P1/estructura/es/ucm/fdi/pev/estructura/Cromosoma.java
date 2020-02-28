@@ -1,8 +1,8 @@
 package es.ucm.fdi.pev.estructura;
-import java.util.ArrayList;
 
 
-public abstract class Cromosoma {
+
+public abstract class Cromosoma  implements Comparable<Cromosoma> {
 	
 	//Cromosoma compuesto de array de genes
 	protected Gen[] genes;
@@ -38,7 +38,9 @@ public abstract class Cromosoma {
 	abstract public void actualiza_puntuacion(float fitness_total);
 	abstract public boolean compara_mejor_fitness(float f);
 	
-	
+
+	@Override
+	public abstract int compareTo(Cromosoma c);
 	
 	public void muta(float prob)
 	{
