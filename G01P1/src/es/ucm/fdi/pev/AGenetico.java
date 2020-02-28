@@ -45,6 +45,9 @@ public abstract class AGenetico
 	protected float elitismo;
 	protected Queue<Cromosoma> elite;
 	
+	protected String tipoSeleccion;
+	protected String tipoCruce;
+	
 	// -------- GRAFICA --------- // 
 	
 	// Ploteo
@@ -149,10 +152,17 @@ public abstract class AGenetico
 		// CAMBIAR AQUI LA SELECCION
 		//
 		//////////////////////////////////////
-		
-		pob_idx = Ruleta.ruleta(poblacion);
-		//pob_idx = Torneo.torneo(poblacion, 3);
-		//pob_idx = MUE.mue(poblacion);
+		switch (tipoSeleccion) {
+			case "Ruleta":
+				pob_idx = Ruleta.ruleta(poblacion);
+				break;
+			case "MUE":
+				pob_idx = MUE.mue(poblacion);
+				break;
+			case "Torneo":
+				pob_idx = Torneo.torneo(poblacion, 3);
+				break;	
+		}
 		
 		// Sustitucion de los individuos seleccionados
 		for(int i = 0; i < pob_idx.length; i++)
@@ -191,8 +201,15 @@ public abstract class AGenetico
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
 			
-			//Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
-			Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
+			switch (tipoCruce) {
+				case "Monopunto":
+					Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
+					break;
+				case "Uniforme":
+					System.out.print("OJO CRUCE UNIFORME COMENTADO");
+					Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
+					break;
+			}
 		}
 	}
 	
@@ -349,5 +366,26 @@ public abstract class AGenetico
 			maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
 			maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
 			genMed_y_plot[generacionActual-1] = calculaMedia();
+		}
+		
+		/////////////////////////////////////////////////
+		//
+		// GETTERS Y SETTERS (Usados en GUI)
+		//
+		/////////////////////////////////////////////////
+		public void setTamPob(int tamPob) {
+			tamPoblacion = tamPob;
+		}
+		public void setMaxGen(int maxGen) {
+			maxGeneraciones = maxGen;
+		}
+		public void setProbCruce(double probCruce) {
+			prob_cruce = (float)probCruce;
+		}
+		public void setProbMut(double probMut) {
+			prob_mutacion = (float)probMut;
+		}
+		public void setElitismo(double elit) {
+			elitismo = (float)elit;
 		}
 }

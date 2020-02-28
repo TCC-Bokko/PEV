@@ -142,6 +142,7 @@ public class GUI extends JFrame {
 		configAlGen.addOption(new IntegerOption<Grafica>("Generaciones:","Define cantidad de generaciones", "MaxGen", 10, 100));
 		configAlGen.addOption(new DoubleOption<Grafica>("Prob. Cruce:","Con que % se cruzaran", "ProbCruce", 0.0, 100.0));
 		configAlGen.addOption(new DoubleOption<Grafica>("Prob. Mutacion:","Con que % mutara", "ProbMut", 0.0, 100.0));
+		configAlGen.addOption(new DoubleOption<Grafica>("Elitismo:","% poblacion elite", "Elitismo", 0.0, 100.0));
 		// CHOICE OPTION
 		configAlGen.addOption(new ChoiceOption<Grafica>("Gen","Tipo de gen","Gen", gen));
 		configAlGen.addOption(new ChoiceOption<Grafica>("Funcion", "fitness del individuo", "Funcion", funciones));                         // elecciones posibles
@@ -275,9 +276,14 @@ public class GUI extends JFrame {
 		protected String funcion;
 		protected String cruce;
 		protected String seleccion;
-		protected Boolean elitismo;
+		protected double elitismo;
 		protected double probCruce;
 		protected double probMut;
+		protected AGenetico aGen;
+		protected AGeneticoEj1 aGenE1;
+		protected AGeneticoEj2 aGenE2;
+		protected AGeneticoEj3 aGenE3;
+		protected AGeneticoEj4 aGenE4;
 		
 		// Constructora
 		public AlGen() {
@@ -323,27 +329,54 @@ public class GUI extends JFrame {
 		public String getCruce() {
 			return cruce;
 		}
-		public void setElitismo(Boolean Elitismo) {
+		public void setElitismo(double Elitismo) {
 			elitismo = Elitismo;
 		}
-		public Boolean getElitismo() {
+		public double getElitismo() {
 			return elitismo;
 		}
-		public Double getProbCruce() {
+		public double getProbCruce() {
 			return probCruce;
 		}
-		public void setProbCruce(Double ProbCruce) {
+		public void setProbCruce(double ProbCruce) {
 			probCruce = ProbCruce;
 		}
-		public Double getProbMut() {
+		public double getProbMut() {
 			return probCruce;
 		}
-		public void setProbMut(Double ProbMut) {
+		public void setProbMut(double ProbMut) {
 			probMut = ProbMut;
 		}
 		
 		
+			
 		//METODOS PROPIOS
+		public void preparaEvolucion() {
+			// "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz"
+			//INICIALIZAMOS EL AG
+			switch (funcion) {
+				case "func 1":
+					aGen = new AGeneticoEJ1();
+					break;
+				case "f2: Hölder Table":
+					aGen = new AGeneticoEj2();
+					break;
+				case "f3: Schubert":
+					aGen = new AGeneticoEj3();
+					break;
+				case "f4: Michalewicz":
+					aGen = new AGeneticoEj4();
+					break;
+			}
+			// LE PASAMOS LOS VALORES
+			// TamPob, MaxGen, ProbCruce, prob mut, elitismo, tipo seleccion, tipo cruce
+			aGen.
+				
+		}
+		
+		public void ejecutaEvolucion() {
+			
+		}
 	}
 }	
 	
