@@ -122,8 +122,8 @@ public class GUI extends JFrame {
 		ConfigPanel<AlGen> configAlGen = new ConfigPanel<AlGen>();
 		
 		///////////// NUESTRAS OPCIONES /////////////////
-		String[] gen = new String[] {"Binario", "Real"};
-		String[] funciones = new String[] { "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz"};
+		//String[] gen = new String[] {"Binario", "Real"};
+		String[] funciones = new String[] { "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz", "f5: f4 con reales"};
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE"};
 		String[] cruces = new String[] {"Monopunto", "Uniforme"};
 		
@@ -139,9 +139,8 @@ public class GUI extends JFrame {
 		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:","Define cantidad de generaciones", "maxGen", 10, 100));
 		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Cruce:","Con que % se cruzaran", "probCruce", 0.0, 100.0));
 		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Mutacion:","Con que % mutara", "probMut", 0.0, 100.0));
-		configAlGen.addOption(new DoubleOption<AlGen>("Elitismo:","% poblacion elite", "elitismo", 0.0, 100.0));
+		configAlGen.addOption(new DoubleOption<AlGen>("Elitismo:","% poblacion elite", "elitismo", 0.0, 1.0));
 		// CHOICE OPTION
-		configAlGen.addOption(new ChoiceOption<AlGen>("Gen","Tipo de gen","gen", gen));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Funcion", "fitness del individuo", "funcion", funciones));                         // elecciones posibles
 		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","seleccion", selectores));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Cruces","Tipo de Cruce","cruce", cruces));
@@ -170,7 +169,6 @@ public class GUI extends JFrame {
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
 		public int maxGen;
 		public int tamPob;
-		public String gen;
 		public String funcion;
 		public String cruce;
 		public String seleccion;
@@ -205,12 +203,6 @@ public class GUI extends JFrame {
 		}
 		public void setSeleccion(String Seleccion) {
 			seleccion = Seleccion;
-		}
-		public void setGen(String Gen) {
-			gen = Gen;
-		}
-		public String getGen() {
-			return gen;
 		}
 		public void setFuncion(String Funcion) {
 			funcion = Funcion;
@@ -263,6 +255,9 @@ public class GUI extends JFrame {
 				case "f4: Michalewicz":
 					aGen = new AGeneticoEj4();
 					break;
+				case "f5: f4 but real":
+					aGen = new AGeneticoEj5();
+					break;
 			}
 			// LE PASAMOS LOS VALORES
 			// TamPob, MaxGen, ProbCruce, prob mut, elitismo, tipo seleccion, tipo cruce
@@ -271,6 +266,8 @@ public class GUI extends JFrame {
 			aGen.setProbCruce(probCruce);
 			aGen.setProbMut(probMut);
 			aGen.setElitismo(elitismo);
+			aGen.setTipSel(seleccion);
+			aGen.setTipCru(cruce);
 		}
 
 		public void ejecutaEvolucion(Grafica grafica) {

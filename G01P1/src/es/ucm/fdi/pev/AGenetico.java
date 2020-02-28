@@ -355,6 +355,16 @@ public abstract class AGenetico
 	public void setElitismo(double elit) {
 		elitismo = (float)elit;
 	}
+	public void setTipSel(String tipoSel) {
+		tipoSeleccion = tipoSel;
+	}
+	public void setTipCru(String tipoCru) {
+		tipoCruce = tipoCru;
+	}
+	public void setGrafica(Grafica grafica) {
+		_grafica = grafica;
+	}
+	
 	public int getTamPob() {
 		return tamPoblacion;
 	}
@@ -370,7 +380,10 @@ public abstract class AGenetico
 	public double getElitismo() {
 		return (double)elitismo;
 	}
-	public void setGrafica(Grafica grafica) {
-		_grafica = grafica;
+	public String getTipSel() {
+		return tipoSeleccion;
+	}
+	public String getTipCru() {
+		return tipoCruce;
 	}
 }
