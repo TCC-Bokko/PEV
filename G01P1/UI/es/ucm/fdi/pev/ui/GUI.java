@@ -41,10 +41,7 @@ public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 5393378737313833016L;
 
-	//ENUMS
-	public enum TipoGen { BINARIO, REAL }
-	public enum TipoSel { RULETA, TORNEO, MUE }
-	public enum TipoCru { MONOPUNTO, UNIFORME }
+	private AlGen algorGenetico;
 	
 	// CONSTRUCTORA
 	public GUI() {
@@ -56,13 +53,39 @@ public class GUI extends JFrame {
 		// Metodo de la clase padre JFRAME
 		// Establece el controlador de la ventana
 		setLayout(new BorderLayout());
+		// Inicializamos objetos que usaremos
+		algorGenetico = new AlGen();
 		
 		///////////////////////////////////////
 		//
 		//  GENERACION DE PANELES
 		//
 		///////////////////////////////////////
+				
+		////////////////////////////////////////////
+		//
+		//   PANEL DE LA GRAFICA (EAST)
+		//
+		////////////////////////////////////////////
+		// DECLARACION
+		JPanel panelGrafica = new JPanel(new GridLayout());
+		// ELEMENTOS
+		// Grafica:  Declaracion
+		// Ojo las variables final no pueden ser modificadas
+		Grafica grafica = new Grafica(panelGrafica);
+		add(panelGrafica, BorderLayout.CENTER);
 		
+		//////////////////////////////////////
+		//
+		// PANEL DE CONFIGURACION (WEST)
+		//
+		//////////////////////////////////////
+		ConfigPanel<AlGen> controlAG = creaConfAlGen();
+		controlAG.setTarget(algorGenetico);
+		//controlAG.initialize();
+		add(controlAG, BorderLayout.WEST);
+		
+
 		//////////////////////////////////////
 		//
 		//   PANEL DE BOTONES (SOUTH)
@@ -79,42 +102,21 @@ public class GUI extends JFrame {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("BOTON: EJECUTA EVOLUCION");
 				//METER AQUI EL RUN DEL PROBLEMA
+				//Prepara algoritmo genetico
+				algorGenetico.preparaEvolucion();
+				//Prepara grafica
+				grafica.setGen(algorGenetico.getMaxGen());
+				grafica.setPob(algorGenetico.getTamPob());
+				grafica.init();
+				//ejecuta algoritmo
+				algorGenetico.ejecutaEvolucion(grafica);
 			}
 		});
 		panelBotones.add(boton);
 
 		// AÑADIR AL LAYOUT
 		add(panelBotones, BorderLayout.SOUTH); //JFRAME
-		
-		////////////////////////////////////////////
-		//
-		//   PANEL DE LA GRAFICA (EAST)
-		//
-		////////////////////////////////////////////
-		// DECLARACION
-		JPanel panelGrafica = new JPanel(new GridLayout());
-		// ELEMENTOS
-		// Grafica:  Declaracion
-		// Ojo las variables final no pueden ser modificadas
-		Grafica g1 = new Grafica(panelGrafica);
-		// Le asociamos su Plot2Panel a su panel
-		//_marco.setContentPane(_panel);??? esto como encaja? dentro de la grafica?
-		//Plot2DPanel p2p = g1.getGrafica();
-		//panelGrafica.add(p2p);
-		add(panelGrafica, BorderLayout.CENTER);
-		
-		///////////////////////////////////////
-		//
-		// PANEL DE CONFIGURACION (WEST)
-		//
-		//////////////////////////////////////		
-		// crea un panel central y lo asocia con la grafica
-		final ConfigPanel<Grafica> cp = creaPanelConfiguracion();
-		// asocia el panel con la grafica
-		cp.setTarget(g1);
-		// carga los valores del panel en la gráfica
-		//cp.initialize();		
-		add(cp, BorderLayout.WEST);
+
 		
 	}
 	
@@ -137,7 +139,7 @@ public class GUI extends JFrame {
 		//		  "Tooltip: Pista que se muestra al pasar el raton por encima"
 		//		  "Campo: Buscara Getters y Setters con ese nombre p.ej. getFuncion, setFuncion. (O eso entiendo yo que hace)
 		// ESTABLECER VALORES
-		configAlGen.addOption(new IntegerOption<Grafica>("Poblacion:","Define cantidad de individuos", "TamPob", 5, 100));
+		configAlGen.addOption(new IntegerOption<Grafica>("Poblacion:","Define cantidad de individuos", "TamPob", 0, 100));
 		configAlGen.addOption(new IntegerOption<Grafica>("Generaciones:","Define cantidad de generaciones", "MaxGen", 10, 100));
 		configAlGen.addOption(new DoubleOption<Grafica>("Prob. Cruce:","Con que % se cruzaran", "ProbCruce", 0.0, 100.0));
 		configAlGen.addOption(new DoubleOption<Grafica>("Prob. Mutacion:","Con que % mutara", "ProbMut", 0.0, 100.0));
@@ -155,29 +157,6 @@ public class GUI extends JFrame {
 		return configAlGen;
 	}
 	
-	// AQUI ESTABLECEMOS LOS PARAMETROS DEL ALGORITMO GENETICO
-	public ConfigPanel<Grafica> creaPanelConfiguracion() {
-		/////////////// NUESTRAS OPCIONES /////////////////
-		
-		// DECLARACION / INICIALIZACION DEL PANEL
-		ConfigPanel<Grafica> config = new ConfigPanel<Grafica>();
-		
-		////////////////////////////////////
-		// AÑADIR ELEMENTOS
-		// se pueden añadir las opciones de forma independiente, o "de seguido"; el resultado es el mismo.
-		// LOS 3 strings son: 
-		//        "Etiqueta: Lo que se ve en la ventana"
-		//		  "Tooltip: Pista que se muestra al pasar el raton por encima"
-		//		  "Campo: Buscara Getters y Setters con ese nombre p.ej. getFuncion, setFuncion. (O eso entiendo yo que hace)
-		// ESTABLECER VALORES
-		// CHOICE OPTION
-		// BOOLEAN (Elitismo, Mutación)
-		// WORK TO DO.
-		//////////////////////////////////////
-		config.endOptions();
-		
-		return config;
-	}
 
 	//////////////////////////////////////////////////////////////////////////////////////
 	// --- clases del GUI
@@ -230,9 +209,13 @@ public class GUI extends JFrame {
 		public Plot2DPanel getGrafica() {
 			return _grafica;
 		}
+		
+		public void setGrafica(Plot2DPanel grafica) {
+			_grafica = grafica;
+		}
 				
 		//Método de dibujado
-		protected void dibujaGrafica() 
+		public void dibujaGrafica() 
 		{
 			//Dibujamos las líneas
 			_grafica.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
@@ -241,7 +224,7 @@ public class GUI extends JFrame {
 		}
 		
 		//Actualización de datos
-		protected void actualizaGrafica(Cromosoma[] poblacion, int generacionActual, float mejor_fitness, float abs_fitness, float media) {
+		public void actualizaGrafica(Cromosoma[] poblacion, int generacionActual, float mejor_fitness, float abs_fitness, float media) {
 			for(int i = 0; i < tamPoblacion; i++)
 			{
 				System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
@@ -347,8 +330,6 @@ public class GUI extends JFrame {
 			probMut = ProbMut;
 		}
 		
-		
-			
 		//METODOS PROPIOS
 		public void preparaEvolucion() {
 			// "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz"
@@ -374,12 +355,14 @@ public class GUI extends JFrame {
 			aGen.setProbCruce(probCruce);
 			aGen.setProbMut(probMut);
 			aGen.setElitismo(elitismo);
-			
-			ejecutaEvolucion();
-				
 		}
 		
-		public void ejecutaEvolucion() {
+		public void actualizaGrafica() {
+			
+		}
+		
+		public void ejecutaEvolucion(Grafica grafica) {
+			aGen.setGrafica(grafica);
 			aGen.ejecuta();
 		}
 	}

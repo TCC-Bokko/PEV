@@ -20,11 +20,11 @@ public class Main
 		//AGeneticoEj1<boolean> agen = new AGeneticoEj1<boolean>();
 		//agen.ejecuta();
 		
-		int tamPoblacion = 100;
-		int maxGeneraciones = 100;
+		//int tamPoblacion = 100;
+		//int maxGeneraciones = 100;
 		
-		AGeneticoEj5 ag = new AGeneticoEj5(tamPoblacion, maxGeneraciones);
-		ag.ejecuta();
+		//AGeneticoEj5 ag = new AGeneticoEj5(tamPoblacion, maxGeneraciones);
+		//ag.ejecuta();
 		
 		//ag.evaluacion();
 		

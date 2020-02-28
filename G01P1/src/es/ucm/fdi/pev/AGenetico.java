@@ -4,6 +4,7 @@ import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.cruce.*;
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
+import es.ucm.fdi.pev.ui.GUI;
 
 import java.awt.Color;
 import java.util.Queue;
@@ -31,7 +32,7 @@ public abstract class AGenetico
 	protected float mejor_fitness;
 	protected float abs_fitness = 0;
 
-	
+	protected GUI.Grafica _grafica;
 	protected float fitness_total;
 	
 	protected int maxGeneraciones;
@@ -74,14 +75,17 @@ public abstract class AGenetico
 		// Probabilidades 
 		// Funcion de evaluacion
 		
-		iniciaGrafica();
+		inicializaGrafica();
 	}
 	
 
 	// ---------------- FUNCIONES ---------------- //
 	abstract protected void inicializaGenes();
 	abstract protected Cromosoma inicializaCromosoma();
-	abstract protected Cromosoma sustituyeCromosoma(Cromosoma c);	
+	abstract protected Cromosoma sustituyeCromosoma(Cromosoma c);
+	protected void inicializaGrafica() {
+		_grafica = new GUI.Grafica(panel);
+	}
 	protected void inicializaPoblacion() 
 	{
 		inicializaGenes();
@@ -106,8 +110,9 @@ public abstract class AGenetico
 		generacionActual = 1;
 		
 		inicializaPoblacion();
-		evaluacion();
-		actualizaGrafica();
+		evaluacion(); 
+		double media = calculaMedia();
+		_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media);
 	
 		
 		while (!terminado()) 
@@ -121,20 +126,18 @@ public abstract class AGenetico
 
 			mutacion();
 			
-			evaluacion();			
+			evaluacion();	
 			
-			actualizaGrafica(); //Pasa los datos de esta generaci�n a la gr�fica, calcula media y compara maxAbsoluto.
+			media = calculaMedia();
+			_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media); //Pasa los datos de esta generaci�n a la gr�fica, calcula media y compara maxAbsoluto.
 		
 			generacionActual++;
 		}	
 		
-		dibujaGrafica();
+		_grafica.dibujaGrafica();
 	}
 	
-
-	// Funciones del bucle: 
-	
-	
+	// FUNCIONES DEL BUCLE
 	
 	private void seleccion()
 	{	
@@ -270,8 +273,7 @@ public abstract class AGenetico
 		
 		return pob.clone();
 	}
-	
-	
+		
 	protected void evalua_mejor(Cromosoma c) 
 	{	
 		//System.out.println("Fitness: " + c.getFitness());
@@ -288,13 +290,11 @@ public abstract class AGenetico
 		}	
 	}
 	
-	
 	private boolean terminado() 
 	{
 		return generacionActual > maxGeneraciones;
 	}
-	
-	
+		
 	protected void adapta_puntuacion() 
 	{
 		// Probabilidad relativa [0,1) para metodos de seleccion
@@ -306,43 +306,8 @@ public abstract class AGenetico
 			punt_acum = punt_acum + poblacion[j].getPuntuacion();
 		}
 	}
-	
-	
-	// -------------------------- GRAFICA -------------------------- // 
-	
-	
-		private void iniciaGrafica() {
-			
-			x_plot = new double[maxGeneraciones]; //Empezamos en generaci�n 1! OJO!
-			maxGen_y_plot = new double[maxGeneraciones]; // M�ximo de la generaci�n
-			genMed_y_plot = new double[maxGeneraciones]; // media generaci�n
-			maxAbs_y_plot = new double[maxGeneraciones]; // Maximo absoluto
-
-			
-			panel = new Plot2DPanel();
-			marco = new JFrame("Funcion1");
-			
-			//Los Xs van establecidos por defecto (0,1,2,3,4,..., MAX_GENERACIONES-1), tam = maxGeneraciones
-			// OJO QUE EMPEZAMOS POR GENERACION 1, guardar los datos en una posici�n generaci�n-1.
-			for (int i = 0; i < maxGeneraciones; i++) {
-				x_plot[i] = i;
-			}
-		}
 		
-		protected void dibujaGrafica() 
-		{
-			//Dibujamos las l�neas
-			panel.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
-			panel.addLinePlot("MaxAbs", Color.red, x_plot, maxAbs_y_plot);
-			panel.addLinePlot("genMed", Color.green, x_plot, genMed_y_plot);
-			
-			//Propiedades marco
-			marco.setSize(800,600);
-			marco.setContentPane(panel);
-			marco.setVisible(true);
-		}
-		
-		protected double calculaMedia() {
+	protected double calculaMedia() {
 			//Recorre los valores de fitness de la generaci�n y saca una media
 			float sum = 0.0f;
 			double media = 0.0f;
@@ -360,32 +325,42 @@ public abstract class AGenetico
 			return media;		
 		}
 		
-		
-		protected void actualizaGrafica() {
-			// Rellena valores grafica
-			maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
-			maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
-			genMed_y_plot[generacionActual-1] = calculaMedia();
-		}
-		
-		/////////////////////////////////////////////////
-		//
-		// GETTERS Y SETTERS (Usados en GUI)
-		//
-		/////////////////////////////////////////////////
-		public void setTamPob(int tamPob) {
-			tamPoblacion = tamPob;
-		}
-		public void setMaxGen(int maxGen) {
-			maxGeneraciones = maxGen;
-		}
-		public void setProbCruce(double probCruce) {
-			prob_cruce = (float)probCruce;
-		}
-		public void setProbMut(double probMut) {
-			prob_mutacion = (float)probMut;
-		}
-		public void setElitismo(double elit) {
-			elitismo = (float)elit;
-		}
+	/////////////////////////////////////////////////
+	//
+	// GETTERS Y SETTERS (Usados en GUI)
+	//
+	/////////////////////////////////////////////////
+	public void setTamPob(int tamPob) {
+		tamPoblacion = tamPob;
+	}
+	public void setMaxGen(int maxGen) {
+		maxGeneraciones = maxGen;
+	}
+	public void setProbCruce(double probCruce) {
+		prob_cruce = (float)probCruce;
+	}
+	public void setProbMut(double probMut) {
+		prob_mutacion = (float)probMut;
+	}
+	public void setElitismo(double elit) {
+		elitismo = (float)elit;
+	}
+	public int getTamPob() {
+		return tamPoblacion;
+	}
+	public int getMaxGen() {
+		return maxGeneraciones;
+	}
+	public double getProbCruce() {
+		return (double)prob_cruce;
+	}
+	public double getProbMut() {
+		return (double)prob_mutacion;
+	}
+	public double getElitismo() {
+		return (double)elitismo;
+	}
+	public void setGrafica(GUI.Grafica grafica) {
+		_grafica = grafica;
+	}
 }
