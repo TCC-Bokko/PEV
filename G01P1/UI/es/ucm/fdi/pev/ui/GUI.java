@@ -21,7 +21,6 @@ import es.ucm.fdi.pev.ui.ConfigPanel.StrategyOption;
 import es.ucm.fdi.pev.ui.Demo.Figura;
 
 import org.math.plot.Plot2DPanel;
-import java.io.*;
 //Archivos propios del Algoritmo Genético
 import es.ucm.fdi.pev.estructura.Cromosoma;
 import es.ucm.fdi.pev.*;
@@ -356,7 +355,7 @@ public class GUI extends JFrame {
 			//INICIALIZAMOS EL AG
 			switch (funcion) {
 				case "func 1":
-					aGen = new AGeneticoEJ1();
+					aGen = new AGeneticoEj1();
 					break;
 				case "f2: Hölder Table":
 					aGen = new AGeneticoEj2();
@@ -370,12 +369,18 @@ public class GUI extends JFrame {
 			}
 			// LE PASAMOS LOS VALORES
 			// TamPob, MaxGen, ProbCruce, prob mut, elitismo, tipo seleccion, tipo cruce
-			aGen.
+			aGen.setTamPob(tamPoblacion);
+			aGen.setMaxGen(maxGeneraciones);
+			aGen.setProbCruce(probCruce);
+			aGen.setProbMut(probMut);
+			aGen.setElitismo(elitismo);
+			
+			ejecutaEvolucion();
 				
 		}
 		
 		public void ejecutaEvolucion() {
-			
+			aGen.ejecuta();
 		}
 	}
 }	

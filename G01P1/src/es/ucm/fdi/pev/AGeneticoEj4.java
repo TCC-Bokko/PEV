@@ -15,6 +15,9 @@ public class AGeneticoEj4 extends AGenetico {
 	// Numero de genes que compone cada cromosoma, y su tamaño (indice: nº de gen, valor: tam del gen)
 	protected ArrayList<Pair<Float, Float>> genes_len;
 	
+	public AGeneticoEj4() {
+		
+	}
 	
 	public AGeneticoEj4(int tamPob, int maxGen) {
 		super(tamPob, maxGen);

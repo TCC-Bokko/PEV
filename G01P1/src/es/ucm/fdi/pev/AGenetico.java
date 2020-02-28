@@ -59,9 +59,12 @@ public abstract class AGenetico
 	protected double[] genMed_y_plot; // media generación
 	protected double[] maxAbs_y_plot; // Maximo absoluto
 
+	//Constructora vacia
+	public AGenetico() {
+		
+	}
 	
-	// ---------------- FUNCIONES ---------------- //
-	
+	//Constructora con 2 parametros
 	public AGenetico(int tamPob, int maxGen) 
 	{
 		elite = new LinkedList<Cromosoma>();
@@ -77,12 +80,10 @@ public abstract class AGenetico
 	}
 	
 
+	// ---------------- FUNCIONES ---------------- //
 	abstract protected void inicializaGenes();
 	abstract protected Cromosoma inicializaCromosoma();
-	abstract protected Cromosoma sustituyeCromosoma(Cromosoma c);
-
-	
-	
+	abstract protected Cromosoma sustituyeCromosoma(Cromosoma c);	
 	protected void inicializaPoblacion() 
 	{
 		inicializaGenes();
