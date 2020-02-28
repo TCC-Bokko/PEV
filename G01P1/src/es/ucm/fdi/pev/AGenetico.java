@@ -139,8 +139,8 @@ public abstract class AGenetico
 		//////////////////////////////////////
 		
 		//pob_idx = Ruleta.ruleta(poblacion);
-		//pob_idx = Torneo.torneo(poblacion, 3);
-		pob_idx = MUE.mue(poblacion);
+		pob_idx = Torneo.torneo(poblacion, 3);
+		//pob_idx = MUE.mue(poblacion);
 		
 		// Sustitucion de los individuos seleccionados
 		for(int i = 0; i < pob_idx.length; i++)
@@ -186,7 +186,7 @@ public abstract class AGenetico
 	private void mutacion()
 	{
 		//PARA PROBAR: LO PONEMOS AQUI
-		prob_mutacion = 0.05f;
+		prob_mutacion = 0.03f;
 				
 		for (Cromosoma c : poblacion)
 			c.muta(prob_mutacion);		

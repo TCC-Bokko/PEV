@@ -74,12 +74,8 @@ public class AGeneticoEj3 extends AGenetico {
 		{
 			if(c.getFitness() > fmax)
 				fmax = c.getFitness();
-		}
-		
-		
+		}	
 		fmax = fmax * 1.05f; // Margen
-		
-		System.out.println("fmax: " + fmax);
 		
 		fitness_total = 0;
 		
@@ -97,8 +93,6 @@ public class AGeneticoEj3 extends AGenetico {
 			poblacion[i].setPuntuacion(fitness[i] / fitness_total);
 			poblacion[i].actualiza_punt_acum(punt_acum);
 			punt_acum = punt_acum + poblacion[i].getPuntuacion();
-			
-			System.out.println("Punt acum: " + punt_acum);
 		}
 	}
 }

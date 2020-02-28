@@ -58,8 +58,8 @@ public class FuncionesEv {
 		int n = xi.length;
 		
 		double sum = 0.0d;
-		for (int i = 1; i < n; i++) {
-			sum += Math.sin(xi[i]) * Math.pow((Math.sin((i+1) * Math.pow(xi[i],2) / pi)), 20);
+		for (int i = 1; i <= n; i++) {
+			sum += Math.sin(xi[i-1]) * Math.pow((Math.sin((i+1) * Math.pow(xi[i-1],2) / pi)), 20);
 		}
 		
 		r = -sum;
