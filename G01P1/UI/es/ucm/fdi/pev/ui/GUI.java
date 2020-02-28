@@ -112,11 +112,8 @@ public class GUI extends JFrame {
 			}
 		});
 		panelBotones.add(boton);
-
 		// AÑADIR AL LAYOUT
 		add(panelBotones, BorderLayout.SOUTH); //JFRAME
-
-		
 	}
 	
 	//// PANEL DE CONFIGURACION: 
@@ -138,16 +135,16 @@ public class GUI extends JFrame {
 		//		  "Tooltip: Pista que se muestra al pasar el raton por encima"
 		//		  "Campo: Buscara Getters y Setters con ese nombre p.ej. getFuncion, setFuncion. (O eso entiendo yo que hace)
 		// ESTABLECER VALORES
-		configAlGen.addOption(new IntegerOption<AlGen>("Poblacion:","Define cantidad de individuos", "TamPob", 0, 100));
-		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:","Define cantidad de generaciones", "MaxGen", 10, 100));
-		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Cruce:","Con que % se cruzaran", "ProbCruce", 0.0, 100.0));
-		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Mutacion:","Con que % mutara", "ProbMut", 0.0, 100.0));
-		configAlGen.addOption(new DoubleOption<AlGen>("Elitismo:","% poblacion elite", "Elitismo", 0.0, 100.0));
+		configAlGen.addOption(new IntegerOption<AlGen>("Poblacion:","Define cantidad de individuos", "tamPob", 0, 100));
+		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:","Define cantidad de generaciones", "maxGen", 10, 100));
+		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Cruce:","Con que % se cruzaran", "probCruce", 0.0, 100.0));
+		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Mutacion:","Con que % mutara", "probMut", 0.0, 100.0));
+		configAlGen.addOption(new DoubleOption<AlGen>("Elitismo:","% poblacion elite", "elitismo", 0.0, 100.0));
 		// CHOICE OPTION
-		configAlGen.addOption(new ChoiceOption<AlGen>("Gen","Tipo de gen","Gen", gen));
-		configAlGen.addOption(new ChoiceOption<AlGen>("Funcion", "fitness del individuo", "Funcion", funciones));                         // elecciones posibles
-		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","Seleccion", selectores));
-		configAlGen.addOption(new ChoiceOption<AlGen>("Cruces","Tipo de Cruce","Cruce", cruces));
+		configAlGen.addOption(new ChoiceOption<AlGen>("Gen","Tipo de gen","gen", gen));
+		configAlGen.addOption(new ChoiceOption<AlGen>("Funcion", "fitness del individuo", "funcion", funciones));                         // elecciones posibles
+		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","seleccion", selectores));
+		configAlGen.addOption(new ChoiceOption<AlGen>("Cruces","Tipo de Cruce","cruce", cruces));
 		// BOOLEAN (Elitismo, Mutación)
 		// WORK TO DO.
 		//////////////////////////////////////
@@ -171,15 +168,15 @@ public class GUI extends JFrame {
 		// Para pasarselo mediante métodos.
 		
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
-		protected int maxGeneraciones;
-		protected int tamPoblacion;
-		protected String gen;
-		protected String funcion;
-		protected String cruce;
-		protected String seleccion;
-		protected double elitismo;
-		protected double probCruce;
-		protected double probMut;
+		public int maxGen;
+		public int tamPob;
+		public String gen;
+		public String funcion;
+		public String cruce;
+		public String seleccion;
+		public double elitismo;
+		public double probCruce;
+		public double probMut;
 		protected AGenetico aGen;
 		protected AGeneticoEj1 aGenE1;
 		protected AGeneticoEj2 aGenE2;
@@ -194,17 +191,17 @@ public class GUI extends JFrame {
 		//GETTERS Y SETTERS REQUERIDOS POR EL CONTROL PANEL
 		// Si se ha llamado a la gráfica con la constructora vacía
 		// será necesario llamar a setTamPob y setMaxGen 
-		public void setTamPob(int tamPob) {
-			tamPoblacion = tamPob;
+		public void setTamPob(int TamPob) {
+			tamPob = TamPob;
 		}
 		public int getTamPob() {
-			return tamPoblacion;
+			return tamPob;
 		}
-		public void setMaxGen(int maxGen) {
-			maxGeneraciones = maxGen;
+		public void setMaxGen(int MaxGen) {
+			maxGen = MaxGen;
 		}
 		public int getMaxGen() {
-			return maxGeneraciones;
+			return maxGen;
 		}
 		public void setSeleccion(String Seleccion) {
 			seleccion = Seleccion;
@@ -269,17 +266,13 @@ public class GUI extends JFrame {
 			}
 			// LE PASAMOS LOS VALORES
 			// TamPob, MaxGen, ProbCruce, prob mut, elitismo, tipo seleccion, tipo cruce
-			aGen.setTamPob(tamPoblacion);
-			aGen.setMaxGen(maxGeneraciones);
+			aGen.setTamPob(tamPob);
+			aGen.setMaxGen(maxGen);
 			aGen.setProbCruce(probCruce);
 			aGen.setProbMut(probMut);
 			aGen.setElitismo(elitismo);
 		}
-		
-		public void actualizaGrafica() {
-			
-		}
-		
+
 		public void ejecutaEvolucion(Grafica grafica) {
 			aGen.setGrafica(grafica);
 			aGen.ejecuta();
