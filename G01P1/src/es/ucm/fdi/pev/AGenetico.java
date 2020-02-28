@@ -152,6 +152,9 @@ public abstract class AGenetico
 		// CAMBIAR AQUI LA SELECCION
 		//
 		//////////////////////////////////////
+		
+		//tipoSeleccion = "MUE";
+		
 		switch (tipoSeleccion) {
 			case "Ruleta":
 				pob_idx = Ruleta.ruleta(poblacion);
@@ -201,13 +204,18 @@ public abstract class AGenetico
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
 			
+			
+			//tipoCruce = "Aritmetico";
+			
 			switch (tipoCruce) {
 				case "Monopunto":
 					Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
 					break;
 				case "Uniforme":
-					System.out.print("OJO CRUCE UNIFORME COMENTADO");
 					Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
+					break;
+				case "Aritmetico":
+					Aritmetico.aritmetico(poblacion[padre1],  poblacion[padre2]);
 					break;
 			}
 		}
