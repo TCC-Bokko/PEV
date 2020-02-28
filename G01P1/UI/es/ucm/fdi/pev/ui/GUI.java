@@ -137,9 +137,9 @@ public class GUI extends JFrame {
 		// ESTABLECER VALORES
 		configAlGen.addOption(new IntegerOption<AlGen>("Poblacion:","Define cantidad de individuos", "tamPob", 0, 100));
 		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:","Define cantidad de generaciones", "maxGen", 10, 100));
-		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Cruce:","Con que % se cruzaran", "probCruce", 0.0, 100.0));
-		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Mutacion:","Con que % mutara", "probMut", 0.0, 100.0));
-		configAlGen.addOption(new DoubleOption<AlGen>("Elitismo:","% poblacion elite", "elitismo", 0.0, 1.0));
+		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Cruce:","Con que % se cruzaran [0.0, 1.0]", "probCruce", 0.0, 1.0));
+		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Mutacion:","Con que % mutara [0.0, 1.0]", "probMut", 0.0, 1.0));
+		configAlGen.addOption(new DoubleOption<AlGen>("Elitismo:","% poblacion elite [0.0, 1.0]", "elitismo", 0.0, 1.0));
 		// CHOICE OPTION
 		configAlGen.addOption(new ChoiceOption<AlGen>("Funcion", "fitness del individuo", "funcion", funciones));                         // elecciones posibles
 		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","seleccion", selectores));
