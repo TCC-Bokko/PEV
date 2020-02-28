@@ -5,6 +5,7 @@ import es.ucm.fdi.pev.cruce.*;
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
 import es.ucm.fdi.pev.ui.GUI;
+import es.ucm.fdi.pev.ui.Grafica;
 
 import java.awt.Color;
 import java.util.Queue;
@@ -32,7 +33,7 @@ public abstract class AGenetico
 	protected float mejor_fitness;
 	protected float abs_fitness = 0;
 
-	protected GUI.Grafica _grafica;
+	protected Grafica _grafica;
 	protected float fitness_total;
 	
 	protected int maxGeneraciones;
@@ -62,7 +63,6 @@ public abstract class AGenetico
 
 	//Constructora vacia
 	public AGenetico() {
-		
 	}
 	
 	//Constructora con 2 parametros
@@ -70,6 +70,8 @@ public abstract class AGenetico
 	{	
 		tamPoblacion = tamPob;
 		maxGeneraciones = maxGen;
+		tipoSeleccion = "MUE";
+		tipoCruce = "Monopunto";
 		// Recibimos
 		// Tama�o de poblacion y genes en cada individuo
 		// Probabilidades 
@@ -84,7 +86,17 @@ public abstract class AGenetico
 	abstract protected Cromosoma inicializaCromosoma();
 	abstract protected Cromosoma sustituyeCromosoma(Cromosoma c);
 	protected void inicializaGrafica() {
-		_grafica = new GUI.Grafica(panel);
+		marco = new JFrame();
+		panel = new Plot2DPanel();
+		//panel.setSize(600, 600);
+		//panel.setVisible(true);	
+		_grafica = new Grafica(panel);
+		_grafica.setGen(maxGeneraciones);
+		_grafica.setPob(tamPoblacion);
+		_grafica.init();
+		marco.setSize(600, 600);
+		marco.setVisible(true);
+		marco.add(_grafica.getGrafica());
 	}
 	protected void inicializaPoblacion() 
 	{
@@ -114,7 +126,6 @@ public abstract class AGenetico
 		double media = calculaMedia();
 		_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media);
 	
-		
 		while (!terminado()) 
 		{	
 			System.out.println("-------- GENERACION " + generacionActual + " --------" );
@@ -155,9 +166,6 @@ public abstract class AGenetico
 		// CAMBIAR AQUI LA SELECCION
 		//
 		//////////////////////////////////////
-		
-		//tipoSeleccion = "MUE";
-		
 		switch (tipoSeleccion) {
 			case "Ruleta":
 				pob_idx = Ruleta.ruleta(poblacion);
@@ -176,7 +184,6 @@ public abstract class AGenetico
 			int idx = pob_idx[i];
 			nueva_pob[i] = sustituyeCromosoma(poblacion[idx]);
 		}
-		
 		
 		poblacion = sustituyeElite(nueva_pob);
 	}
@@ -207,18 +214,13 @@ public abstract class AGenetico
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
 			
-			
-			//tipoCruce = "Aritmetico";
-			
 			switch (tipoCruce) {
 				case "Monopunto":
 					Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
 					break;
 				case "Uniforme":
+					System.out.print("OJO CRUCE UNIFORME COMENTADO");
 					Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
-					break;
-				case "Aritmetico":
-					Aritmetico.aritmetico(poblacion[padre1],  poblacion[padre2]);
 					break;
 			}
 		}
@@ -368,7 +370,7 @@ public abstract class AGenetico
 	public double getElitismo() {
 		return (double)elitismo;
 	}
-	public void setGrafica(GUI.Grafica grafica) {
+	public void setGrafica(Grafica grafica) {
 		_grafica = grafica;
 	}
 }

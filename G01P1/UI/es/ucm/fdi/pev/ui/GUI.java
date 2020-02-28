@@ -84,7 +84,6 @@ public class GUI extends JFrame {
 		controlAG.setTarget(algorGenetico);
 		//controlAG.initialize();
 		add(controlAG, BorderLayout.WEST);
-		
 
 		//////////////////////////////////////
 		//
@@ -161,8 +160,8 @@ public class GUI extends JFrame {
 	//////////////////////////////////////////////////////////////////////////////////////
 	// --- clases del GUI
 	//////////////////////////////////////////////////////////////////////////////////////
-	
-	/** Grafica **/
+	/*
+	//Grafica
 	public static class Grafica {
 		protected Plot2DPanel _grafica;
 		protected JPanel _panel;
@@ -237,6 +236,7 @@ public class GUI extends JFrame {
 		
 	}
 	
+	*/
 	//////////////////////
 	//  ALGORITMO GENÉTICO
 	//////////////////////

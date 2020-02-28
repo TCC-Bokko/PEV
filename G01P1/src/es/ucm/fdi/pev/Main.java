@@ -11,20 +11,20 @@ public class Main
 	public static void main(String[] args)
 	{
 		// Generamos el GUI
-		GUI gui = new GUI();
-		gui.setSize(600, 600);
-		gui.setVisible(true);	
+		//GUI gui = new GUI();
+		//gui.setSize(600, 600);
+		//gui.setVisible(true);	
 		// Por cada problema llamamos a un AGEN
 		
 		// Definimos el agen
 		//AGeneticoEj1<boolean> agen = new AGeneticoEj1<boolean>();
 		//agen.ejecuta();
 		
-		//int tamPoblacion = 100;
-		//int maxGeneraciones = 100;
+		int tamPoblacion = 100;
+		int maxGeneraciones = 100;
 		
-		//AGeneticoEj5 ag = new AGeneticoEj5(tamPoblacion, maxGeneraciones);
-		//ag.ejecuta();
+		AGeneticoEj1 ag = new AGeneticoEj1(tamPoblacion, maxGeneraciones);
+		ag.ejecuta();
 		
 		//ag.evaluacion();
 		
