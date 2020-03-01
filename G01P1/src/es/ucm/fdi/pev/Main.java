@@ -12,14 +12,7 @@ public class Main
 	{
 		// EJECUCION USANDO
 		GUI gui = new GUI();
-		gui.setSize(600, 600);
-		gui.setVisible(true);	
-		
-		// EJECUCIÓN SIN USAR GUI
-		//int tamPoblacion = 100;
-		//int maxGeneraciones = 100;
-		//AGeneticoEj1 ag = new AGeneticoEj1(tamPoblacion, maxGeneraciones);
-		//ag.ejecuta();
-		 
+		gui.setSize(800, 600);
+		gui.setVisible(true);	 
 	}
 }

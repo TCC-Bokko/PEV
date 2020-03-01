@@ -72,19 +72,19 @@ public abstract class AGenetico
 		maxGeneraciones = maxGen;
 		tipoSeleccion = "MUE";
 		tipoCruce = "Monopunto";
-		// Recibimos
-		// Tama�o de poblacion y genes en cada individuo
-		// Probabilidades 
-		// Funcion de evaluacion
+		
 		
 		inicializaGrafica();
 	}
 	
 
 	// ---------------- FUNCIONES ---------------- //
+	
+	
 	abstract protected void inicializaGenes();
 	abstract protected Cromosoma inicializaCromosoma();
 	abstract protected Cromosoma sustituyeCromosoma(Cromosoma c);
+	
 	protected void inicializaGrafica() {
 		marco = new JFrame();
 		panel = new Plot2DPanel();
@@ -98,6 +98,8 @@ public abstract class AGenetico
 		marco.setVisible(true);
 		marco.add(_grafica.getGrafica());
 	}
+	
+	
 	protected void inicializaPoblacion() 
 	{
 		inicializaGenes();
@@ -106,10 +108,7 @@ public abstract class AGenetico
 		elite = new LinkedList<Cromosoma>();
 		
 		for(int i = 0; i < tamPoblacion; i++)
-		{
 			poblacion[i] = inicializaCromosoma();
-			//System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
-		}	
 	}
 	
 	//abstract protected void evaluaCromosoma(Cromosoma c);
@@ -140,7 +139,7 @@ public abstract class AGenetico
 			evaluacion();	
 			
 			media = calculaMedia();
-			_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media); //Pasa los datos de esta generaci�n a la gr�fica, calcula media y compara maxAbsoluto.
+			_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media); //Pasa los datos de esta generacion a la grafica, calcula media y compara maxAbsoluto.
 		
 			generacionActual++;
 		}	
@@ -185,7 +184,7 @@ public abstract class AGenetico
 	
 	private void cruce() 
 	{		
-		// Array con los �ndices de los padres seleccionados para cruzarse
+		// Array con los indices de los padres seleccionados para cruzarse
 		ArrayList<Integer> sel = new ArrayList<Integer>();
 		
 		Random r = new Random();
@@ -196,7 +195,7 @@ public abstract class AGenetico
 				sel.add(i);
 		}
 		
-		// Si salen impares, eliminamos al �ltimo simplemente
+		// Si salen impares, eliminamos al ultimo simplemente
 		if((sel.size() % 2) == 1)
 			sel.remove(sel.size() -1);
 		
@@ -211,7 +210,6 @@ public abstract class AGenetico
 					Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
 					break;
 				case "Uniforme":
-					//System.out.print("OJO CRUCE UNIFORME COMENTADO");
 					Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
 					break;
 				case "Aritmetico":
@@ -239,8 +237,7 @@ public abstract class AGenetico
 			
 			// Calculo del fitness total de la poblacion		
 			fitness_total += c.getFitness();
-			
-			//System.out.println("Fitness: " + poblacion[i].getFitness());				
+					
 			evalua_mejor(c);
 		}
 		
@@ -279,10 +276,6 @@ public abstract class AGenetico
 		
 	protected void evalua_mejor(Cromosoma c) 
 	{	
-		//System.out.println("Fitness: " + c.getFitness());
-		//System.out.println("Abs: " + abs_fitness + "  Gen: " + mejor_fitness);
-		// PARA MAXIMIZACION SER�A AS�. MINIMIZACION SER�A '<'
-		
 		if (generacionActual == 1) abs_fitness = mejor_fitness;
 		if(c.compara_mejor_fitness(mejor_fitness))
 		{
