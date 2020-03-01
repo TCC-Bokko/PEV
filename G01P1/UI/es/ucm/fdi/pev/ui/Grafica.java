@@ -29,7 +29,7 @@ public class Grafica {
 		_panel = panelGrafica;
 		_panel.add(_grafica);
 	}
-	
+
 	// Esto debe ser llamado en caso de haber generado la gráfica
 	// con la constructora sin argumentos
 	// Despues de haber hecho un setTamPob y setMaxGen
@@ -60,6 +60,8 @@ public class Grafica {
 	//Método de dibujado
 	public void dibujaGrafica() 
 	{
+		//Limpiamos la gráfica
+		_grafica.removeAllPlots();
 		//Dibujamos las líneas
 		_grafica.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
 		_grafica.addLinePlot("MaxAbs", Color.red, x_plot, maxAbs_y_plot);

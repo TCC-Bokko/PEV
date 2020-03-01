@@ -2,7 +2,6 @@ package es.ucm.fdi.pev.ui;
 
 //Librerías gráficas
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,11 +17,7 @@ import es.ucm.fdi.pev.ui.ConfigPanel.DoubleOption;
 import es.ucm.fdi.pev.ui.ConfigPanel.InnerOption;
 import es.ucm.fdi.pev.ui.ConfigPanel.IntegerOption;
 import es.ucm.fdi.pev.ui.ConfigPanel.StrategyOption;
-import es.ucm.fdi.pev.ui.Demo.Figura;
 
-import org.math.plot.Plot2DPanel;
-//Archivos propios del Algoritmo Genético
-import es.ucm.fdi.pev.estructura.Cromosoma;
 import es.ucm.fdi.pev.*;
 /**
  * Demo para el panel de configuracion
@@ -40,8 +35,8 @@ import es.ucm.fdi.pev.*;
 public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 5393378737313833016L;
-
 	private AlGen algorGenetico;
+	private Grafica grafica;
 	
 	// CONSTRUCTORA
 	public GUI() {
@@ -72,7 +67,7 @@ public class GUI extends JFrame {
 		// ELEMENTOS
 		// Grafica:  Declaracion
 		// Ojo las variables final no pueden ser modificadas
-		Grafica grafica = new Grafica(panelGrafica);
+		grafica = new Grafica(panelGrafica);
 		add(panelGrafica, BorderLayout.CENTER);
 		
 		//////////////////////////////////////
@@ -115,6 +110,7 @@ public class GUI extends JFrame {
 		// AÑADIR AL LAYOUT
 		add(panelBotones, BorderLayout.SOUTH); //JFRAME
 	}
+
 	
 	//// PANEL DE CONFIGURACION: 
 	public ConfigPanel<AlGen> creaConfAlGen(){
