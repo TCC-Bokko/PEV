@@ -18,16 +18,16 @@ public class Grafica {
 	protected int tamPoblacion;
 	
 	public void setGen(int maxGen) {
-		maxGeneraciones = maxGen;
+		this.maxGeneraciones = maxGen;
 	}
 	public void setPob(int poblacion) {
-		tamPoblacion = poblacion;
+		this.tamPoblacion = poblacion;
 	}
 	
 	public Grafica(JPanel panelGrafica) {
-		_grafica = new Plot2DPanel();
-		_panel = panelGrafica;
-		_panel.add(_grafica);
+		this._grafica = new Plot2DPanel();
+		this._panel = panelGrafica;
+		this._panel.add(this._grafica);
 	}
 
 	// Esto debe ser llamado en caso de haber generado la gráfica
@@ -35,48 +35,48 @@ public class Grafica {
 	// Despues de haber hecho un setTamPob y setMaxGen
 	// Antes de dibujar.
 	public void init() {
-		x_plot = new double[maxGeneraciones]; //Empezamos en generación 1! OJO!
+		this.x_plot = new double[this.maxGeneraciones]; //Empezamos en generación 1! OJO!
 		// Tendremos 3 líneas, necesitamos 3 ys // PLOT LINE USA DOUBLES
-		maxGen_y_plot = new double[maxGeneraciones]; // Máximo de la generación
-		maxAbs_y_plot = new double[maxGeneraciones]; // Maximo absoluto
-		genMed_y_plot = new double[maxGeneraciones]; // media generación
+		this.maxGen_y_plot = new double[this.maxGeneraciones]; // Máximo de la generación
+		this.maxAbs_y_plot = new double[this.maxGeneraciones]; // Maximo absoluto
+		this.genMed_y_plot = new double[this.maxGeneraciones]; // media generación
 		
 		//Los Xs van establecidos por defecto (0,1,2,3,4,..., MAX_GENERACIONES-1), tam = maxGeneraciones
 		// OJO QUE EMPEZAMOS POR GENERACION 1, guardar los datos en una posición generación-1.
-		for (int i = 0; i < maxGeneraciones; i++) {
-			x_plot[i] = i;
+		for (int i = 0; i < this.maxGeneraciones; i++) {
+			this.x_plot[i] = i;
 		}
 	}
 	
 	//GETTERS Y SETTERS NORMALES
 	public Plot2DPanel getGrafica() {
-		return _grafica;
+		return this._grafica;
 	}
 	
 	public void setGrafica(Plot2DPanel grafica) {
-		_grafica = grafica;
+		this._grafica = grafica;
 	}
 			
 	//Método de dibujado
 	public void dibujaGrafica() 
 	{
 		//Limpiamos la gráfica
-		_grafica.removeAllPlots();
+		this._grafica.removeAllPlots();
 		//Dibujamos las líneas
-		_grafica.addLinePlot("MaxGen", Color.blue, x_plot, maxGen_y_plot);
-		_grafica.addLinePlot("MaxAbs", Color.red, x_plot, maxAbs_y_plot);
-		_grafica.addLinePlot("genMed", Color.green, x_plot, genMed_y_plot);
+		this._grafica.addLinePlot("MaxGen", Color.blue, this.x_plot, this.maxGen_y_plot);
+		this._grafica.addLinePlot("MaxAbs", Color.red, this.x_plot, this.maxAbs_y_plot);
+		this._grafica.addLinePlot("genMed", Color.green, this.x_plot, this.genMed_y_plot);
 	}
 	
 	//Actualización de datos
 	public void actualizaGrafica(Cromosoma[] poblacion, int generacionActual, float mejor_fitness, float abs_fitness, float media) {
-		for(int i = 0; i < tamPoblacion; i++)
+		for(int i = 0; i < this.tamPoblacion; i++)
 		{
 			System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
 		}				
 		// Rellena valores grafica
-		maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
-		maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
-		genMed_y_plot[generacionActual-1] = media; //calculaMedia
+		this.maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
+		this.maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;
+		this.genMed_y_plot[generacionActual-1] = media; //calculaMedia
 	}
 }

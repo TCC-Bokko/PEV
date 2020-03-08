@@ -77,7 +77,7 @@ public class GUI extends JFrame {
 		//////////////////////////////////////
 		ConfigPanel<AlGen> controlAG = creaConfAlGen();
 		controlAG.setTarget(algorGenetico);
-		//controlAG.initialize();
+		controlAG.initialize();
 		add(controlAG, BorderLayout.WEST);
 
 		//////////////////////////////////////
@@ -99,8 +99,8 @@ public class GUI extends JFrame {
 				//Prepara algoritmo genetico
 				algorGenetico.preparaEvolucion();
 				//Prepara grafica
-				grafica.setGen(algorGenetico.getMaxGen());
-				grafica.setPob(algorGenetico.getTamPob());
+				grafica.setGen(algorGenetico.getmaxGen());
+				grafica.setPob(algorGenetico.gettamPob());
 				grafica.init();
 				//ejecuta algoritmo
 				algorGenetico.ejecutaEvolucion(grafica);
@@ -144,7 +144,7 @@ public class GUI extends JFrame {
 		// WORK TO DO.
 		//////////////////////////////////////
 		configAlGen.endOptions();
-
+		
 		return configAlGen;
 	}
 	
@@ -163,14 +163,14 @@ public class GUI extends JFrame {
 		// Para pasarselo mediante métodos.
 		
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
-		public int maxGen;
-		public int tamPob;
-		public String funcion;
-		public String cruce;
-		public String seleccion;
-		public double elitismo;
-		public double probCruce;
-		public double probMut;
+		public int maxGen = 100;
+		public int tamPob = 100;
+		public String funcion = "func 1";
+		public String cruce = "Monopunto";
+		public String seleccion = "Ruleta";
+		public double elitismo = 0.0;
+		public double probCruce = 0.3;
+		public double probMut = 0.05;
 		protected AGenetico aGen;
 		protected AGeneticoEj1 aGenE1;
 		protected AGeneticoEj2 aGenE2;
@@ -178,7 +178,7 @@ public class GUI extends JFrame {
 		protected AGeneticoEj4 aGenE4;
 		protected AGeneticoEj5 aGenE5;
 		
-		// Constructora
+		// Constructora vacía
 		public AlGen() {
 			
 		}
@@ -186,53 +186,53 @@ public class GUI extends JFrame {
 		//GETTERS Y SETTERS REQUERIDOS POR EL CONTROL PANEL
 		// Si se ha llamado a la gráfica con la constructora vacía
 		// será necesario llamar a setTamPob y setMaxGen 
-		public void setTamPob(int TamPob) {
-			tamPob = TamPob;
+		public void settamPob(int TamPob) {
+			this.tamPob = TamPob;
 		}
-		public int getTamPob() {
-			return tamPob;
+		public int gettamPob() {
+			return this.tamPob;
 		}
-		public void setMaxGen(int MaxGen) {
-			maxGen = MaxGen;
+		public void setmaxGen(int MaxGen) {
+			this.maxGen = MaxGen;
 		}
-		public int getMaxGen() {
-			return maxGen;
+		public int getmaxGen() {
+			return this.maxGen;
 		}
 		public void setSeleccion(String Seleccion) {
-			seleccion = Seleccion;
+			this.seleccion = Seleccion;
 		}
 		public void setFuncion(String Funcion) {
-			funcion = Funcion;
+			this.funcion = Funcion;
 		}
 		public String getFuncion() {
-			return funcion;
+			return this.funcion;
 		}
 		public String getSeleccion() {
-			return seleccion;
+			return this.seleccion;
 		}
 		public void setCruce(String Cruce) {
-			cruce = Cruce;
+			this.cruce = Cruce;
 		}
 		public String getCruce() {
-			return cruce;
+			return this.cruce;
 		}
 		public void setElitismo(double Elitismo) {
-			elitismo = Elitismo;
+			this.elitismo = Elitismo;
 		}
 		public double getElitismo() {
-			return elitismo;
+			return this.elitismo;
 		}
 		public double getProbCruce() {
-			return probCruce;
+			return this.probCruce;
 		}
 		public void setProbCruce(double ProbCruce) {
-			probCruce = ProbCruce;
+			this.probCruce = ProbCruce;
 		}
 		public double getProbMut() {
-			return probCruce;
+			return this.probCruce;
 		}
 		public void setProbMut(double ProbMut) {
-			probMut = ProbMut;
+			this.probMut = ProbMut;
 		}
 		
 		//METODOS PROPIOS
@@ -241,35 +241,35 @@ public class GUI extends JFrame {
 			//INICIALIZAMOS EL AG
 			switch (funcion) {
 				case "func 1":
-					aGen = new AGeneticoEj1();
+					this.aGen = new AGeneticoEj1();
 					break;
 				case "f2: Hölder Table":
-					aGen = new AGeneticoEj2();
+					this.aGen = new AGeneticoEj2();
 					break;
 				case "f3: Schubert":
-					aGen = new AGeneticoEj3();
+					this.aGen = new AGeneticoEj3();
 					break;
 				case "f4: Michalewicz":
-					aGen = new AGeneticoEj4();
+					this.aGen = new AGeneticoEj4();
 					break;
 				case "f5: f4 con reales":
-					aGen = new AGeneticoEj5();
+					this.aGen = new AGeneticoEj5();
 					break;
 			}
 			// LE PASAMOS LOS VALORES
 			// TamPob, MaxGen, ProbCruce, prob mut, elitismo, tipo seleccion, tipo cruce
-			aGen.setTamPob(tamPob);
-			aGen.setMaxGen(maxGen);
-			aGen.setProbCruce(probCruce);
-			aGen.setProbMut(probMut);
-			aGen.setElitismo(elitismo);
-			aGen.setTipSel(seleccion);
-			aGen.setTipCru(cruce);
+			this.aGen.setTamPob(this.tamPob);
+			this.aGen.setMaxGen(this.maxGen);
+			this.aGen.setProbCruce(this.probCruce);
+			this.aGen.setProbMut(this.probMut);
+			this.aGen.setElitismo(this.elitismo);
+			this.aGen.setTipSel(this.seleccion);
+			this.aGen.setTipCru(this.cruce);
 		}
 
 		public void ejecutaEvolucion(Grafica grafica) {
-			aGen.setGrafica(grafica);
-			aGen.ejecuta();
+			this.aGen.setGrafica(grafica);
+			this.aGen.ejecuta();
 		}
 	}
 }	

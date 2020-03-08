@@ -45,10 +45,13 @@ public class Demo extends JFrame {
 		
 		// crea un panel central y lo asocia con la primera figura
 		final ConfigPanel<Figura> cp = creaPanelConfiguracion();
+		
 		// asocia el panel con la figura
 		cp.setTarget(f1);
+		
 		// carga los valores de la figura en el panel
-		cp.initialize();		
+		cp.initialize();
+		
 		add(cp, BorderLayout.WEST);
 		
 		// crea una etiqueta que dice si todo es valido
@@ -159,23 +162,27 @@ public class Demo extends JFrame {
 				"pixeles de grosor del borde",       // texto a usar como 'tooltip' cuando pasas el puntero
 				"grosor",  						     // campo (espera que haya un getGrosor y un setGrosor)
 				1, 10))							     // min y max (usa Integer.MIN_VALUE /MAX_VALUE para infinitos)
+		
 			  .addOption(new ChoiceOption<Figura>(	 // -- eleccion de objeto no-configurable
 			    "color",							 // etiqueta 
 			    "color del borde", 					 // tooltip
 			    "color",   							 // campo (debe haber un getColor y un setColor)
 			    colores))                            // elecciones posibles
+			  
 			  .addOption(new DoubleOption<Figura>(   // -- doble, parecido a entero
 			    "% transparencia", 					 // etiqueta
 			    "transparencia del borde",           // tooltip
 			    "transparencia",                     // campo
 			    0, 100,							     // min y max, aplicando factor, si hay; vale usar Double.*_INFINITY) 
 			    100))								 // opcional: factor de multiplicacion != 1.0, para mostrar porcentajes
+			  
 			  .addOption(new StrategyOption<Figura>( // -- eleccion de objeto configurable
 				"forma",							 // etiqueta
 				"forma de la figura",                // tooltip
 				"forma",                             // campo
 				formas))                             // elecciones (deben implementar Cloneable)
 				
+			  
 			  // para cada clase de objeto interno, hay que definir sus opciones entre un beginInner y un endInner 
 			  .beginInner(new InnerOption<Figura,Forma>(  
 			  	"circulo",							 // titulo del sub-panel
@@ -185,6 +192,8 @@ public class Demo extends JFrame {
 		  		  .addInner(new DoubleOption<Forma>(
 		  		     "radio", "radio del circulo", "radio", 0, Integer.MAX_VALUE))
 		  		  .endInner()						 // cierra este sub-panel
+		  		  
+		  		  
 		  	  // igual, pero opciones para el caso 'forma de tipo rectangulo'  
               .beginInner(new InnerOption<Figura,Forma>( 
 			  	"rectangulo", "opciones del rectangulo", "forma", Rectangulo.class))
@@ -227,7 +236,7 @@ public class Demo extends JFrame {
 	public static class Figura {
 		private String nombre;
 		
-		private int grosor = 1; 		  			// grosor de la linea
+		private int grosor = 5; 		  			// grosor de la linea
 		private double transparencia = 0; 			// porcentaje de transparencia
 		private Color color; 			  			// color de pintado
 		private Forma forma;			  			// forma (rectangulo o circulo)
@@ -240,12 +249,16 @@ public class Demo extends JFrame {
 		// getters y setters (compactados para reducir lineas)
 		public Punto getCoordenadas() {	return coordenadas;	}
 		public void setCoordenadas(Punto coordenadas) {	this.coordenadas = coordenadas;	}
+		
 		public double getTransparencia() { return transparencia; }
 		public void setTransparencia(double transparencia) { this.transparencia = transparencia; }
+		
 		public int getGrosor() { return grosor;	}
 		public void setGrosor(int grosor) { this.grosor = grosor; }
+		
 		public Color getColor() { return color; }
 		public void setColor(Color color) {	this.color = color;	}
+		
 		public Forma getForma() { return forma;	}
 		public void setForma(Forma forma) {	this.forma = forma;	}
 		
