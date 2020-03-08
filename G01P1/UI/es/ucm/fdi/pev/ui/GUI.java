@@ -167,8 +167,8 @@ public class GUI extends JFrame {
 		//		  "Tooltip: Pista que se muestra al pasar el raton por encima"
 		//		  "Campo: Buscara Getters y Setters con ese nombre p.ej. getFuncion, setFuncion. (O eso entiendo yo que hace)
 		// ESTABLECER VALORES
-		configAlGen.addOption(new IntegerOption<AlGen>("Poblacion:","Define cantidad de individuos", "tamPob", 0, 100));
-		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:","Define cantidad de generaciones", "maxGen", 10, 100));
+		configAlGen.addOption(new IntegerOption<AlGen>("Poblacion:","Define cantidad de individuos", "tamPob", 0, 500));
+		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:","Define cantidad de generaciones", "maxGen", 10, 1000));
 		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Cruce:","Con que % se cruzaran [0.0, 1.0]", "probCruce", 0.0, 1.0));
 		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Mutacion:","Con que % mutara [0.0, 1.0]", "probMut", 0.0, 1.0));
 		configAlGen.addOption(new DoubleOption<AlGen>("Elitismo:","% poblacion elite [0.0, 1.0]", "elitismo", 0.0, 1.0));
