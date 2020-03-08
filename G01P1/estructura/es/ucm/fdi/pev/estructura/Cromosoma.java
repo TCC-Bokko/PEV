@@ -68,9 +68,9 @@ public abstract class Cromosoma  implements Comparable<Cromosoma> {
 	
 	public int getLongitud() { return longitud; }
 	
-	
 	public void setGenes(Gen[] new_g) { /*genes = new_g.clone(); */}
 	public Gen[] getGenes() { return genes.clone(); }
+	
 }
 
 

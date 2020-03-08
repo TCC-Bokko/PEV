@@ -19,6 +19,7 @@ import es.ucm.fdi.pev.ui.ConfigPanel.IntegerOption;
 import es.ucm.fdi.pev.ui.ConfigPanel.StrategyOption;
 
 import es.ucm.fdi.pev.*;
+import es.ucm.fdi.pev.estructura.Cromosoma;
 /**
  * Demo para el panel de configuracion
  * 
@@ -35,8 +36,13 @@ import es.ucm.fdi.pev.*;
 public class GUI extends JFrame {
 
 	private static final long serialVersionUID = 5393378737313833016L;
+	// Algoritmo
 	private AlGen algorGenetico;
 	private Grafica grafica;
+	// Variables del mejor individuo absoluto
+	private float[] X;
+	private float Y;
+	private String textoMejorAbs = "Info del mejor individuo.";
 	
 	// CONSTRUCTORA
 	public GUI() {
@@ -56,6 +62,14 @@ public class GUI extends JFrame {
 		//  GENERACION DE PANELES
 		//
 		///////////////////////////////////////
+				
+		//////////////////////////////////////
+		//
+		//  "PANEL" Etiqueta de texto (NORTH)
+		//
+		//////////////////////////////////////
+		JLabel textoBestOne = new JLabel(textoMejorAbs);
+		add(textoBestOne, BorderLayout.NORTH);
 				
 		////////////////////////////////////////////
 		//
@@ -104,13 +118,35 @@ public class GUI extends JFrame {
 				grafica.init();
 				//ejecuta algoritmo
 				algorGenetico.ejecutaEvolucion(grafica);
+				actualizaLabel(algorGenetico.getMejorFeno(), algorGenetico.getMejorFit(), textoBestOne);
 			}
 		});
 		panelBotones.add(boton);
 		// AÑADIR AL LAYOUT
 		add(panelBotones, BorderLayout.SOUTH); //JFRAME
+
 	}
 
+	public void actualizaLabel(float[] xs, float y, JLabel label) {
+		// Obtener mejor cromosoma absoluto del algoritmo genético
+		textoMejorAbs = "Mejor Invididuo. Genes: [";
+		float X;
+		String value;
+		
+		for (int i = 0; i < xs.length; i++) {
+			X = xs[i];
+			value = String.valueOf(X);
+			textoMejorAbs = textoMejorAbs + value;
+			textoMejorAbs = textoMejorAbs + ", ";
+		}
+		
+		// Fitness del mejor cromosoma (Y)
+		textoMejorAbs = textoMejorAbs + "].  FITNESS: ";
+		value = String.valueOf(y);
+		textoMejorAbs = textoMejorAbs + value;
+		
+		label.setText(textoMejorAbs);
+	}
 	
 	//// PANEL DE CONFIGURACION: 
 	public ConfigPanel<AlGen> creaConfAlGen(){
@@ -177,6 +213,9 @@ public class GUI extends JFrame {
 		protected AGeneticoEj3 aGenE3;
 		protected AGeneticoEj4 aGenE4;
 		protected AGeneticoEj5 aGenE5;
+		//Mejores abs
+		protected float mejor_fit = 1.0f;
+		protected float[] mejor_feno;
 		
 		// Constructora vacía
 		public AlGen() {
@@ -234,6 +273,12 @@ public class GUI extends JFrame {
 		public void setProbMut(double ProbMut) {
 			this.probMut = ProbMut;
 		}
+		public float getMejorFit() {
+			return mejor_fit;
+		}
+		public float[] getMejorFeno() {
+			return mejor_feno;
+		}
 		
 		//METODOS PROPIOS
 		public void preparaEvolucion() {
@@ -268,8 +313,10 @@ public class GUI extends JFrame {
 		}
 
 		public void ejecutaEvolucion(Grafica grafica) {
-			this.aGen.setGrafica(grafica);
-			this.aGen.ejecuta();
+				this.aGen.setGrafica(grafica);
+				this.aGen.ejecuta();
+				this.mejor_feno = this.aGen.getMejorFeno();
+				this.mejor_fit = this.aGen.getMejorFit();
 		}
 	}
 }	

@@ -63,8 +63,6 @@ public GenBinario(GenBinario g)
 		for (int i = 0; i < size; i++)
 			alelos[i] = r.nextBoolean();
 	}
-
-	
 	
 	
 	@Override
@@ -133,7 +131,6 @@ public GenBinario(GenBinario g)
 		
 		//bits = new_b;
 	}
-
 
 	@Override
 	public String genotipo() 

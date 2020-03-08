@@ -22,11 +22,7 @@ import org.math.plot.Plot2DPanel;
 //Quiza necesita tipo T
 public abstract class AGenetico
 {
-
 	protected Cromosoma[] poblacion;
-	
-	protected int tamPoblacion;
-	
 	protected Cromosoma mejor_indiv;
 	protected Cromosoma mejor_abs;
 	
@@ -35,20 +31,17 @@ public abstract class AGenetico
 
 	protected Grafica _grafica;
 	protected float fitness_total;
-	
-	protected int maxGeneraciones;
-	protected int generacionActual;
-	
-	protected float prob_cruce;
-	protected float prob_mutacion;
-	
 	protected float tolerancia;
 	
-	protected float elitismo;
-	protected Queue<Cromosoma> elite;
-	
-	protected String tipoSeleccion;
+	protected int tamPoblacion;
+	protected int maxGeneraciones;
+	protected int generacionActual;
 	protected String tipoCruce;
+	protected String tipoSeleccion;
+	protected float prob_cruce;
+	protected float prob_mutacion;
+	protected float elitismo;
+	protected Queue<Cromosoma> elite;	
 	
 	// -------- GRAFICA --------- // 
 	
@@ -98,7 +91,6 @@ public abstract class AGenetico
 		marco.setVisible(true);
 		marco.add(_grafica.getGrafica());
 	}
-	
 	
 	protected void inicializaPoblacion() 
 	{
@@ -224,8 +216,7 @@ public abstract class AGenetico
 		for (Cromosoma c : poblacion)
 			c.muta(prob_mutacion);		
 	}
-	
-	
+		
 	private void evaluacion() 
 	{
 		fitness_total = mejor_fitness = 0;
@@ -276,13 +267,17 @@ public abstract class AGenetico
 		
 	protected void evalua_mejor(Cromosoma c) 
 	{	
-		if (generacionActual == 1) abs_fitness = mejor_fitness;
+		if (generacionActual == 1) {
+			abs_fitness = mejor_fitness;
+			mejor_abs = c;
+		}
 		if(c.compara_mejor_fitness(mejor_fitness))
 		{
 			mejor_fitness = c.getFitness();
 			
 			if(c.compara_mejor_fitness(abs_fitness))
 				abs_fitness = c.getFitness();
+				mejor_abs = c;
 		}	
 	}
 	
@@ -350,7 +345,6 @@ public abstract class AGenetico
 	public void setGrafica(Grafica grafica) {
 		_grafica = grafica;
 	}
-	
 	public int getTamPob() {
 		return tamPoblacion;
 	}
@@ -371,5 +365,11 @@ public abstract class AGenetico
 	}
 	public String getTipCru() {
 		return tipoCruce;
+	}
+	public float getMejorFit() {
+		return mejor_abs.getFitness();
+	}
+	public float[] getMejorFeno() {
+		return mejor_abs.fenotipos();
 	}
 }
