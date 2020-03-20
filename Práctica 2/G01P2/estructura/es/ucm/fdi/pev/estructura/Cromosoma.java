@@ -19,7 +19,9 @@ public abstract class Cromosoma  implements Comparable<Cromosoma> {
 	//Tamaño total de los genes
 	protected int longitud;
 	
-	public Cromosoma() {}
+	public Cromosoma() {
+		inicializaCromosoma();
+	}
 	public Cromosoma(Cromosoma c)
 	{	
 		setGenes(c.getGenes());
@@ -30,6 +32,9 @@ public abstract class Cromosoma  implements Comparable<Cromosoma> {
 		this.longitud = c.longitud;
 	}
 	
+	
+	abstract public Cromosoma clone();
+	abstract protected void inicializaCromosoma();
 	
 	abstract public float[] fenotipos(); // Devuelve el fenotipo de cada gen
 	abstract public float evalua();

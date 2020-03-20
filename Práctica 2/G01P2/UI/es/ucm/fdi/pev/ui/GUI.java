@@ -208,11 +208,7 @@ public class GUI extends JFrame {
 		public double probCruce = 0.3;
 		public double probMut = 0.05;
 		protected AGenetico aGen;
-		protected AGeneticoEj1 aGenE1;
-		protected AGeneticoEj2 aGenE2;
-		protected AGeneticoEj3 aGenE3;
-		protected AGeneticoEj4 aGenE4;
-		protected AGeneticoEj5 aGenE5;
+	
 		//Mejores abs
 		protected float mejor_fit = 1.0f;
 		protected float[] mejor_feno;
@@ -284,23 +280,28 @@ public class GUI extends JFrame {
 		public void preparaEvolucion() {
 			// "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz"
 			//INICIALIZAMOS EL AG
+			
+			aGen = new AGenetico();
+			
 			switch (funcion) {
 				case "func 1":
-					this.aGen = new AGeneticoEj1();
+					aGen.setNumProblema(1);
 					break;
 				case "f2: Hölder Table":
-					this.aGen = new AGeneticoEj2();
+					aGen.setNumProblema(2);
 					break;
 				case "f3: Schubert":
-					this.aGen = new AGeneticoEj3();
+					aGen.setNumProblema(3);
 					break;
 				case "f4: Michalewicz":
-					this.aGen = new AGeneticoEj4();
+					aGen.setNumProblema(4);
 					break;
 				case "f5: f4 con reales":
-					this.aGen = new AGeneticoEj5();
+					aGen.setNumProblema(5);
 					break;
 			}
+			
+			
 			// LE PASAMOS LOS VALORES
 			// TamPob, MaxGen, ProbCruce, prob mut, elitismo, tipo seleccion, tipo cruce
 			this.aGen.setTamPob(this.tamPob);

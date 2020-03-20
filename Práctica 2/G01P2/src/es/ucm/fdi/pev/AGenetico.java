@@ -20,7 +20,7 @@ import javax.swing.JFrame;
 import org.math.plot.Plot2DPanel;
 
 //Quiza necesita tipo T
-public abstract class AGenetico
+public class AGenetico
 {
 	protected Cromosoma[] poblacion;
 	protected Cromosoma mejor_indiv;
@@ -38,6 +38,7 @@ public abstract class AGenetico
 	protected int generacionActual;
 	protected String tipoCruce;
 	protected String tipoSeleccion;
+	protected int numProblema;
 	protected float prob_cruce;
 	protected float prob_mutacion;
 	protected float elitismo;
@@ -65,18 +66,14 @@ public abstract class AGenetico
 		maxGeneraciones = maxGen;
 		tipoSeleccion = "MUE";
 		tipoCruce = "Monopunto";
-		
-		
+			
 		inicializaGrafica();
 	}
 	
 
 	// ---------------- FUNCIONES ---------------- //
 	
-	
-	abstract protected void inicializaGenes();
-	abstract protected Cromosoma inicializaCromosoma();
-	abstract protected Cromosoma sustituyeCromosoma(Cromosoma c);
+
 	
 	protected void inicializaGrafica() {
 		marco = new JFrame();
@@ -92,15 +89,37 @@ public abstract class AGenetico
 		marco.add(_grafica.getGrafica());
 	}
 	
+	
+	protected Cromosoma creaCromosoma() {
+		
+		switch (numProblema)
+		{
+		case 1:
+			return new CromosomaP1f1();
+		case 2:
+			return new CromosomaP1f2();
+		case 3:
+			return new CromosomaP1f3();
+		case 4:
+			return new CromosomaP1f4();
+		case 5:
+			return new CromosomaP1f5();
+		}
+		
+		return null;
+	}
+	
+	
+	
 	protected void inicializaPoblacion() 
-	{
-		inicializaGenes();
+	{	
+		//numProblema = 1;
 		
 		poblacion = new Cromosoma[tamPoblacion];
 		elite = new LinkedList<Cromosoma>();
 		
 		for(int i = 0; i < tamPoblacion; i++)
-			poblacion[i] = inicializaCromosoma();
+			poblacion[i] = creaCromosoma();
 	}
 	
 	//abstract protected void evaluaCromosoma(Cromosoma c);
@@ -168,7 +187,7 @@ public abstract class AGenetico
 		for(int i = 0; i < pob_idx.length; i++)
 		{
 			int idx = pob_idx[i];
-			nueva_pob[i] = sustituyeCromosoma(poblacion[idx]);
+			nueva_pob[i] = poblacion[idx].clone(); //sustituyeCromosoma(poblacion[idx]);
 		}
 		
 		poblacion = sustituyeElite(nueva_pob);
@@ -259,7 +278,7 @@ public abstract class AGenetico
 			Arrays.sort(pob, Collections.reverseOrder());
 			
 			for(int i = 0; i < elite.size(); i++)
-				pob[i] = sustituyeCromosoma(elite.poll());
+				pob[i] = elite.poll().clone();
 		}
 		
 		return pob.clone();
@@ -321,6 +340,8 @@ public abstract class AGenetico
 	// GETTERS Y SETTERS (Usados en GUI)
 	//
 	/////////////////////////////////////////////////
+	
+	public void setNumProblema(int n) { numProblema = n; }
 	public void setTamPob(int tamPob) {
 		tamPoblacion = tamPob;
 	}
