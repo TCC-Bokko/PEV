@@ -159,8 +159,8 @@ public class GUI extends JFrame {
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE"};
 		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX"};
 		// Practica 2
-		String[] numEdificios = new String[] {"1, 2, 3, 4"};
-		String[] mutaciones = new String[] {"Basica, Inversa"};
+		String[] numEdificios = new String[] {"1", "2", "3", "4"};
+		String[] mutaciones = new String[] {"Basica", "Inversa"};
 		
 		////////////////////////////////////
 		// AÑADIR ELEMENTOS
@@ -213,7 +213,7 @@ public class GUI extends JFrame {
 		protected AGenetico aGen;
 		//Practica 2
 		public String mutacion = "Basica";
-		public int edificios = 4;
+		public String edificios = "4";
 	
 		//Mejores abs
 		protected float mejor_fit = 1.0f;
@@ -289,13 +289,16 @@ public class GUI extends JFrame {
 			return this.mutacion;
 		}
 		public void setEdificios(String Edificios) {
-			this.edificios = Integer.parseInt(Edificios);
-		}
-		public void setEdificios(int Edificios) {
 			this.edificios = Edificios;
 		}
-		public int getEdificios() {
+		public void setEdificios(int Edificios) {
+			this.edificios = Integer.toString(Edificios);
+		}
+		public String getEdificios() {
 			return this.edificios;
+		}
+		public int getEdificiosInt() {
+			return Integer.parseInt(this.edificios);
 		}
 		
 		//METODOS PROPIOS

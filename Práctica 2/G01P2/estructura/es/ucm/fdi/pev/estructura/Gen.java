@@ -20,7 +20,7 @@ public interface Gen
     
     public Gen cruce(int corte, Gen g);
     
-    //Devuelve si es binario o real
+    //Devuelve si es binario, real o entero
     public String getType();
     
     public String genotipo();
