@@ -155,9 +155,12 @@ public class GUI extends JFrame {
 		
 		///////////// NUESTRAS OPCIONES /////////////////
 		//String[] gen = new String[] {"Binario", "Real"};
-		String[] funciones = new String[] { "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz", "f5: f4 con reales"};
+		String[] funciones = new String[] { "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz", "f5: f4 con reales", "P2: Edificios"};
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE"};
-		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico"};
+		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX"};
+		// Practica 2
+		String[] numEdificios = new String[] {"1, 2, 3, 4"};
+		String[] mutaciones = new String[] {"Basica, Inversa"};
 		
 		////////////////////////////////////
 		// AÑADIR ELEMENTOS
@@ -176,9 +179,9 @@ public class GUI extends JFrame {
 		configAlGen.addOption(new ChoiceOption<AlGen>("Funcion", "fitness del individuo", "funcion", funciones));                         // elecciones posibles
 		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","seleccion", selectores));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Cruces","Tipo de Cruce","cruce", cruces));
-		// BOOLEAN (Elitismo, Mutación)
-		// WORK TO DO.
-		//////////////////////////////////////
+		configAlGen.addOption(new ChoiceOption<AlGen>("Mutacion","Tipo de Mutacion","mutacion", mutaciones));
+		configAlGen.addOption(new ChoiceOption<AlGen>("Edificios","Cantidad de edificios", "edificios", numEdificios));
+		// CERRAR LAS OPCIONES
 		configAlGen.endOptions();
 		
 		return configAlGen;
@@ -208,6 +211,9 @@ public class GUI extends JFrame {
 		public double probCruce = 0.3;
 		public double probMut = 0.05;
 		protected AGenetico aGen;
+		//Practica 2
+		public String mutacion = "Basica";
+		public int edificios = 4;
 	
 		//Mejores abs
 		protected float mejor_fit = 1.0f;
@@ -275,6 +281,22 @@ public class GUI extends JFrame {
 		public float[] getMejorFeno() {
 			return mejor_feno;
 		}
+		//Practica 2
+		public void setMutacion(String Mutacion) {
+			this.mutacion = Mutacion;
+		}
+		public String getMutacion() {
+			return this.mutacion;
+		}
+		public void setEdificios(String Edificios) {
+			this.edificios = Integer.parseInt(Edificios);
+		}
+		public void setEdificios(int Edificios) {
+			this.edificios = Edificios;
+		}
+		public int getEdificios() {
+			return this.edificios;
+		}
 		
 		//METODOS PROPIOS
 		public void preparaEvolucion() {
@@ -299,6 +321,10 @@ public class GUI extends JFrame {
 				case "f5: f4 con reales":
 					aGen.setNumProblema(5);
 					break;
+				//Practica 2
+				case "P2: Edificios":
+					aGen.setNumProblema(6);
+					break;
 			}
 			
 			
@@ -311,6 +337,9 @@ public class GUI extends JFrame {
 			this.aGen.setElitismo(this.elitismo);
 			this.aGen.setTipSel(this.seleccion);
 			this.aGen.setTipCru(this.cruce);
+			//Practica2
+			this.aGen.setEdificios(this.edificios);
+			this.aGen.setMutacion(this.mutacion);
 		}
 
 		public void ejecutaEvolucion(Grafica grafica) {

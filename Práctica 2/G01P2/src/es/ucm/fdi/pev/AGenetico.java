@@ -38,16 +38,19 @@ public class AGenetico
 	protected int tamPoblacion;
 	protected int maxGeneraciones;
 	protected int generacionActual;
-	
 	protected String tipoCruce;
 	protected String tipoSeleccion;
-	protected String tipoMutacion;
+
 	protected int numProblema;
 	
 	protected float prob_cruce;
 	protected float prob_mutacion;
 	protected float elitismo;
-	protected Queue<Cromosoma> elite;	
+	protected Queue<Cromosoma> elite;
+	
+	// Practica 2
+	protected String tipoMutacion;
+	protected int numEdificios;
 	
 	// -------- GRAFICA --------- // 
 	
@@ -384,6 +387,18 @@ public class AGenetico
 	public void setGrafica(Grafica grafica) {
 		_grafica = grafica;
 	}
+	// Setters Práctica 2
+	public void setMutacion(String Mutacion) {
+		tipoMutacion = Mutacion;
+	}
+	public void setEdificios(String Edificios) {
+		numEdificios = Integer.parseInt(Edificios);
+	}
+	public void setEdificios(int Edificios) {
+		numEdificios = Edificios;
+	}
+	
+	//GETTERS
 	public int getTamPob() {
 		return tamPoblacion;
 	}
@@ -410,5 +425,12 @@ public class AGenetico
 	}
 	public float[] getMejorFeno() {
 		return mejor_abs.fenotipos();
+	}
+	//Práctica 2
+	public String getMutacion() {
+		return tipoMutacion;
+	}
+	public int getEdificios() {
+		return numEdificios;
 	}
 }
