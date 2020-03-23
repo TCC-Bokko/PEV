@@ -9,6 +9,7 @@ public interface Gen
     // ArrayList<T> valores;
     
     // constructor
+	public Gen clone();
     
     //Conocer tama�o del gen
     public int size();

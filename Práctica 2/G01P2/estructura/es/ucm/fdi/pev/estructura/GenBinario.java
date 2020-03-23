@@ -32,6 +32,10 @@ public GenBinario(GenBinario g)
 	size = g.size();
 }
 
+public GenBinario clone() {
+	return new GenBinario(this);
+}
+
 	
 	@Override
 	public int size() 

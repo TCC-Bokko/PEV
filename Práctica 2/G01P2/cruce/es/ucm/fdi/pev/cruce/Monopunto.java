@@ -32,10 +32,8 @@ public class Monopunto
 			{
 				// Intercambiamos en ese gen hasta el corte
 				for(int c = 0; c < g.size() - (i - corte); c++)
-				{
 					g.cruce(c, g_c2[j]);
-					//g_c2.set(j, g2);
-				}
+				
 				break; 
 			}
 			

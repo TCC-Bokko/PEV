@@ -4,7 +4,8 @@ import java.util.Random;
 
 public class GenEntero implements Gen {
 	// Vector de int
-	protected int[] alelo;
+	protected int alelo;
+	
 	protected int minRange;
 	protected int maxRange;
 	protected int tam;
@@ -25,6 +26,11 @@ public class GenEntero implements Gen {
 		maxRange = g.maxRange();
 	}
 	
+	public GenEntero clone()
+	{
+		return new GenEntero(this);
+	}
+	
 	@Override
 	public int size() {
 		return 1;
@@ -40,7 +46,7 @@ public class GenEntero implements Gen {
 	
 	@Override
 	public void randomInit() {
-		// RANDOM INIT
+		alelo = (int) (minRange + Math.random() * (maxRange - minRange));
 	}
 	
 	@Override
@@ -53,12 +59,13 @@ public class GenEntero implements Gen {
 		return String.valueOf(alelo);
 	}
 	
-	public int[] getAlelo() { return alelo; }
-	public void setAlelo(int[] a) { alelo = a; }
+	public int getAlelo() { return alelo; }
+	public void setAlelo(int a) { alelo = a; }
 	
 	
 	@Override
 	public void muta(float prob) {
+		/*
 		for (int i = 0; i < alelo.length; i++) {
 			Random r = new Random();	
 			float rand = r.nextFloat();
@@ -72,6 +79,7 @@ public class GenEntero implements Gen {
 				alelo[posSwitch] = valuei;
 			}
 		}
+		*/
 	}
 
 	@Override

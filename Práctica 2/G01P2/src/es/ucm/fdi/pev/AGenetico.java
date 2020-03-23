@@ -4,6 +4,8 @@ import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.cruce.*;
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
+import es.ucm.fdi.pev.mutacion.Basica;
+import es.ucm.fdi.pev.mutacion.Inversa;
 import es.ucm.fdi.pev.ui.GUI;
 import es.ucm.fdi.pev.ui.Grafica;
 
@@ -36,9 +38,12 @@ public class AGenetico
 	protected int tamPoblacion;
 	protected int maxGeneraciones;
 	protected int generacionActual;
+	
 	protected String tipoCruce;
 	protected String tipoSeleccion;
+	protected String tipoMutacion;
 	protected int numProblema;
+	
 	protected float prob_cruce;
 	protected float prob_mutacion;
 	protected float elitismo;
@@ -104,6 +109,7 @@ public class AGenetico
 			return new CromosomaP1f4();
 		case 5:
 			return new CromosomaP1f5();
+	
 		}
 		
 		return null;
@@ -232,9 +238,21 @@ public class AGenetico
 	
 	private void mutacion()
 	{			
+			
+		// ¡¡¡¡¡¡¡PARA PROBAR!!!!!!!
+		tipoMutacion = "Inversa";
+		
 		for (Cromosoma c : poblacion)
-			c.muta(prob_mutacion);		
+		switch (tipoMutacion)
+		{
+		case "Basica":
+			Basica.basica(c, prob_mutacion);
+		case "Inversa":
+			Inversa.inversa(c, prob_mutacion);
+			break;
+		}
 	}
+	
 		
 	private void evaluacion() 
 	{

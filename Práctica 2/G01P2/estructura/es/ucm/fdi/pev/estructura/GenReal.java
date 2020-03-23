@@ -25,6 +25,11 @@ public class GenReal implements Gen {
 		maxRange = g.maxRange();
 	}
 	
+	public GenReal clone()
+	{
+		return new GenReal(this);
+	}
+	
 	@Override
 	public int size() {
 	
