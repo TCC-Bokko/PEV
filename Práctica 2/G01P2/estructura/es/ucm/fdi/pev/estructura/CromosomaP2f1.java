@@ -34,6 +34,9 @@ public class CromosomaP2f1 extends CromosomaEntero {
 	@Override
 	protected void inicializaCromosoma() {
 		
+		genes = new GenEntero[longitud];
+		fenotipos = new float[longitud];
+		
 		ArrayList<GenEntero> aux = new ArrayList<GenEntero>();
 		
 		for(int i = 0; i < longitud; i++)

@@ -50,7 +50,6 @@ public class AGenetico
 	protected float prob_cruce;
 	protected float prob_mutacion;
 	protected float elitismo;
-	protected Queue<Cromosoma> elite;
 	
 	// Practica 2
 	protected String tipoMutacion;
@@ -160,7 +159,7 @@ public class AGenetico
 		
 		BufferedReader reader;	
 		try {
-			reader = new BufferedReader(new FileReader("ajuste.txt"));
+			reader = new BufferedReader(new FileReader("Data/ajuste.txt"));
 			String line = reader.readLine();	
 			
 			tam = Integer.parseInt(line);
@@ -302,6 +301,10 @@ public class AGenetico
 					break;
 				case "Aritmetico":
 					Aritmetico.aritmetico(poblacion[padre1], poblacion[padre2]);
+					break;
+					
+				case "PMX":
+					PMX.pmx(poblacion[padre1], poblacion[padre2]);
 					break;
 			}
 		}
