@@ -18,6 +18,11 @@ public class GenEntero implements Gen {
 		tipo = "Entero";
 	}
 	
+	public GenEntero(int value) 
+	{
+		alelo = value;
+		tipo = "Entero";
+	}
 	//Constructora pasandole un gen
 	public GenEntero(GenEntero g)
 	{

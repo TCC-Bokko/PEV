@@ -10,6 +10,9 @@ import es.ucm.fdi.pev.ui.GUI;
 import es.ucm.fdi.pev.ui.Grafica;
 
 import java.awt.Color;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.Queue;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -25,9 +28,10 @@ import org.math.plot.Plot2DPanel;
 public class AGenetico
 {
 	protected Cromosoma[] poblacion;
+	protected Queue<Cromosoma> elite;	
+	
 	protected Cromosoma mejor_indiv;
 	protected Cromosoma mejor_abs;
-	
 	protected float mejor_fitness;
 	protected float abs_fitness = 0;
 
@@ -98,24 +102,31 @@ public class AGenetico
 	}
 	
 	
-	protected Cromosoma creaCromosoma() {
-		
+	protected void creaPoblacion()
+	{	
 		switch (numProblema)
 		{
 		case 1:
-			return new CromosomaP1f1();
+			for(int i = 0; i < tamPoblacion; i++)
+				poblacion[i] = new CromosomaP1f1();
+			break;
 		case 2:
-			return new CromosomaP1f2();
+			for(int i = 0; i < tamPoblacion; i++)
+				poblacion[i] = new CromosomaP1f2();
+			break;
 		case 3:
-			return new CromosomaP1f3();
+			for(int i = 0; i < tamPoblacion; i++)
+				poblacion[i] = new CromosomaP1f3();
+			break;
 		case 4:
-			return new CromosomaP1f4();
+			for(int i = 0; i < tamPoblacion; i++)
+				poblacion[i] = new CromosomaP1f4();
+			break;
 		case 5:
-			return new CromosomaP1f5();
-	
+			for(int i = 0; i < tamPoblacion; i++)
+				poblacion[i] = new CromosomaP1f5();
+			break;	
 		}
-		
-		return null;
 	}
 	
 	
@@ -127,8 +138,65 @@ public class AGenetico
 		poblacion = new Cromosoma[tamPoblacion];
 		elite = new LinkedList<Cromosoma>();
 		
+		switch (numProblema)
+		{
+		case 6:
+			P2_ej1();
+			break;
+			
+		default:
+			creaPoblacion();
+		
+			break;
+		}
+	}
+	
+	
+	protected void P2_ej1()
+	{
+		int tam = 0; 	
+		int[][] distancias = null;
+		int[][] flujos = null;
+		
+		BufferedReader reader;	
+		try {
+			reader = new BufferedReader(new FileReader("ajuste.txt"));
+			String line = reader.readLine();	
+			
+			tam = Integer.parseInt(line);
+			distancias = new int[tam][tam];
+			flujos = new int[tam][tam];
+			
+			int i = 0;
+			while (!line.isEmpty()) 
+			{
+				line = reader.readLine();
+				
+				for (int j = 0; j < line.length(); i++)
+					distancias[i][j] = line.charAt(j);
+				
+				i++;
+			}
+			
+			i = 0;
+			while (!line.isEmpty()) 
+			{
+				line = reader.readLine();
+				
+				for (int j = 0; j < line.length(); i++)
+					flujos[i][j] = line.charAt(j);
+				
+				i++;
+			}
+			
+			reader.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
 		for(int i = 0; i < tamPoblacion; i++)
-			poblacion[i] = creaCromosoma();
+			poblacion[i] = new CromosomaP2f1(tam, distancias, flujos);
+		
 	}
 	
 	//abstract protected void evaluaCromosoma(Cromosoma c);
@@ -242,7 +310,7 @@ public class AGenetico
 	private void mutacion()
 	{			
 			
-		// ¡¡¡¡¡¡¡PARA PROBAR!!!!!!!
+		// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½PARA PROBAR!!!!!!!
 		tipoMutacion = "Inversa";
 		
 		for (Cromosoma c : poblacion)
@@ -387,7 +455,7 @@ public class AGenetico
 	public void setGrafica(Grafica grafica) {
 		_grafica = grafica;
 	}
-	// Setters Práctica 2
+	// Setters Prï¿½ctica 2
 	public void setMutacion(String Mutacion) {
 		tipoMutacion = Mutacion;
 	}
@@ -426,7 +494,7 @@ public class AGenetico
 	public float[] getMejorFeno() {
 		return mejor_abs.fenotipos();
 	}
-	//Práctica 2
+	//Prï¿½ctica 2
 	public String getMutacion() {
 		return tipoMutacion;
 	}

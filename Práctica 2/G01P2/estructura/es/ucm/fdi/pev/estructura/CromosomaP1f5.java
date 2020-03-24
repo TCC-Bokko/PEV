@@ -19,8 +19,7 @@ public class CromosomaP1f5 extends CromosomaReal {
 	}
 	
 	
-	
-	
+
 	
 	@Override
 	public float evalua() {
@@ -76,3 +75,5 @@ public class CromosomaP1f5 extends CromosomaReal {
 		return genes_l;
 	}
 }
+
+
