@@ -85,6 +85,40 @@ public class AGenetico
 	// ---------------- FUNCIONES ---------------- //
 	
 
+	public void ejecuta()
+	{
+		// Bucle del algoritmo
+		//Genera
+		System.out.println("-------- INICIO DE POBLACION"  + " --------" );
+		generacionActual = 1;
+		
+		inicializaPoblacion();
+		evaluacion(); 
+		double media = calculaMedia();
+		_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media);
+	
+		while (!terminado()) 
+		{	
+			System.out.println("-------- GENERACION " + generacionActual + " --------" );
+			
+			//El modifica internamente la poblacion
+			seleccion();
+		
+			cruce();
+
+			mutacion();
+			
+			evaluacion();	
+			
+			media = calculaMedia();
+			_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media); //Pasa los datos de esta generacion a la grafica, calcula media y compara maxAbsoluto.
+		
+			generacionActual++;
+		}	
+		
+		_grafica.dibujaGrafica();
+	}
+	
 	
 	protected void inicializaGrafica() {
 		marco = new JFrame();
@@ -151,6 +185,7 @@ public class AGenetico
 	}
 	
 	
+	// Crea la población para el ejercicio concreto (leyendo, en este caso, de fichero)
 	protected void P2_ej1()
 	{
 		int tam = 0; 	
@@ -198,41 +233,7 @@ public class AGenetico
 		
 	}
 	
-	//abstract protected void evaluaCromosoma(Cromosoma c);
-	
-	public void ejecuta()
-	{
-		// Bucle del algoritmo
-		//Genera
-		System.out.println("-------- INICIO DE POBLACION"  + " --------" );
-		generacionActual = 1;
-		
-		inicializaPoblacion();
-		evaluacion(); 
-		double media = calculaMedia();
-		_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media);
-	
-		while (!terminado()) 
-		{	
-			System.out.println("-------- GENERACION " + generacionActual + " --------" );
-			
-			//El modifica internamente la poblacion
-			seleccion();
-		
-			cruce();
 
-			mutacion();
-			
-			evaluacion();	
-			
-			media = calculaMedia();
-			_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media); //Pasa los datos de esta generacion a la grafica, calcula media y compara maxAbsoluto.
-		
-			generacionActual++;
-		}	
-		
-		_grafica.dibujaGrafica();
-	}
 	
 	// FUNCIONES DEL BUCLE
 	
