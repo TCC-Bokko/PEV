@@ -123,6 +123,7 @@ public class PMX {
 						//Si es el mismo... ¿Puede ser el mismo?
 						else {
 							//Creo que no puede ser el mismo, si estan los dos en el mismo array es por que no existe en el otro.
+							System.out.println("Cruce PMX: Error. Revisar linea 118.");
 						}
 					}
 				}

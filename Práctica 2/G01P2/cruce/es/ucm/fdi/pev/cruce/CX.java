@@ -46,6 +46,7 @@ public class CX {
 			}
 			else {
 				// no debería entrar aqui nunca
+				System.out.println("Cruce CX: Error. Revisar Ciclo Hijo 1.");
 			}
 		}
 		//Una vez cerrado el ciclo se rellenan el resto de ciudades con el otro padre
@@ -83,6 +84,7 @@ public class CX {
 			}
 			else {
 				// no debería entrar aqui nunca
+				System.out.println("Cruce CX: Error. Revisar Ciclo Hijo 2.");
 			}
 		}
 		//Una vez cerrado el ciclo se rellenan el resto de ciudades con el otro padre

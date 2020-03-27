@@ -40,8 +40,8 @@ public class GUI extends JFrame {
 	private AlGen algorGenetico;
 	private Grafica grafica;
 	// Variables del mejor individuo absoluto
-	private float[] X;
-	private float Y;
+	//private float[] X;
+	//private float Y;
 	private String textoMejorAbs = "Info del mejor individuo.";
 	
 	// CONSTRUCTORA
@@ -213,7 +213,7 @@ public class GUI extends JFrame {
 		protected AGenetico aGen;
 		//Practica 2
 		public String mutacion = "Basica";
-		public String n = "4";
+		public String n = "5";
 	
 		//Mejores abs
 		protected float mejor_fit = 1.0f;
@@ -270,7 +270,7 @@ public class GUI extends JFrame {
 			this.probCruce = ProbCruce;
 		}
 		public double getProbMut() {
-			return this.probCruce;
+			return this.probMut;
 		}
 		public void setProbMut(double ProbMut) {
 			this.probMut = ProbMut;
@@ -329,7 +329,6 @@ public class GUI extends JFrame {
 					aGen.setNumProblema(6);
 					break;
 			}
-			
 			
 			// LE PASAMOS LOS VALORES
 			// TamPob, MaxGen, ProbCruce, prob mut, elitismo, tipo seleccion, tipo cruce
