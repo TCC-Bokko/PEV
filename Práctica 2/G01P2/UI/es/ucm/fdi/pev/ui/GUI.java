@@ -157,7 +157,7 @@ public class GUI extends JFrame {
 		//String[] gen = new String[] {"Binario", "Real"};
 		String[] funciones = new String[] { "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz", "f5: f4 con reales", "P2: Edificios"};
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE", "Ranking", "Truncamiento", "Restos"};
-		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX", "OX", "VarOX", "CX", "ERX", "CodifOrdinal"};
+		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX", "OX", "CX", "ERX", "CodifOrdinal"};
 		// Practica 2
 		String[] numValores = new String[] {"1", "2", "3", "4", "5", "6", "7"};
 		String[] mutaciones = new String[] {"Basica", "Inversa"};
