@@ -184,9 +184,10 @@ public class PMX {
 				if(debug)System.out.printf("Encontrado false en correcto1 en la posicion p1 = %d \n", p1);
 				//Buscar la primera posición de correcto2 con un falso
 				int p2 = 0;
-				while (correcto2[p2] && (p2 < correcto2.length)) {
+				while ((p2 < correcto2.length) && correcto2[p2]) {
 					p2 = p2 + 1;
 				}
+				
 				if(debug)System.out.printf("Encontrado false en correcto2 en la posicion p2 = %d \n", p2);
 				
 				//Intercambiamos los valores de C1 y C2
@@ -203,11 +204,15 @@ public class PMX {
 					// Actualizamos
 					g_c1[p1] = GC1;
 					g_c2[p2] = GC2;
+					// Ponemos los valores a TRUE
+					correcto1[p1] = true;
+					correcto2[p2] = true;
 				} 
 				//Si es el mismo... ¿Puede ser el mismo?
 				else {
 					System.out.println("Cruce PMX: Error. Revisar RESOLVER CONFLICTOS.");
 				}
+			
 			}
 		}
 		
