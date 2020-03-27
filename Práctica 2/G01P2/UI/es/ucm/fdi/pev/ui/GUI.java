@@ -156,10 +156,10 @@ public class GUI extends JFrame {
 		///////////// NUESTRAS OPCIONES /////////////////
 		//String[] gen = new String[] {"Binario", "Real"};
 		String[] funciones = new String[] { "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz", "f5: f4 con reales", "P2: Edificios"};
-		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE"};
-		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX"};
+		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE", "Ranking", "Truncamiento", "Restos"};
+		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX", "OX", "VarOX", "CX", "ERX", "CodifOrdinal"};
 		// Practica 2
-		String[] numEdificios = new String[] {"1", "2", "3", "4"};
+		String[] numValores = new String[] {"1", "2", "3", "4", "5", "6", "7"};
 		String[] mutaciones = new String[] {"Basica", "Inversa"};
 		
 		////////////////////////////////////
@@ -180,7 +180,7 @@ public class GUI extends JFrame {
 		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","seleccion", selectores));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Cruces","Tipo de Cruce","cruce", cruces));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Mutacion","Tipo de Mutacion","mutacion", mutaciones));
-		configAlGen.addOption(new ChoiceOption<AlGen>("Edificios","Cantidad de edificios", "edificios", numEdificios));
+		configAlGen.addOption(new ChoiceOption<AlGen>("N","Cantidad de valores", "n", numValores));
 		// CERRAR LAS OPCIONES
 		configAlGen.endOptions();
 		
@@ -213,7 +213,7 @@ public class GUI extends JFrame {
 		protected AGenetico aGen;
 		//Practica 2
 		public String mutacion = "Basica";
-		public String edificios = "4";
+		public String n = "4";
 	
 		//Mejores abs
 		protected float mejor_fit = 1.0f;
@@ -288,17 +288,17 @@ public class GUI extends JFrame {
 		public String getMutacion() {
 			return this.mutacion;
 		}
-		public void setEdificios(String Edificios) {
-			this.edificios = Edificios;
+		public void setN(String N) {
+			this.n = N;
 		}
-		public void setEdificios(int Edificios) {
-			this.edificios = Integer.toString(Edificios);
+		public void setN(int N) {
+			this.n = Integer.toString(N);
 		}
-		public String getEdificios() {
-			return this.edificios;
+		public String getN() {
+			return this.n;
 		}
-		public int getEdificiosInt() {
-			return Integer.parseInt(this.edificios);
+		public int getNInt() {
+			return Integer.parseInt(this.n);
 		}
 		
 		//METODOS PROPIOS
@@ -341,7 +341,7 @@ public class GUI extends JFrame {
 			this.aGen.setTipSel(this.seleccion);
 			this.aGen.setTipCru(this.cruce);
 			//Practica2
-			this.aGen.setEdificios(this.edificios);
+			this.aGen.setN(this.n);
 			this.aGen.setMutacion(this.mutacion);
 		}
 

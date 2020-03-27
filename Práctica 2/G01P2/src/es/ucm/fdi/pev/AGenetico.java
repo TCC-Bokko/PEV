@@ -53,7 +53,7 @@ public class AGenetico
 	
 	// Practica 2
 	protected String tipoMutacion;
-	protected int numEdificios;
+	protected int n;
 	
 	// -------- GRAFICA --------- // 
 	
@@ -463,11 +463,11 @@ public class AGenetico
 	public void setMutacion(String Mutacion) {
 		tipoMutacion = Mutacion;
 	}
-	public void setEdificios(String Edificios) {
-		numEdificios = Integer.parseInt(Edificios);
+	public void setN(String N) {
+		n = Integer.parseInt(N);
 	}
-	public void setEdificios(int Edificios) {
-		numEdificios = Edificios;
+	public void setN(int N) {
+		n = N;
 	}
 	
 	//GETTERS
@@ -502,7 +502,7 @@ public class AGenetico
 	public String getMutacion() {
 		return tipoMutacion;
 	}
-	public int getEdificios() {
-		return numEdificios;
+	public int getN() {
+		return n;
 	}
 }
