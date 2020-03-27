@@ -70,10 +70,11 @@ public class Grafica {
 	
 	//Actualización de datos
 	public void actualizaGrafica(Cromosoma[] poblacion, int generacionActual, float mejor_fitness, float abs_fitness, float media) {
+		/*
 		for(int i = 0; i < this.tamPoblacion; i++)
 		{
 			System.out.println(poblacion[i].fenotipos()[0]+","+poblacion[i].fenotipos()[1]);
-		}				
+		}*/				
 		// Rellena valores grafica
 		this.maxGen_y_plot[generacionActual-1] = (double)mejor_fitness; // Generacion -1 por que empezamos en 1! 
 		this.maxAbs_y_plot[generacionActual-1] = (double)abs_fitness;

@@ -177,7 +177,6 @@ public class AGenetico
 			
 		default:
 			creaPoblacion();
-		
 			break;
 		}
 	}
@@ -370,7 +369,7 @@ public class AGenetico
 			int tamElite = (int) (tamPoblacion * elitismo);
 			Arrays.sort(poblacion);		
 			
-			System.out.println("Tam Elite: " + tamElite);
+			//System.out.println("Tam Elite: " + tamElite);
 			
 			for(int i = 0; i < tamElite; i++)
 				elite.add(poblacion[i]);
@@ -436,7 +435,7 @@ public class AGenetico
 			media = (double)sum / (double)tamPoblacion;		
 			
 			
-			System.out.println("Mejor abs: " + abs_fitness);
+			//System.out.println("Mejor abs: " + abs_fitness);
 			
 			return media;		
 		}

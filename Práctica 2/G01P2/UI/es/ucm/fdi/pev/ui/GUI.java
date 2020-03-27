@@ -202,17 +202,17 @@ public class GUI extends JFrame {
 		// Para pasarselo mediante métodos.
 		
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
-		public int maxGen = 100;
-		public int tamPob = 100;
-		public String funcion = "func 1";
-		public String cruce = "Monopunto";
+		public int maxGen = 10;
+		public int tamPob = 10;
+		public String funcion = "P2: Edificios";
+		public String cruce = "PMX";
 		public String seleccion = "Ruleta";
 		public double elitismo = 0.0;
 		public double probCruce = 0.3;
 		public double probMut = 0.05;
 		protected AGenetico aGen;
 		//Practica 2
-		public String mutacion = "Basica";
+		public String mutacion = "Inversa";
 		public String n = "5";
 	
 		//Mejores abs
