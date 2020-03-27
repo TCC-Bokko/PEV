@@ -1,5 +1,9 @@
 package es.ucm.fdi.pev.evaluacion;
 import java.util.*;
+
+import es.ucm.fdi.pev.estructura.Cromosoma;
+import es.ucm.fdi.pev.estructura.Gen;
+
 import java.lang.Math;
 
 public class FuncionesEv {
@@ -65,6 +69,25 @@ public class FuncionesEv {
 		r = -sum;
 		
 		return r;
+	}
+	
+	// PRACTICA 2
+	public static double f6p2(float[] x, int[][] D, int[][] F) {
+		//Recibe el cromosoma entero
+		//ya que contiene las matrices D, F y la permutación (fenotipo)
+
+		double sumi = 0.0d;
+		double sumj = 0.0d;
+		
+		for (int i = 0; i < D.length; i++) {
+			for (int j = 0; j < D.length; j++) {
+				sumj = sumj + (D[i][j] * F[(int)x[i]][(int)x[j]]);
+			}
+			sumi = sumi + sumj;
+		}
+		
+		
+		return sumi;
 	}
 }
 	

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import es.ucm.fdi.pev.Utils.Pair;
+import es.ucm.fdi.pev.evaluacion.FuncionesEv;
 
 public class CromosomaP2f1 extends CromosomaEntero {
 
@@ -58,8 +59,13 @@ public class CromosomaP2f1 extends CromosomaEntero {
 
 	@Override
 	public float evalua() {
-		// TODO Auto-generated method stub
-		return 0;
+			fenotipos();
+			
+			float result = (float) FuncionesEv.f6p2(this.fenotipos(), distancias, flujos);
+			
+			fitness = result;
+			
+			return result;
 	}
 
 	@Override

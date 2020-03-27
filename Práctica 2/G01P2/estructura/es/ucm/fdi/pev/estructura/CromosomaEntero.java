@@ -17,7 +17,6 @@ public abstract class CromosomaEntero extends Cromosoma{
 	}
 	
 	
-	
 	abstract ArrayList<Pair<Float, Float>> inicializaGenes();
 	
 	

@@ -162,8 +162,6 @@ public class AGenetico
 		}
 	}
 	
-	
-	
 	protected void inicializaPoblacion() 
 	{	
 		//numProblema = 1;
@@ -183,7 +181,6 @@ public class AGenetico
 			break;
 		}
 	}
-	
 	
 	// Crea la población para el ejercicio concreto (leyendo, en este caso, de fichero)
 	protected void P2_ej1()
