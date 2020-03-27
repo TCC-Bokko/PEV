@@ -329,15 +329,12 @@ public class AGenetico
 	
 	private void mutacion()
 	{			
-			
-		// �������PARA PROBAR!!!!!!!
-		tipoMutacion = "Inversa";
-		
 		for (Cromosoma c : poblacion)
 		switch (tipoMutacion)
 		{
 		case "Basica":
 			Basica.basica(c, prob_mutacion);
+			break;
 		case "Inversa":
 			Inversa.inversa(c, prob_mutacion);
 			break;

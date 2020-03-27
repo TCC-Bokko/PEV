@@ -72,7 +72,7 @@ public class FuncionesEv {
 	}
 	
 	// PRACTICA 2
-	public static double f6p2(float[] x, int[][] D, int[][] F) {
+	public static int f6p2(float[] x, int[][] D, int[][] F) {
 		//Recibe el cromosoma entero
 		//ya que contiene las matrices D, F y la permutación (fenotipo)
 
@@ -80,6 +80,7 @@ public class FuncionesEv {
 		double sumj = 0.0d;
 		
 		for (int i = 0; i < D.length; i++) {
+			sumj = 0;
 			for (int j = 0; j < D.length; j++) {
 				sumj = sumj + (D[i][j] * F[(int)x[i]][(int)x[j]]);
 			}
@@ -87,7 +88,7 @@ public class FuncionesEv {
 		}
 		
 		
-		return sumi;
+		return (int)sumi;
 	}
 }
 	

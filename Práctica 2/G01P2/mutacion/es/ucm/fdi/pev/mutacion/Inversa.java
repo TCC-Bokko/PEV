@@ -21,9 +21,10 @@ public class Inversa {
 	{
 		Random r = new Random();
 		
+		int tam = c.getGenes().length;
 		// 1) Obtenemos los cortes para invertir los genes
-		int ini = r.nextInt(c.getLongitud());
-		int fin = r.nextInt(c.getLongitud());
+		int ini = r.nextInt(tam);
+		int fin = r.nextInt(tam);
 				
 		if(fin < ini)
 		{
