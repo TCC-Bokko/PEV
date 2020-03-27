@@ -32,12 +32,12 @@ public class PMX {
 		//   c1 [1,2,3|4,5,6,7|8,9]
 		//   c2 [4,5,2|1,8,7,6|9,3]
 		// Corte en posiciones 3 y 7 (elegidos al azar)
-		// Elegimos dos puntos al azar
+		// Elegimos dos puntos al azar (next Int es exclusivo con el numero dado)
 		Random r = new Random();
 		int corte1 = r.nextInt(lg);
 		int corte2 = r.nextInt(lg);
 		
-		//Ordenamos
+		// Ordenamos en caso de que salgan intercambiados (2 < 1)
 		if (corte2 < corte1) {
 			int corteaux = corte1;
 			corte1 = corte2;
@@ -56,11 +56,12 @@ public class PMX {
 			correcto2[i] = true;
 		}
 		
-		//[WORK IN PROGRESS]
 		// Se espeficican las posiciones de los progenitores que
 		// NO plantean conflicto 
 		//   c1 [x,2,3|1,8,7,6|x,9]
 		//   c2 [x,x,2|4,5,6,7|9,3]
+		// corr1[F,F,F|T,T,T,T|F,F] 
+		// corr2[F,F,F|T,T,T,T|F,F]
 		for (int j = 0; j < lg; j++) {
 			if (j < corte1 || j > corte2) {
 				// Chequeo en c1
@@ -82,7 +83,6 @@ public class PMX {
 						
 						if (num_check1 == num_out1) isThere1 = true;
 						if (num_check2 == num_out2) isThere2 = true;
-						k = k+1;
 					}
 				}
 				
@@ -96,7 +96,7 @@ public class PMX {
 				// Se intercambian aquellos que generan conflicto
 				// ANTES DEL CAMBIO
 				//   c1 [1,2,3|1,8,7,6|8,9]
-				// cor1 [F,T,T|T,T,T,T|F,T] correcto mria dentro del propio vector si hay conflicto.
+				// cor1 [F,T,T|T,T,T,T|F,T] correcto mira dentro del propio vector si hay conflicto.
 				//   c2 [4,5,2|4,5,6,7|9,3]
 				// cor2 [F,F,T|T,T,T,T|T,T]
 				 
