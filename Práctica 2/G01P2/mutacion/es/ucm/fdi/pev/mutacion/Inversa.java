@@ -49,3 +49,5 @@ public class Inversa {
 		c.setGenes(genes);
 	}
 }
+
+

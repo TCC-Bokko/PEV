@@ -182,7 +182,7 @@ public class AGenetico
 		}
 	}
 	
-	// Crea la población para el ejercicio concreto (leyendo, en este caso, de fichero)
+	// Crea la poblacion para el ejercicio concreto (leyendo, en este caso, de fichero)
 	protected void P2_ej1()
 	{
 		int tam = 0; 	
@@ -194,36 +194,55 @@ public class AGenetico
 			reader = new BufferedReader(new FileReader("Data/ajuste.txt"));
 			String line = reader.readLine();	
 			
+			
+			// 1) INICIALIZACION Y LECTURA DEL TAM. DE LAS MATRICES
 			tam = Integer.parseInt(line);
 			distancias = new int[tam][tam];
 			flujos = new int[tam][tam];
 			
+			reader.readLine(); // Nos quitamos el espacio en blanco
+			line = reader.readLine(); // Leemos la primera línea de la matriz
+			
+			
+			// 2) LECTURA DE LA MATRIZ DE FLUJOS: 
 			int i = 0;
 			while (!line.isEmpty()) 
-			{
-				line = reader.readLine();
-				
-				for (int j = 0; j < line.length(); i++)
-					distancias[i][j] = line.charAt(j);
+			{	
+				int x = 0;
+				for (int j = 0; j < line.length(); j+=2)
+				{
+					distancias[i][x] = Character.getNumericValue(line.charAt(j));
+					x++;
+				}
 				
 				i++;
+				
+				line = reader.readLine();
 			}
 			
+			
+			// 3) LECTURA DE LA MATRIZ DE FLUJOS: 
+			line = reader.readLine(); // Leemos la primera linea de la matriz
 			i = 0;
-			while (!line.isEmpty()) 
-			{
-				line = reader.readLine();
-				
-				for (int j = 0; j < line.length(); i++)
-					flujos[i][j] = line.charAt(j);
-				
+			while (line != null) 
+			{	
+				int x = 0;
+				for (int j = 0; j < line.length(); j+=2)
+				{
+					flujos[i][x] = Character.getNumericValue(line.charAt(j));
+					x++;
+				}
 				i++;
+				
+				line = reader.readLine();
 			}
 			
 			reader.close();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		
+		// 4) CREACION DE LA POBLACION CON LOS DATOS YA OBTENIDOS
 		
 		for(int i = 0; i < tamPoblacion; i++)
 			poblacion[i] = new CromosomaP2f1(tam, distancias, flujos);

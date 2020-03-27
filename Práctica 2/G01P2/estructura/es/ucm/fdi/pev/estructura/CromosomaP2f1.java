@@ -8,12 +8,15 @@ import es.ucm.fdi.pev.evaluacion.FuncionesEv;
 
 public class CromosomaP2f1 extends CromosomaEntero {
 
-	int[][] distancias;
-	int[][] flujos;
+	protected int[][] distancias;
+	protected int[][] flujos;
 	
 	
-	public CromosomaP2f1(Cromosoma c) {
+	public CromosomaP2f1(CromosomaP2f1 c) {
 		super(c);
+		
+		this.distancias = c.distancias;
+		this.flujos = c.flujos;
 	}
 	
 	public CromosomaP2f1(int tam, int[][] d, int[][] f)
@@ -61,7 +64,7 @@ public class CromosomaP2f1 extends CromosomaEntero {
 	public float evalua() {
 			fenotipos();
 			
-			float result = (float) FuncionesEv.f6p2(this.fenotipos(), distancias, flujos);
+			float result = (float) FuncionesEv.f6p2(fenotipos, distancias, flujos);
 			
 			fitness = result;
 			
