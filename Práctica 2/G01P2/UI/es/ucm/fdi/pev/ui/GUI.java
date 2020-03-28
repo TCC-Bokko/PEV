@@ -205,7 +205,7 @@ public class GUI extends JFrame {
 		public int maxGen = 10;
 		public int tamPob = 10;
 		public String funcion = "P2: Edificios";
-		public String cruce = "OX";
+		public String cruce = "CX";
 		public String seleccion = "Ruleta";
 		public double elitismo = 0.0;
 		public double probCruce = 0.3;
