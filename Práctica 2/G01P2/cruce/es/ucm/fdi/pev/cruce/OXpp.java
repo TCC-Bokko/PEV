@@ -17,12 +17,15 @@ public class OXpp {
 		boolean debug = true;
 		boolean fulldebug = false;
 		
+		////////////////////////////////////////////////////////////////////
+		// CARGA DE PADRES (OK)
+		////////////////////////////////////////////////////////////////////
 		// Obtenemos los genes dentro del cromosoma como un array de ints.
 		Gen[] padre1 = c1.getGenes().clone();
 		Gen[] padre2 = c2.getGenes().clone();
 		// Vemos cuantos genes contiene
 		int lg = padre1.length;
-		if(debug) System.out.println("\nNUEVO CRUCE");
+		if(debug) System.out.println("\nNUEVO CRUCE OXPP");
 		if(fulldebug) System.out.printf("Tamaño del cromosoma: %d\n", lg);
 		// Vector de marcados: Marca si el valor int esta dentro del hijo
 		boolean[] usadoH1 = new boolean[lg];
@@ -62,6 +65,9 @@ public class OXpp {
 		// Seguir desde el último punto de intercambio rellenando en orden
 		// aquellos elementos que no generen conflicto.
 		
+		////////////////////////////////////////////////////////////////////
+		// ELEGIR PUNTOS DE CORTE (OK)
+		////////////////////////////////////////////////////////////////////
 		// 1.- Elegir X puntos de corte al azar
 		//   c1 [1,2,3|4,5,6,7|8,9]
 		//   c2 [4,5,2|1,8,7,6|9,3]
@@ -114,7 +120,10 @@ public class OXpp {
 			System.out.println(Arrays.toString(P2));
 		}		
 		///////////////////////
-
+		
+		////////////////////////////////////////////////////////////////////
+		// GENERAMOS HIJOS (OK)
+		////////////////////////////////////////////////////////////////////
 		// 2.- Pasamos cada elemento en la posición de corte al hijo contrario
 		// Preparamos hijos
 		// Cada hijo debe ser inicializado por separado completamente para evitar compartir punteros
@@ -163,7 +172,11 @@ public class OXpp {
 			System.out.printf("Elementos usados en Hijo2: ");
 			System.out.println(Arrays.toString(usadoH2));
 		}	
-		///////////////////////
+		///////////////////////		
+		
+		////////////////////////////////////////////////////////////////////
+		// INTERCAMBIO DE ELEMENTOS EN CORTES (OK)
+		////////////////////////////////////////////////////////////////////
 		if(fulldebug) System.out.println("\nINTERCAMBIO DE ELEMENTOS EN PUNTOS DE CORTE");
 		int p_corte = -1;
 		int lastCut = -1;
@@ -193,6 +206,7 @@ public class OXpp {
 			if(fulldebug) System.out.printf("OXpp: valor act en GH2: %d (debe ser valp1: %d) \n", GHij2.getAlelo(), valp1);
 			hijo1[p_corte] = GHij1;
 			hijo2[p_corte] = GHij2;
+			//Comprobación de que se ha guardado bien
 			GHij1 = (GenEntero) hijo1[p_corte];
 			GHij2 = (GenEntero) hijo2[p_corte];
 			int valh1 = GHij1.getAlelo();
@@ -241,13 +255,10 @@ public class OXpp {
 			System.out.println("");
 		}
 		
-		// Para los valores que faltan en los hijos se copian los valores de los padres
-		// comenzando a partir de la zona copiada y respetando el orden.
-		// EMPEZANDO POR EL PUNTO DE CORTE 2 DE CADA PROGENITOR
-		// empezamos a rellenar la solución por la posicion de corte2 (no incluida en el intercambio)
-		
-		// Hijo 1 se rellena primero con padre 1 y luego con padre 2
-		// Hijo 2 se rellena primero con padre 2 y luego con padre 1
+
+		////////////////////////////////////////////////////////////////////
+		// RELLENADO DE POSICIONES (OK)
+		////////////////////////////////////////////////////////////////////
 		int posP1 = lastCut;
 		int posP2 = lastCut;
 		int posH1 = lastCut+1;
