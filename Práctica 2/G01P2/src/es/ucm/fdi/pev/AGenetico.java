@@ -52,7 +52,7 @@ public class AGenetico
 	protected float prob_mutacion;
 	protected float elitismo;
 	
-	enum Tipo {MINIMIZACION, MAXIMIZACION}
+	enum Tipo {MINIMIZACION, MAXIMIZACION, DEFAULT}
 	Tipo tipo;
 	
 	// Practica 2
@@ -203,7 +203,7 @@ public class AGenetico
 		
 		BufferedReader reader;	
 		try {
-			reader = new BufferedReader(new FileReader("Data/datos12.txt"));
+			reader = new BufferedReader(new FileReader("Data/datos15.txt"));
 			String line = reader.readLine();	
 			
 			
@@ -389,7 +389,7 @@ public class AGenetico
 			evalua_mejor(c);
 		}
 		
-				
+		
 		switch (tipo)
 		{
 		case MINIMIZACION:
@@ -437,10 +437,6 @@ public class AGenetico
 		
 	protected void evalua_mejor(Cromosoma c) 
 	{	
-		/*if (generacionActual == 1) {
-			abs_fitness = mejor_fitness;
-			mejor_abs = c;
-		}*/
 		if(c.compara_mejor_fitness(mejor_fitness))
 		{
 			mejor_fitness = c.getFitness();
@@ -536,7 +532,7 @@ public class AGenetico
 			float sum = 0.0f;
 			double media = 0.0f;
 			
-			//Sumamos los fitnes
+			//Sumamos los fitness
 			for (int i = 0; i < tamPoblacion; i++) {
 				sum = sum + poblacion[i].getFitness();
 			}

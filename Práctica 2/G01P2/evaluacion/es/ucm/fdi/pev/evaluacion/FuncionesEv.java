@@ -76,8 +76,8 @@ public class FuncionesEv {
 		//Recibe el cromosoma entero
 		//ya que contiene las matrices D, F y la permutación (fenotipo)
 
-		double sumi = 0.0d;
-		double sumj = 0.0d;
+		int sumi = 0;
+		int sumj = 0;
 		
 		for (int i = 0; i < D.length; i++) {
 			sumj = 0;
@@ -86,7 +86,6 @@ public class FuncionesEv {
 			}
 			sumi = sumi + sumj;
 		}
-		
 		
 		return (int)sumi;
 	}

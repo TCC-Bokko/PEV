@@ -66,3 +66,5 @@ public abstract class CromosomaEntero extends Cromosoma{
 		}
 	}
 }
+
+
