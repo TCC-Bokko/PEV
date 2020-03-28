@@ -157,7 +157,7 @@ public class GUI extends JFrame {
 		//String[] gen = new String[] {"Binario", "Real"};
 		String[] funciones = new String[] { "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz", "f5: f4 con reales", "P2: Edificios"};
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE", "Ranking", "Truncamiento", "Restos"};
-		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX", "OX", "CX", "ERX", "CodifOrdinal"};
+		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX", "OX", "OXpp", "CX", "ERX", "CodifOrdinal"};
 		// Practica 2
 		String[] numValores = new String[] {"1", "2", "3", "4", "5", "6", "7"};
 		String[] mutaciones = new String[] {"Basica", "Inversa"};
@@ -205,7 +205,7 @@ public class GUI extends JFrame {
 		public int maxGen = 10;
 		public int tamPob = 10;
 		public String funcion = "P2: Edificios";
-		public String cruce = "PMX";
+		public String cruce = "OXpp";
 		public String seleccion = "Ruleta";
 		public double elitismo = 0.0;
 		public double probCruce = 0.3;

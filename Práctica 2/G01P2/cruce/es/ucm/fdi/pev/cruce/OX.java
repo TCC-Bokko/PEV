@@ -9,11 +9,11 @@ import es.ucm.fdi.pev.estructura.GenEntero;
 public class OX {
 	public static void ox(Cromosoma c1, Cromosoma c2) {
 		// Obtenemos los genes dentro del cromosoma como un array de ints.
-		Gen[] g_c1 = c1.getGenes().clone();
-		Gen[] g_c2 = c2.getGenes().clone();
+		Gen[] padre1 = c1.getGenes().clone();
+		Gen[] padre2 = c2.getGenes().clone();
 		
 		// Vemos cuantos genes contiene
-		int lg = g_c1.length;					
+		int lg = padre1.length;					
 		
 		/////////////////////////////////
 		// Cruce por Orden
@@ -38,21 +38,21 @@ public class OX {
 
 		// 2.- Copiar los valores de la subcadena comprendida entre dichos puntos en los hijos
 		// Preparamos vectores soluciones
-		Gen[] hijo1 = g_c1;
-		Gen[] hijo2 = g_c2;
+		Gen[] hijo1 = padre1;
+		Gen[] hijo2 = padre2;
 		// Los inicializamos a valor invalido (-1)
 		for (int h = 0; h < lg; h++) {
 			GenEntero GEH1 = (GenEntero)hijo1[h];
 			GenEntero GEH2 = (GenEntero)hijo2[h];
 			GEH1.setAlelo(-1);
 			GEH2.setAlelo(-1);
+			hijo1[h] = GEH1;
+			hijo2[h] = GEH2;
 		}		
 		// intercambio de segmentos
 		for (int i = corte1; i <= corte2; i++) {
-			//g_c1[i] = g_c2[i];
-			//g_c2[i] = g_aux[i];
-			hijo1[i] = g_c2[i];
-			hijo2[i] = g_c1[i];
+			hijo1[i] = padre2[i];
+			hijo2[i] = padre1[i];
 		}
 		
 		// Para los valores que faltan en los hijos se copian los valores de los padres
@@ -73,7 +73,7 @@ public class OX {
 			// Empieza en corte2-> llega al final, vuelve a empezar de 0, hasta corte1.
 			
 			// Obtenemos el valor en la posición J del primer padre
-			GenEntero gE1 = (GenEntero)g_c1[j];
+			GenEntero gE1 = (GenEntero)padre1[j];
 			int num_padre1 = gE1.getAlelo(); // Lo sacamos
 			
 			// EMPEZAR HIJO1
@@ -99,7 +99,7 @@ public class OX {
 			// Empieza en corte2-> llega al final, vuelve a empezar de 0, hasta corte1.
 			
 			// Obtenemos el valor en la posición K del segundo padre
-			GenEntero gE2 = (GenEntero)g_c2[k];
+			GenEntero gE2 = (GenEntero)padre2[k];
 			int num_padre2 = gE2.getAlelo(); // Lo sacamos
 			
 			// ACABAR HIJO 1
@@ -139,7 +139,7 @@ public class OX {
 			// Empieza en corte2-> llega al final, vuelve a empezar de 0, hasta corte1.
 			
 			// Obtenemos el valor en la posición J del primer padre
-			GenEntero gE1 = (GenEntero)g_c1[j];
+			GenEntero gE1 = (GenEntero)padre1[j];
 			int num_padre1 = gE1.getAlelo(); // Lo sacamos
 			
 			// EMPEZAR HIJO1

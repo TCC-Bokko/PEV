@@ -318,9 +318,17 @@ public class AGenetico
 				case "Aritmetico":
 					Aritmetico.aritmetico(poblacion[padre1], poblacion[padre2]);
 					break;
-					
 				case "PMX":
 					PMX.pmx(poblacion[padre1], poblacion[padre2]);
+					break;
+				case "OX":
+					OX.ox(poblacion[padre1], poblacion[padre2]);
+					break;
+				case "OXpp":
+					OXpp.oxpp(poblacion[padre1], poblacion[padre2]);
+					break;
+				case "CX":
+					CX.cx(poblacion[padre1], poblacion[padre2]);
 					break;
 			}
 		}
