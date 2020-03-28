@@ -52,6 +52,9 @@ public class AGenetico
 	protected float prob_mutacion;
 	protected float elitismo;
 	
+	enum Tipo {MINIMIZACION, MAXIMIZACION}
+	Tipo tipo;
+	
 	// Practica 2
 	protected String tipoMutacion;
 	protected int n;
@@ -141,22 +144,27 @@ public class AGenetico
 		switch (numProblema)
 		{
 		case 1:
+			tipo = Tipo.MAXIMIZACION;
 			for(int i = 0; i < tamPoblacion; i++)
 				poblacion[i] = new CromosomaP1f1();
 			break;
 		case 2:
+			tipo = Tipo.MINIMIZACION;
 			for(int i = 0; i < tamPoblacion; i++)
 				poblacion[i] = new CromosomaP1f2();
 			break;
 		case 3:
+			tipo = Tipo.MINIMIZACION;
 			for(int i = 0; i < tamPoblacion; i++)
 				poblacion[i] = new CromosomaP1f3();
 			break;
 		case 4:
+			tipo = Tipo.MINIMIZACION;
 			for(int i = 0; i < tamPoblacion; i++)
 				poblacion[i] = new CromosomaP1f4();
 			break;
 		case 5:
+			tipo = Tipo.MINIMIZACION;
 			for(int i = 0; i < tamPoblacion; i++)
 				poblacion[i] = new CromosomaP1f5();
 			break;	
@@ -165,14 +173,13 @@ public class AGenetico
 	
 	protected void inicializaPoblacion() 
 	{	
-		//numProblema = 1;
-		
 		poblacion = new Cromosoma[tamPoblacion];
 		elite = new LinkedList<Cromosoma>();
 		
 		switch (numProblema)
 		{
 		case 6:
+			tipo = Tipo.MINIMIZACION;
 			P2_ej1();
 			break;
 			
@@ -180,6 +187,11 @@ public class AGenetico
 			creaPoblacion();
 			break;
 		}
+		
+		
+		// Valores por defecto inicializados:
+		mejor_abs = poblacion[0];
+		abs_fitness = mejor_fitness = poblacion[0].evalua();
 	}
 	
 	// Crea la poblacion para el ejercicio concreto (leyendo, en este caso, de fichero)
@@ -362,7 +374,9 @@ public class AGenetico
 		
 	private void evaluacion() 
 	{
-		fitness_total = mejor_fitness = 0;
+		
+		fitness_total = 0;
+		mejor_fitness = poblacion[0].getFitness();
 		
 		for (Cromosoma c : poblacion)
 		{
@@ -375,7 +389,20 @@ public class AGenetico
 			evalua_mejor(c);
 		}
 		
-		adapta_puntuacion();
+				
+		switch (tipo)
+		{
+		case MINIMIZACION:
+			minimizacion();
+			break;
+		case MAXIMIZACION:
+			maximizacion();
+			break;
+			
+		default:
+			adapta_puntuacion();
+			break;
+		}
 		
 		elitismo();
 	}
@@ -410,10 +437,10 @@ public class AGenetico
 		
 	protected void evalua_mejor(Cromosoma c) 
 	{	
-		if (generacionActual == 1) {
+		/*if (generacionActual == 1) {
 			abs_fitness = mejor_fitness;
 			mejor_abs = c;
-		}
+		}*/
 		if(c.compara_mejor_fitness(mejor_fitness))
 		{
 			mejor_fitness = c.getFitness();
@@ -438,6 +465,69 @@ public class AGenetico
 			poblacion[j].actualiza_puntuacion(fitness_total);
 			poblacion[j].actualiza_punt_acum(punt_acum);
 			punt_acum = punt_acum + poblacion[j].getPuntuacion();
+		}
+	}
+	
+	
+	protected void maximizacion()
+	{
+		float fmin = Float.POSITIVE_INFINITY;
+		
+		for (Cromosoma c : poblacion)
+		{
+			if(c.getFitness() < fmin)
+				fmin = c.getFitness();
+		}	
+		
+		fmin = fmin * 1.05f; // Margen
+		
+		fitness_total = 0;
+		
+		float[] fitness = new float[poblacion.length];
+		
+		for (int i = 0; i < fitness.length; i++)
+		{
+			fitness[i] = poblacion[i].getFitness() - fmin;
+			fitness_total += fitness[i];
+		}
+		
+		float punt_acum = 0;
+		for (int i = 0; i < fitness.length; i++)
+		{
+			poblacion[i].setPuntuacion(fitness[i] / fitness_total);
+			poblacion[i].actualiza_punt_acum(punt_acum);
+			punt_acum = punt_acum + poblacion[i].getPuntuacion();
+		}
+	}
+	
+	protected void minimizacion()
+	{
+		float fmax = Float.NEGATIVE_INFINITY;
+		
+		for (Cromosoma c : poblacion)
+		{
+			if(c.getFitness() > fmax)
+				fmax = c.getFitness();
+		}	
+		
+		fmax = fmax * 1.05f; // Margen
+		
+		fitness_total = 0;
+		
+		float[] fitness = new float[poblacion.length];
+		
+		for (int i = 0; i < fitness.length; i++)
+		{
+			fitness[i] = fmax - poblacion[i].getFitness();
+			fitness_total += fitness[i];
+		}
+		
+		float punt_acum = 0;
+		for (int i = 0; i < fitness.length; i++)
+		{
+			poblacion[i].setPuntuacion(fitness[i] / fitness_total);
+			poblacion[i].actualiza_punt_acum(punt_acum);
+			punt_acum = punt_acum + poblacion[i].getPuntuacion();
 		}
 	}
 		
