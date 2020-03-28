@@ -338,6 +338,9 @@ public class AGenetico
 				case "CX":
 					CX.cx(poblacion[padre1], poblacion[padre2]);
 					break;
+				case "CodifOrdinal":
+					CodifOrdinal.codifOrdinal(poblacion[padre1], poblacion[padre2]);
+					break;
 			}
 		}
 	}
