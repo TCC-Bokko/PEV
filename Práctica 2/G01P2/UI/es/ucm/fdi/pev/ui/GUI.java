@@ -171,7 +171,7 @@ public class GUI extends JFrame {
 		//		  "Campo: Buscara Getters y Setters con ese nombre p.ej. getFuncion, setFuncion. (O eso entiendo yo que hace)
 		// ESTABLECER VALORES
 		configAlGen.addOption(new IntegerOption<AlGen>("Poblacion:","Define cantidad de individuos", "tamPob", 0, 500));
-		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:","Define cantidad de generaciones", "maxGen", 10, 1000));
+		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:","Define cantidad de generaciones", "maxGen", 10, 2000));
 		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Cruce:","Con que % se cruzaran [0.0, 1.0]", "probCruce", 0.0, 1.0));
 		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Mutacion:","Con que % mutara [0.0, 1.0]", "probMut", 0.0, 1.0));
 		configAlGen.addOption(new DoubleOption<AlGen>("Elitismo:","% poblacion elite [0.0, 1.0]", "elitismo", 0.0, 1.0));
@@ -180,7 +180,7 @@ public class GUI extends JFrame {
 		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","seleccion", selectores));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Cruces","Tipo de Cruce","cruce", cruces));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Mutacion","Tipo de Mutacion","mutacion", mutaciones));
-		configAlGen.addOption(new ChoiceOption<AlGen>("N","Cantidad de valores", "n", numValores));
+		configAlGen.addOption(new ChoiceOption<AlGen>("N","Cantidad de valores P1Prob4", "n", numValores));
 		// CERRAR LAS OPCIONES
 		configAlGen.endOptions();
 		
@@ -202,14 +202,14 @@ public class GUI extends JFrame {
 		// Para pasarselo mediante métodos.
 		
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
-		public int maxGen = 10;
-		public int tamPob = 10;
+		public int maxGen = 100;
+		public int tamPob = 100;
 		public String funcion = "P2: Edificios";
 		public String cruce = "CodifOrdinal";
 		public String seleccion = "Ruleta";
-		public double elitismo = 0.0;
-		public double probCruce = 0.3;
-		public double probMut = 0.05;
+		public double elitismo = 0.05;
+		public double probCruce = 0.4;
+		public double probMut = 0.03;
 		protected AGenetico aGen;
 		//Practica 2
 		public String mutacion = "Inversa";
