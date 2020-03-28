@@ -19,6 +19,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.Random;
+import java.util.Scanner;
 
 import javax.swing.JFrame;
 
@@ -190,12 +191,12 @@ public class AGenetico
 		
 		BufferedReader reader;	
 		try {
-			reader = new BufferedReader(new FileReader("Data/ajuste.txt"));
+			reader = new BufferedReader(new FileReader("Data/datos12.txt"));
 			String line = reader.readLine();	
 			
 			
 			// 1) INICIALIZACION Y LECTURA DEL TAM. DE LAS MATRICES
-			tam = Integer.parseInt(line);
+			tam = Integer.parseInt(line.trim());
 			distancias = new int[tam][tam];
 			flujos = new int[tam][tam];
 			
@@ -207,15 +208,19 @@ public class AGenetico
 			int i = 0;
 			while (!line.isEmpty()) 
 			{	
+				
+				Scanner s = new Scanner(line);
+				
 				int x = 0;
-				for (int j = 0; j < line.length(); j+=2)
+				while(s.hasNextInt())
 				{
-					distancias[i][x] = Character.getNumericValue(line.charAt(j));
+					distancias[i][x] = s.nextInt();
 					x++;
 				}
 				
 				i++;
 				
+				s.close();
 				line = reader.readLine();
 			}
 			
@@ -225,14 +230,17 @@ public class AGenetico
 			i = 0;
 			while (line != null) 
 			{	
+				Scanner s = new Scanner(line);
+				
 				int x = 0;
-				for (int j = 0; j < line.length(); j+=2)
+				while(s.hasNextInt())
 				{
-					flujos[i][x] = Character.getNumericValue(line.charAt(j));
+					flujos[i][x] = s.nextInt();
 					x++;
 				}
 				i++;
 				
+				s.close();
 				line = reader.readLine();
 			}
 			
