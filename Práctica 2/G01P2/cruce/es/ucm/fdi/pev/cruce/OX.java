@@ -36,7 +36,7 @@ public class OX {
 		}
 				
 		
-		///////////////DEBUG
+		///////////////DEBUG PADRES
 		if (fulldebug) {
 			// Variables debugeo para mostrar padres e hijos
 			int[] P1 = new int[lg];
