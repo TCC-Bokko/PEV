@@ -355,6 +355,8 @@ public class AGenetico
 					break;
 				case "ERX":
 					ERX.erx(poblacion[padre1], poblacion[padre2]);
+				case "HT":
+					HT.ht(poblacion[padre1], poblacion[padre2]);
 			}
 		}
 	}
