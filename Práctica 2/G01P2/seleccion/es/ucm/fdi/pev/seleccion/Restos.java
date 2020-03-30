@@ -10,13 +10,14 @@ public class Restos {
 		// Poblacion seleccionada
 		int[] seleccion = new int[poblacion.length];
 		int k = poblacion.length;
+		float cut = 1 / k;
 		List<Integer> seleccionados = new ArrayList<Integer>();
 		
 		for(int i = 0; i < poblacion.length; i++) {
 			float punt_ind = poblacion[i].getPuntuacion();
-			System.out.printf("%d: %d", i, punt_ind);
+			System.out.printf("%d: %f", i, punt_ind);
 			float PiK = punt_ind*k;
-			if (PiK > 1.0f) seleccionados.add(i);
+			if (PiK > cut) seleccionados.add(i);
 		}
 		
 		//Una vez tenemos la lista de seleccionados rellenamos selección
