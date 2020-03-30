@@ -39,15 +39,19 @@ public class Inversion {
 		int j = fin;
 		for(int i = ini; i < j; i++)
 		{
-			Gen aux = genes[i].clone();
-					
-			genes[i] = genes[j];
-			genes[j] = aux;
-					
+			swap(genes, i, j);			
 			j--;
 		}
 		
 		c.setGenes(genes);
+	}
+	
+	private static void swap(Gen[] genes, int i, int j) 
+	{ 
+        Gen aux = genes[i];
+        
+        genes[i] = genes[j]; 
+        genes[j] = aux;
 	}
 }
 

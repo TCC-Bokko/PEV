@@ -13,9 +13,7 @@ public class Insercion {
 		float rand = r.nextFloat();
 		
 		if(rand < prob)
-			muta(c);
-			
-		
+			muta(c);	
 	}
 	
 	

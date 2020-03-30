@@ -5,6 +5,7 @@ import es.ucm.fdi.pev.cruce.*;
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
 import es.ucm.fdi.pev.mutacion.Basica;
+import es.ucm.fdi.pev.mutacion.Desplazamiento;
 import es.ucm.fdi.pev.mutacion.Heuristica;
 import es.ucm.fdi.pev.mutacion.Insercion;
 import es.ucm.fdi.pev.mutacion.Intercambio;
@@ -245,7 +246,7 @@ public class AGenetico
 			flujos = new int[tam][tam];
 			
 			reader.readLine(); // Nos quitamos el espacio en blanco
-			line = reader.readLine(); // Leemos la primera línea de la matriz
+			line = reader.readLine(); // Leemos la primera lï¿½nea de la matriz
 			
 			
 			// 2) LECTURA DE LA MATRIZ DE FLUJOS: 
@@ -421,8 +422,9 @@ public class AGenetico
 		case "Heuristica":
 			Heuristica.heuristica(c, prob_mutacion);
 			break;
-		case "Propia":
-			break;
+		case "Desplazamiento":
+			Desplazamiento.desplazamiento(c, prob_mutacion);
+			break;		
 		}
 	}
 	
