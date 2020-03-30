@@ -5,6 +5,7 @@ import es.ucm.fdi.pev.cruce.*;
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
 import es.ucm.fdi.pev.mutacion.Basica;
+import es.ucm.fdi.pev.mutacion.Insercion;
 import es.ucm.fdi.pev.mutacion.Inversa;
 import es.ucm.fdi.pev.ui.GUI;
 import es.ucm.fdi.pev.ui.Grafica;
@@ -232,6 +233,7 @@ public class AGenetico
 		try {
 			
 			reader = new BufferedReader(new FileReader(filePath));
+
 			String line = reader.readLine();	
 			
 			
@@ -400,7 +402,8 @@ public class AGenetico
 			Basica.basica(c, prob_mutacion);
 			break;
 		case "Inversa":
-			Inversa.inversa(c, prob_mutacion);
+			//Inversa.inversa(c, prob_mutacion);
+			Insercion.insercion(c, prob_mutacion);
 			break;
 		}
 	}
