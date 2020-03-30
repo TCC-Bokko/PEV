@@ -2,6 +2,8 @@ package es.ucm.fdi.pev.Utils;
 
 import java.util.ArrayList;
 
+import es.ucm.fdi.pev.estructura.Gen;
+
 public class Utils {
 	
 		// Calcula el logaritmo en base 'b' de 'x'
@@ -32,5 +34,14 @@ public class Utils {
 		public static int factorial(int n) 
 		{
 		    return n == 1 ? 1 : n * factorial(n-1);
+		}
+		
+		
+		public static void swap(Gen[] genes, int i, int j) 
+		{ 
+	        Gen aux = genes[i];
+	        
+	        genes[i] = genes[j]; 
+	        genes[j] = aux;
 		}
 }

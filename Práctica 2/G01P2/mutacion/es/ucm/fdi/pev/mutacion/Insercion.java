@@ -2,6 +2,7 @@ package es.ucm.fdi.pev.mutacion;
 
 import java.util.Random;
 
+import es.ucm.fdi.pev.Utils.Utils;
 import es.ucm.fdi.pev.estructura.Cromosoma;
 import es.ucm.fdi.pev.estructura.Gen;
 
@@ -49,21 +50,12 @@ public class Insercion {
 		
 		// 2) Miramos hacia qué lado tenemos que desplazarnos
 		if(newPos < pos)
-			for(int i = pos; i > newPos; i--)
-			{
-				Gen aux = genes[i].clone();
-				
-				genes[i] = genes[i-1];
-				genes[i-1] = aux;
-			}
+			for(int i = pos; i > newPos; i--)			
+				Utils.swap(genes, i, i-1);
 		else
 			for(int i = pos; i < newPos; i++)
-			{
-				Gen aux = genes[i].clone();
-				
-				genes[i] = genes[i+1];
-				genes[i+1] = aux;
-			}
+				Utils.swap(genes, i, i+1);
+			
 		
 		c.setGenes(genes);
 	}

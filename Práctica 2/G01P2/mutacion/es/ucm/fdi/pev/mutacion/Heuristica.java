@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+import es.ucm.fdi.pev.Utils.Utils;
 import es.ucm.fdi.pev.estructura.Cromosoma;
 import es.ucm.fdi.pev.estructura.Gen;
 
@@ -139,19 +140,10 @@ public class Heuristica {
         else
             for (int i = currentIdx; i < valores.length; i++) 
             { 
-            	swap(valores, currentIdx, i); 
+            	Utils.swap(valores, currentIdx, i); 
                 permuta(p, valores.clone(), currentIdx + 1); 
-                swap(valores, currentIdx, i); 
+                Utils.swap(valores, currentIdx, i); 
             } 	        
     }
- 
-	 
-	 private static void swap(Gen[] indices, int i, int j) 
-	 { 
-        Gen aux = indices[i];
-        
-        indices[i] = indices[j]; 
-        indices[j] = aux;
-	 }
 }
 

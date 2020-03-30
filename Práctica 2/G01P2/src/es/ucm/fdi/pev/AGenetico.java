@@ -410,7 +410,7 @@ public class AGenetico
 		case "Basica":
 			Basica.basica(c, prob_mutacion);
 			break;
-		case "Inversa":
+		case "Inversion":
 			Inversion.inversion(c, prob_mutacion);
 			break;
 		case "Insercion":
