@@ -7,7 +7,8 @@ import es.ucm.fdi.pev.estructura.*;
 import es.ucm.fdi.pev.mutacion.Basica;
 import es.ucm.fdi.pev.mutacion.Heuristica;
 import es.ucm.fdi.pev.mutacion.Insercion;
-import es.ucm.fdi.pev.mutacion.Inversa;
+import es.ucm.fdi.pev.mutacion.Intercambio;
+import es.ucm.fdi.pev.mutacion.Inversion;
 import es.ucm.fdi.pev.ui.GUI;
 import es.ucm.fdi.pev.ui.Grafica;
 
@@ -409,12 +410,19 @@ public class AGenetico
 			Basica.basica(c, prob_mutacion);
 			break;
 		case "Inversa":
-			//Inversa.inversa(c, prob_mutacion);
-			//Insercion.insercion(c, prob_mutacion);
-			int j = 0;
-			Heuristica.heuristica(c, prob_mutacion);
-			int i = 0;
+			Inversion.inversion(c, prob_mutacion);
 			break;
+		case "Insercion":
+			Insercion.insercion(c, prob_mutacion);
+			break;
+		case "Intercambio":
+			Intercambio.intercambio(c, prob_mutacion);
+			break;
+		case "Heuristica":
+			Heuristica.heuristica(c, prob_mutacion);
+			break;
+		case "Propia":
+			
 		}
 	}
 	

@@ -5,9 +5,9 @@ import java.util.Random;
 import es.ucm.fdi.pev.estructura.Cromosoma;
 import es.ucm.fdi.pev.estructura.Gen;
 
-public class Inversa {
+public class Inversion {
 
-	public static void inversa(Cromosoma c, float prob) 
+	public static void inversion(Cromosoma c, float prob) 
 	{	
 		Random r = new Random();
 		float rand = r.nextFloat();

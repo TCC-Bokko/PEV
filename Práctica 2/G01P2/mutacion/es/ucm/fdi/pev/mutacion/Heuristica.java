@@ -132,26 +132,26 @@ public class Heuristica {
 	
 	
 	 private static void permuta(ArrayList<Gen[]> p, Gen[] valores, int currentIdx) 
-	    { 
-	        if (currentIdx == valores.length - 1)    
-	            p.add(valores);    
-	        
-	        else
-	            for (int i = currentIdx; i < valores.length; i++) 
-	            { 
-	            	swap(valores, currentIdx, i); 
-	                permuta(p, valores.clone(), currentIdx + 1); 
-	                swap(valores, currentIdx, i); 
-	            } 	        
-	    }
-	 
+    { 
+        if (currentIdx == valores.length - 1)    
+            p.add(valores);    
+        
+        else
+            for (int i = currentIdx; i < valores.length; i++) 
+            { 
+            	swap(valores, currentIdx, i); 
+                permuta(p, valores.clone(), currentIdx + 1); 
+                swap(valores, currentIdx, i); 
+            } 	        
+    }
+ 
 	 
 	 private static void swap(Gen[] indices, int i, int j) 
-	    { 
-	         Gen aux = indices[i];
-	        
-	        indices[i] = indices[j]; 
-	        indices[j] = aux;
-	    }
+	 { 
+        Gen aux = indices[i];
+        
+        indices[i] = indices[j]; 
+        indices[j] = aux;
+	 }
 }
 
