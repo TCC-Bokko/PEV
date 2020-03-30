@@ -6,7 +6,10 @@ import java.util.TreeMap;
 import es.ucm.fdi.pev.estructura.Cromosoma;
 
 public class Truncamiento {
-	public static int[] truncamiento(Cromosoma[] poblacion) {
+	TreeMap<Float, Integer> OrderMap = new TreeMap<Float, Integer>();
+	
+	public static int[] truncamiento(Cromosoma[] poblacion, String tipo) {
+		boolean debug = true;
 		// Poblacion seleccionada
 		int[] seleccion = new int[poblacion.length];
 		float indiceTruncamiento = 0.5f;
@@ -20,15 +23,19 @@ public class Truncamiento {
 			int index = i;
 			OrderMap.put(fitness, index);
 		}
+		
+		if(debug) {
+			System.out.printf("Poblacion Lenght: %d\n", poblacion.length);
+			System.out.printf("Num Seleccionados: %d\n", numSeleccionados);
+			System.out.printf("TreeMap size: %d\n", OrderMap.size());
+		}
 
 		int[] seleccionados = new int[numSeleccionados];
 		int sel_idx = 0;
-		while (sel_idx != numSeleccionados-1) {
-			Map.Entry<Float, Integer> Entry = OrderMap.lastEntry();
-			int actualOrder = Entry.getValue();
-			seleccionados[sel_idx] = actualOrder;
-			sel_idx++;
-			OrderMap.remove(OrderMap.lastEntry().getKey());
+		
+		for (int j = 0; j < numSeleccionados; j++){
+			seleccionados[j] = OrderMap.firstEntry().getValue();
+			OrderMap.remove(OrderMap.firstEntry().getKey());
 		}
 		
 		//Una vez tenemos la lista de seleccionados rellenamos selección

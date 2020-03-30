@@ -24,7 +24,7 @@ public class HT {
 		// Se puede extender si se hace el mismo proceso con el Head del padre2 y el Tail del padre1
 		
 		// MUESTRA MENSAJES POR CONSOLA
-		boolean debug = false;
+		boolean debug = true;
 		boolean fulldebug = false;
 		
 		////////////////////////////////////////////////////////////////////

@@ -329,7 +329,7 @@ public class AGenetico
 				pob_idx = Restos.restos(poblacion);
 				break;
 			case "Truncamiento":
-				pob_idx = Truncamiento.truncamiento(poblacion);
+				pob_idx = Truncamiento.truncamiento(poblacion, "minimizacion");
 				break;
 		}
 		
@@ -422,7 +422,7 @@ public class AGenetico
 			Heuristica.heuristica(c, prob_mutacion);
 			break;
 		case "Propia":
-			
+			break;
 		}
 	}
 	

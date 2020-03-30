@@ -163,7 +163,7 @@ public class GUI extends JFrame {
 		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX", "OX", "OXpp", "CX", "ERX", "CO", "HT"};
 		// Practica 2
 		//String[] numValores = new String[] {"1", "2", "3", "4", "5", "6", "7"};
-		String[] mutaciones = new String[] {/*"Basica", */"Insercion", "Inversion", "Intercambio", "Heuristica", "Propia"};
+		String[] mutaciones = new String[] {/*"Basica", */"Insercion", "Inversion", "Intercambio", "Heuristica", "Desplazamiento"};
 		
 		////////////////////////////////////
 		// AÑADIR ELEMENTOS
@@ -207,15 +207,15 @@ public class GUI extends JFrame {
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
 		public int maxGen = 100;
 		public int tamPob = 100;
-		public String funcion = "P2: Ajuste";
-		public String cruce = "HT";
+		public String funcion = "P2: datos30";
+		public String cruce = "OX";
 		public String seleccion = "Ruleta";
 		public double elitismo = 0.05;
 		public double probCruce = 0.4;
 		public double probMut = 0.03;
 		protected AGenetico aGen;
 		//Practica 2
-		public String mutacion = "Inversa";
+		public String mutacion = "Insercion";
 		//public String n = "5";
 	
 		//Mejores abs

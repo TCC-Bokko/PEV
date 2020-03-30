@@ -7,6 +7,7 @@ import es.ucm.fdi.pev.estructura.Cromosoma;
 
 public class Restos {
 	public static int[] restos(Cromosoma[] poblacion) {
+		boolean debug = false;
 		// Poblacion seleccionada
 		int[] seleccion = new int[poblacion.length];
 		int k = poblacion.length;
@@ -15,7 +16,7 @@ public class Restos {
 		
 		for(int i = 0; i < poblacion.length; i++) {
 			float punt_ind = poblacion[i].getPuntuacion();
-			System.out.printf("%d: %f", i, punt_ind);
+			if(debug)System.out.printf("%d: %f", i, punt_ind);
 			float PiK = punt_ind*k;
 			if (PiK > cut) seleccionados.add(i);
 		}
