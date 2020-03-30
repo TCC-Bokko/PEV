@@ -57,7 +57,7 @@ public class AGenetico
 	
 	// Practica 2
 	protected String tipoMutacion;
-	protected int n;
+	//protected int n;
 	
 	// -------- GRAFICA --------- // 
 	
@@ -65,7 +65,7 @@ public class AGenetico
 	protected Plot2DPanel panel;
 	protected JFrame marco;
 	protected double[] x_plot;
-	// Tendremos 3 l�neas, necesitamos 3 ys // PLOT LINE USA DOUBLES
+	// Tendremos 3 lineas, necesitamos 3 ys // PLOT LINE USA DOUBLES
 	protected double[] maxGen_y_plot; // M�ximo de la generaci�n
 	protected double[] genMed_y_plot; // media generaci�n
 	protected double[] maxAbs_y_plot; // Maximo absoluto
@@ -178,14 +178,25 @@ public class AGenetico
 		
 		switch (numProblema)
 		{
-		case 6:
-			tipo = Tipo.MINIMIZACION;
-			P2_ej1();
-			break;
-			
-		default:
-			creaPoblacion();
-			break;
+			case 6:
+				tipo = Tipo.MINIMIZACION;
+				P2_ej1(0);
+				break;
+			case 7:
+				tipo = Tipo.MINIMIZACION;
+				P2_ej1(1);
+				break;
+			case 8:
+				tipo = Tipo.MINIMIZACION;
+				P2_ej1(2);
+				break;
+			case 9:
+				tipo = Tipo.MINIMIZACION;
+				P2_ej1(3);
+				break;
+			default:
+				creaPoblacion();
+				break;
 		}
 		
 		
@@ -195,15 +206,32 @@ public class AGenetico
 	}
 	
 	// Crea la poblacion para el ejercicio concreto (leyendo, en este caso, de fichero)
-	protected void P2_ej1()
+	protected void P2_ej1(int tipo)
 	{
 		int tam = 0; 	
 		int[][] distancias = null;
 		int[][] flujos = null;
 		
+		String filePath = "";
+		switch (tipo) {
+			case 0:
+				filePath = "Data/ajuste.txt";
+				break;
+			case 1:
+				filePath = "Data/datos12.txt";
+				break;
+			case 2:
+				filePath = "Data/datos15.txt";
+				break;
+			case 3:
+				filePath = "Data/datos30.txt";
+				break;
+		}
+		
 		BufferedReader reader;	
 		try {
-			reader = new BufferedReader(new FileReader("Data/datos15.txt"));
+			
+			reader = new BufferedReader(new FileReader(filePath));
 			String line = reader.readLine();	
 			
 			
@@ -355,8 +383,10 @@ public class AGenetico
 					break;
 				case "ERX":
 					ERX.erx(poblacion[padre1], poblacion[padre2]);
+					break;
 				case "HT":
 					HT.ht(poblacion[padre1], poblacion[padre2]);
+					break;
 			}
 		}
 	}
@@ -580,16 +610,17 @@ public class AGenetico
 	public void setGrafica(Grafica grafica) {
 		_grafica = grafica;
 	}
-	// Setters Pr�ctica 2
+	// Setters Practica 2
 	public void setMutacion(String Mutacion) {
 		tipoMutacion = Mutacion;
 	}
+	/*
 	public void setN(String N) {
 		n = Integer.parseInt(N);
 	}
 	public void setN(int N) {
 		n = N;
-	}
+	}*/
 	
 	//GETTERS
 	public int getTamPob() {
@@ -619,11 +650,12 @@ public class AGenetico
 	public float[] getMejorFeno() {
 		return mejor_abs.fenotipos();
 	}
-	//Pr�ctica 2
+	//Practica 2
 	public String getMutacion() {
 		return tipoMutacion;
 	}
+	/*
 	public int getN() {
 		return n;
-	}
+	}*/
 }
