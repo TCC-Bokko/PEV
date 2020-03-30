@@ -322,7 +322,13 @@ public class AGenetico
 				break;
 			case "Torneo":
 				pob_idx = Torneo.torneo(poblacion, 3);
-				break;	
+				break;
+			case "Restos":
+				pob_idx = Restos.restos(poblacion);
+				break;
+			case "Truncamiento":
+				pob_idx = Truncamiento.truncamiento(poblacion);
+				break;
 		}
 		
 		// Sustitucion de los individuos seleccionados

@@ -1,6 +1,7 @@
 package es.ucm.fdi.pev.seleccion;
 
 
+import java.util.Map;
 import java.util.TreeMap;
 import es.ucm.fdi.pev.estructura.Cromosoma;
 
@@ -23,7 +24,8 @@ public class Truncamiento {
 		int[] seleccionados = new int[numSeleccionados];
 		int sel_idx = 0;
 		while (sel_idx != numSeleccionados-1) {
-			int actualOrder = OrderMap.lastEntry().getValue();
+			Map.Entry<Float, Integer> Entry = OrderMap.lastEntry();
+			int actualOrder = Entry.getValue();
 			seleccionados[sel_idx] = actualOrder;
 			sel_idx++;
 			OrderMap.remove(OrderMap.lastEntry().getKey());

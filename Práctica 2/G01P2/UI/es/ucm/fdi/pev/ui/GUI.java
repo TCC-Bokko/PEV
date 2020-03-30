@@ -159,11 +159,11 @@ public class GUI extends JFrame {
 				/*"func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz", "f5: f4 con reales",*/
 				"P2: Ajuste", "P2: datos12", "P2: datos15", "P2: datos30"
 				};
-		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE", "Ranking", "Truncamiento", "Restos"};
+		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE",/* "Ranking,"*/ "Truncamiento", "Restos"};
 		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX", "OX", "OXpp", "CX", "ERX", "CO", "HT"};
 		// Practica 2
 		//String[] numValores = new String[] {"1", "2", "3", "4", "5", "6", "7"};
-		String[] mutaciones = new String[] {"Basica", "Inversa"};
+		String[] mutaciones = new String[] {/*"Basica", */"Insercion", "Inversion", "Intercambio", "Heuristica", "Propia"};
 		
 		////////////////////////////////////
 		// AÑADIR ELEMENTOS
