@@ -152,6 +152,7 @@ public class AGenetico
 		textoMejorAbs = textoMejorAbs + "]";
 		System.out.println(textoMejorAbs);
 		System.out.printf("Mejor fitness: %f\n", mejor_fitness);
+		System.out.printf("Generacion del mejor: %d\n", generacionMejor);
 		// Obtener peor cromosoma
 		genes = peor_abs.getGenes();
 		String textoPeorAbs = "Peor Invididuo. Genes: [";
@@ -163,7 +164,8 @@ public class AGenetico
 		}
 		textoPeorAbs = textoPeorAbs + "]";
 		System.out.println(textoPeorAbs);
-		System.out.printf("Peor fitness: %f", peor_fitness);
+		System.out.printf("Peor fitness: %f\n", peor_fitness);
+		System.out.printf("Generacion del peor: %d\n", generacionPeor);
 		_grafica.dibujaGrafica();
 	}
 	
