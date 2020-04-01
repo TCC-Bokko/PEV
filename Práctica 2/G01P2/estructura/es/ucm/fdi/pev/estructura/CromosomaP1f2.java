@@ -70,6 +70,12 @@ public class CromosomaP1f2 extends CromosomaBinario {
 		return new CromosomaP1f2(this);
 	}
 
+	@Override
+	public boolean compara_peor_fitness(float f) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 	
 }

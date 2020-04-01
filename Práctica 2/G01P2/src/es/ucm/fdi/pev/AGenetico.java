@@ -39,6 +39,7 @@ public class AGenetico
 	protected Cromosoma mejor_abs;
 	protected float mejor_fitness;
 	protected float abs_fitness = 0;
+	protected float abs_worst_fitness = 0;
 
 	protected Grafica _grafica;
 	protected float fitness_total;
@@ -55,6 +56,14 @@ public class AGenetico
 	protected float prob_cruce;
 	protected float prob_mutacion;
 	protected float elitismo;
+	
+	//Memoria P2
+	protected int generacionMejor = 0;
+	protected int generacionPeor = 0;
+	protected int numCrucesTotal = 0;
+	protected int numMutacionesTotal = 0;
+	protected Cromosoma peor_abs;
+	protected float peor_fitness;
 	
 	enum Tipo {MINIMIZACION, MAXIMIZACION, DEFAULT}
 	Tipo tipo;
@@ -122,11 +131,41 @@ public class AGenetico
 			_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media); //Pasa los datos de esta generacion a la grafica, calcula media y compara maxAbsoluto.
 		
 			generacionActual++;
-		}	
+		}
 		
+		// MENSAJES DE FIN DE EJECUCION		
+		System.out.println("__FIN DE LA EJECUCION__");
+		System.out.printf("Poblacion: %d\n", tamPoblacion);
+		System.out.printf("Generaciones: %d\n", maxGeneraciones);
+		System.out.printf("Cruces: %d\n", numCrucesTotal);
+		System.out.printf("Mutaciones: %d\n", numMutacionesTotal);
+		// Obtener mejor cromosoma absoluto del algoritmo genético
+		Gen[] genes = mejor_abs.getGenes();
+		String textoMejorAbs = "Mejor Invididuo. Genes: [";
+		int value;
+		for (int i = 0; i < genes.length; i++) {
+			GenEntero GMJ = (GenEntero) genes[i];
+			value = GMJ.getAlelo();
+			textoMejorAbs = textoMejorAbs + Integer.toString(value);
+			textoMejorAbs = textoMejorAbs + ", ";
+		}
+		textoMejorAbs = textoMejorAbs + "]";
+		System.out.println(textoMejorAbs);
+		System.out.printf("Mejor fitness: %f\n", mejor_fitness);
+		// Obtener peor cromosoma
+		genes = peor_abs.getGenes();
+		String textoPeorAbs = "Peor Invididuo. Genes: [";
+		for (int i = 0; i < genes.length; i++) {
+			GenEntero GMJ = (GenEntero) genes[i];
+			value = GMJ.getAlelo();
+			textoPeorAbs = textoPeorAbs + Integer.toString(value);
+			textoPeorAbs = textoPeorAbs + ", ";
+		}
+		textoPeorAbs = textoPeorAbs + "]";
+		System.out.println(textoPeorAbs);
+		System.out.printf("Peor fitness: %f", peor_fitness);
 		_grafica.dibujaGrafica();
 	}
-	
 	
 	protected void inicializaGrafica() {
 		marco = new JFrame();
@@ -141,7 +180,6 @@ public class AGenetico
 		marco.setVisible(true);
 		marco.add(_grafica.getGrafica());
 	}
-	
 	
 	protected void creaPoblacion()
 	{	
@@ -206,7 +244,8 @@ public class AGenetico
 		
 		// Valores por defecto inicializados:
 		mejor_abs = poblacion[0];
-		abs_fitness = mejor_fitness = poblacion[0].evalua();
+		peor_abs = poblacion[0];
+		abs_fitness = mejor_fitness = peor_fitness = abs_worst_fitness = poblacion[0].evalua();
 	}
 	
 	// Crea la poblacion para el ejercicio concreto (leyendo, en este caso, de fichero)
@@ -300,9 +339,7 @@ public class AGenetico
 			poblacion[i] = new CromosomaP2f1(tam, distancias, flujos);
 		
 	}
-	
 
-	
 	// FUNCIONES DEL BUCLE
 	
 	private void seleccion()
@@ -364,6 +401,7 @@ public class AGenetico
 					
 		for (int i = 0; i < sel.size(); i+=2)
 		{
+			
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
 			
@@ -399,36 +437,38 @@ public class AGenetico
 					HT.ht(poblacion[padre1], poblacion[padre2]);
 					break;
 			}
+			numCrucesTotal++;
 		}
 	}
 	
 	private void mutacion()
 	{			
+		boolean haMutado = false;
 		for (Cromosoma c : poblacion)
 		switch (tipoMutacion)
 		{
 		case "Basica":
-			Basica.basica(c, prob_mutacion);
+			haMutado = Basica.basica(c, prob_mutacion);
 			break;
 		case "Inversion":
-			Inversion.inversion(c, prob_mutacion);
+			haMutado = Inversion.inversion(c, prob_mutacion);
 			break;
 		case "Insercion":
-			Insercion.insercion(c, prob_mutacion);
+			haMutado = Insercion.insercion(c, prob_mutacion);
 			break;
 		case "Intercambio":
-			Intercambio.intercambio(c, prob_mutacion);
+			haMutado = Intercambio.intercambio(c, prob_mutacion);
 			break;
 		case "Heuristica":
-			Heuristica.heuristica(c, prob_mutacion);
+			haMutado = Heuristica.heuristica(c, prob_mutacion);
 			break;
 		case "Desplazamiento":
-			Desplazamiento.desplazamiento(c, prob_mutacion);
+			haMutado = Desplazamiento.desplazamiento(c, prob_mutacion);
 			break;		
 		}
+		if (haMutado) numMutacionesTotal++;
 	}
 	
-		
 	private void evaluacion() 
 	{
 		
@@ -498,10 +538,23 @@ public class AGenetico
 		{
 			mejor_fitness = c.getFitness();
 			
-			if(c.compara_mejor_fitness(abs_fitness))
+			if(c.compara_mejor_fitness(abs_fitness)) {
 				abs_fitness = c.getFitness();
 				mejor_abs = c;
-		}	
+				generacionMejor = generacionActual;
+			}
+		}
+		
+		if(c.compara_peor_fitness(peor_fitness))
+		{
+			peor_fitness = c.getFitness();
+			
+			if(c.compara_peor_fitness(abs_worst_fitness)) {
+				abs_worst_fitness = c.getFitness();
+				peor_abs = c;
+				generacionPeor = generacionActual;
+			}
+		}
 	}
 	
 	private boolean terminado() 

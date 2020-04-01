@@ -69,5 +69,11 @@ public class CromosomaP1f3 extends CromosomaBinario {
 		return new CromosomaP1f3(this);
 	}
 
+	@Override
+	public boolean compara_peor_fitness(float f) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 	
 }

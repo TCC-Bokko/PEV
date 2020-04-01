@@ -69,7 +69,8 @@ public class GenEntero implements Gen {
 	
 	
 	@Override
-	public void muta(float prob) {
+	public boolean muta(float prob) {
+		boolean haMutado = false;
 		/*
 		for (int i = 0; i < alelo.length; i++) {
 			Random r = new Random();	
@@ -85,6 +86,7 @@ public class GenEntero implements Gen {
 			}
 		}
 		*/
+		return haMutado;
 	}
 
 	@Override

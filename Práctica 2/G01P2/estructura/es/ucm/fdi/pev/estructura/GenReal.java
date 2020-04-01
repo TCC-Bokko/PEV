@@ -53,13 +53,16 @@ public class GenReal implements Gen {
 	}
 
 	@Override
-	public void muta(float prob) {
-
+	public boolean muta(float prob) {
+		boolean haMutado = false;
 		Random r = new Random();	
 		float rand = r.nextFloat();
 			
-		if (rand < prob)
+		if (rand < prob) {
 			randomInit();
+			haMutado = true;
+		}
+		return haMutado;
 	}
 
 	@Override

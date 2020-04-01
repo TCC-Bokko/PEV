@@ -4,8 +4,10 @@ import es.ucm.fdi.pev.estructura.Cromosoma;
 
 public class Basica {
 
-	public static void basica(Cromosoma c, float prob) 
+	public static boolean basica(Cromosoma c, float prob) 
 	{
-		c.muta(prob);
+		boolean haMutado = false;
+		haMutado = c.muta(prob);
+		return haMutado;
 	}
 }

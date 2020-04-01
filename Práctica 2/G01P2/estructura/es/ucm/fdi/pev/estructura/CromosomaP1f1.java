@@ -73,6 +73,12 @@ public class CromosomaP1f1 extends CromosomaBinario {
 	public Cromosoma clone() {
 		return new CromosomaP1f1(this);
 	}
+
+	@Override
+	public boolean compara_peor_fitness(float f) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
 
 

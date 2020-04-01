@@ -11,13 +11,18 @@ import es.ucm.fdi.pev.estructura.Gen;
 
 public class Heuristica {
 
-	public static void heuristica(Cromosoma c, float prob)
+	public static boolean heuristica(Cromosoma c, float prob)
 	{
+		boolean haMutado = false;
 		Random r = new Random();
 		float rand = r.nextFloat();
 		
-		if(rand < prob)
+		if(rand < prob) {
 			muta(c);
+			haMutado = true;
+		}
+		
+		return haMutado;
 	}
 
 	private static void muta(Cromosoma c) 

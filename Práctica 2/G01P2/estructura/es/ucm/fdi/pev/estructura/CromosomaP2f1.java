@@ -75,6 +75,11 @@ public class CromosomaP2f1 extends CromosomaEntero {
 	public boolean compara_mejor_fitness(float f) {
 		return this.fitness < f;
 	}
+	
+	@Override
+	public boolean compara_peor_fitness(float f) {
+		return this.fitness > f;
+	}
 
 	@Override
 	public int compareTo(Cromosoma c) {

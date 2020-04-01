@@ -39,15 +39,20 @@ public abstract class Cromosoma  implements Comparable<Cromosoma> {
 	abstract public float[] fenotipos(); // Devuelve el fenotipo de cada gen
 	abstract public float evalua();
 	abstract public boolean compara_mejor_fitness(float f);
+	abstract public boolean compara_peor_fitness(float f);
 	
 
 	@Override
 	public abstract int compareTo(Cromosoma c);
 	
-	public void muta(float prob)
+	public boolean muta(float prob)
 	{
-		for(Gen g: genes)
-			g.muta(prob);
+		boolean haMutado = false;
+		
+		for(Gen g: genes) {
+			if (g.muta(prob)) haMutado = true;
+		}
+		return haMutado;
 	}
 	
 	public String genotipos() 

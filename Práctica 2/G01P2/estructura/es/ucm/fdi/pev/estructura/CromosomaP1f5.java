@@ -74,6 +74,13 @@ public class CromosomaP1f5 extends CromosomaReal {
 		
 		return genes_l;
 	}
+
+
+	@Override
+	public boolean compara_peor_fitness(float f) {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
 
 

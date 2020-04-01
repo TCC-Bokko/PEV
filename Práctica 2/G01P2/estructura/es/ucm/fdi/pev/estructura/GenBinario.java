@@ -80,59 +80,25 @@ public GenBinario clone() {
 		
 		((GenBinario) g).setAlelos(g_bits.clone());
 		
-		return g;
-		/*
-		// Realizamos este casting de forma segura porque sabemos que solo se cruzar�n genes del mismo tipo.
-		GenBinario g2 = (GenBinario)g;
-		
-		ArrayList<Boolean> g_bits = g2.getBits();
-		ArrayList<Boolean> aux = new ArrayList<Boolean>(bits);
-			
-			bits.set(i, g_bits.get(i));
-			g_bits.set(i, aux.get(i));
-				
-		g2.setBits(g_bits);
-		
-		return g2;
-		*/
-		
-		
+		return g;		
 	}
-	
-	/*
-	@Override
-	public Gen cruce(int corte, Gen g) {
-		
-		// Realizamos este casting de forma segura porque sabemos que solo se cruzar�n genes del mismo tipo.
-		GenBinario g2 = (GenBinario)g;
-		
-		Boolean[] g_bits = g2.getBits();
-		Boolean[] aux = bits.clone();
-			
-		for (int i = 0; i < corte; i++)
-		{	
-			bits[i] = g_bits[i];
-			g_bits[i] = aux[i];
-		}
-				
-		g2.setBits(g_bits);
-			
-		return g2;
-	}*/
 
 	@Override
-	public void muta(float prob) 
+	public boolean muta(float prob) 
 	{	
 		//ArrayList<Boolean> new_b = new ArrayList<Boolean>();
-		
+		boolean haMutado = false;
 		Random r = new Random();
 		for (int i = 0; i < alelos.length; i++)
 		{
 			float rand = r.nextFloat();
-			if(rand < prob)
+			if(rand < prob) {
 				alelos[i] = !alelos[i];
+				haMutado = true;
+			}
 		}
 		
+		return haMutado;
 		//bits = new_b;
 	}
 

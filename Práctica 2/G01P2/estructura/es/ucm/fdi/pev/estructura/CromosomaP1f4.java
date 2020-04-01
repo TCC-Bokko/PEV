@@ -75,5 +75,12 @@ public class CromosomaP1f4 extends CromosomaBinario {
 	}
 
 
+	@Override
+	public boolean compara_peor_fitness(float f) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+
 
 }

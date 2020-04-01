@@ -8,13 +8,19 @@ import es.ucm.fdi.pev.estructura.Gen;
 
 public class Desplazamiento {
 
-	public static void desplazamiento(Cromosoma c, float prob) 
+	public static boolean desplazamiento(Cromosoma c, float prob) 
 	{	
+		boolean haMutado = false;
+		
 		Random r = new Random();
 		float rand = r.nextFloat();
 		
-		if(rand < prob)
-			muta(c);		
+		if(rand < prob) {
+			muta(c);
+			haMutado = true;
+		}
+		
+		return haMutado;
 	}
 
 	private static void muta(Cromosoma c) 
