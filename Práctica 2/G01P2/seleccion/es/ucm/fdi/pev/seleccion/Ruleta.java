@@ -8,13 +8,10 @@ public class Ruleta {
 	
 	public static int[] ruleta(Cromosoma[] poblacion) {
 		int[] pob_idx = new int[poblacion.length];
-		// Consideramos que la poblacion ya tiene evaluado su fitness
-		// Esto sucedio en la funcion de evaluacion del main.
 		
-		
-		// Tiradas
-		for (int j = 0; j < poblacion.length; j++ ) {
-			pob_idx[j] = seleccion(poblacion);
+		// 1) Seleccionamos aleatoriamente a los candidatos en funcion de su puntuacion
+		for (int i = 0; i < poblacion.length; i++ ) {
+			pob_idx[i] = seleccion(poblacion);
 		}
 				
 		return pob_idx;		
@@ -26,10 +23,7 @@ public class Ruleta {
 	
 		int idx = 0;
 		while(r > poblacion[idx].getPuntuacionAcum() && idx < poblacion.length)
-		{
-		//	System.out.println("Punt acum.: " + poblacion[idx].getPuntuacionAcum());
 			idx++;
-		}
 			
 		return idx;		
 	}

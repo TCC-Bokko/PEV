@@ -359,6 +359,9 @@ public class AGenetico
 			case "Ruleta":
 				pob_idx = Ruleta.ruleta(poblacion);
 				break;
+			case "Ranking":
+				pob_idx = Ranking.ranking(poblacion);
+				break;
 			case "MUE":
 				pob_idx = MUE.mue(poblacion);
 				break;
@@ -496,8 +499,7 @@ public class AGenetico
 			break;
 		case MAXIMIZACION:
 			maximizacion();
-			break;
-			
+			break;			
 		default:
 			adapta_puntuacion();
 			break;
@@ -512,7 +514,7 @@ public class AGenetico
 		if(elitismo > 0.0f)
 		{
 			int tamElite = (int) (tamPoblacion * elitismo);
-			Arrays.sort(poblacion);		
+			Arrays.sort(poblacion);
 			
 			//System.out.println("Tam Elite: " + tamElite);
 			
