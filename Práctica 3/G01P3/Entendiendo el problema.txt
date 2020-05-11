@@ -1,0 +1,162 @@
+[] CromosomaP3 Arbol
+[] GenP3  {}
+[] 
+
+
+Resolver funcionamiento multiplexor 6 entradas.
+2 dirección A0 A1
+4 Datos D0 D1 D2 D3
+Funcion NOT (1 Argumento)
+Funciones AND OR (2 Argumentos)
+
+Funcion IF (3 Argumentos X Y Z)
+	- IF X entonces IF Y
+	- IF NOT X entonces Z
+
+codifican 4 números binarios
+A0
+A1 
+
+Esta codificación elije que devuelve el multiplexor en su salida.
+00 01 10 11
+D0 D1 D2 D3
+
+Función de Aptitud
+Se mira el total de aciertos (maximizar) o fallos (minimizar) sobre los 64 casos posibles de prueba
+
+
+POSIBILIDADES REALES (128)  - Posibilidades a considerar (64) SOLO ENTRADA Y SALIDA CORRECTA
+
+	A0	A1	D0	D1	D2	D3	OUTPUT	Resultado
+	------------------------------------------------------------------------- SECTOR A0A1 = D3
+	1	1	1	1	1  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	1	1	1	0
+	1	1	1	1	1	0	1
+	1	1	1	1	1  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	1	0  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	1	0	1	0	
+	1	1	1	1	0	0	1
+	1	1	1	1	0  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	0	1  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	0	1	1	0
+	1	1	1	0	1	0	1
+	1	1	1	0	1  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	0	0  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	0	0	1	0
+	1	1	1	0	0	0	1
+	1	1	1	0	0  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	1	1  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	1	1	1	0
+	1	1	0	1	1	0	1
+	1	1	0	1	1  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	1	0  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	1	0	1	0	
+	1	1	0	1	0	0	1
+	1	1	0	1	0  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	0	1  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	0	1	1	0
+	1	1	0	0	1	0	1
+	1	1	0	0	1  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	0	0  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	0	0	1	0
+	1	1	0	0	0	0	1	
+	1	1	0	0	0  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	-------------------------------------------------------------------------- SECTOR A0A1 = D2
+	1	0	1	1  [1]	1  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	1	1	1	0
+	1	0	1	1  [1]	0  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	1	1	0	0		
+	1	0	1	1	0	1	1
+	1	0	1	1  [0]	1  [0]		Correcto A0A1=D2 -> Salida = D2	
+	1	0	1	1	0	0	1
+	1	0	1	1  [0]	0  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	0  [1]	1  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	0	1	1	0
+	1	0	1	0  [1]	0  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	0	1	0	0
+	1	0	1	0	0	1	1
+	1	0	1	0  [0]	1  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	0	0	0	1
+	1	0	1	0  [0]	0  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	1  [1]	1  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	1	1	1	0
+	1	0	0	1  [1]	0  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	1	1	0	0
+	1	0	0	1	0	1	1
+	1	0	0	1  [0]	1  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	1	0	0	1
+	1	0	0	1  [0]	0  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	0  [1]	1  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	0	1	1	0
+	1	0	0	0  [1]	0  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	0	1	0	0
+	1	0	0	0	0	1	1
+	1	0	0	0  [0]	1  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	0	0	0	1
+	1	0	0	0  [0]	0  [0]		Correcto A0A1=D2 -> Salida = D2
+	-------------------------------------------------------------------------- SECTOR A0A1 = D1
+	0	1	1  [1]	1	1  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	1	1	1	0
+	0	1	1  [1]	1	0  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	1	1	0	0
+	0	1	1  [1]	0	1  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	1	0	1	0	
+	0	1	1  [1]	0	0  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	1	0	0	0				
+	0	1	1	0	1	1	1		
+	0	1	1  [0]	1	1  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	0	1	0	1
+	0	1	1  [0]	1	0  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	0	0	1	1
+	0	1	1  [0]	0	1  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	0	0	0	1
+	0	1	1  [0]	0	0  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0  [1]	1	1  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	1	1	1	0
+	0	1	0  [1]	1	0  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	1	1	0	0
+	0	1	0  [1]	0	1  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	1	0	1	0	
+	0	1	0  [1]	0	0  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	1	0	0	0
+	0	1	0	0	1	1	1
+	0	1	0  [0]	1	1  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	0	1	0	1
+	0	1	0  [0]	1	0  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	0	0	1	1
+	0	1	0  [0]	0	1  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	0	0	0	1
+	0	1	0  [0]	0	0  [0]		Correcto A0A1=D1 -> Salida = D1
+	-------------------------------------------------------------------------- SECTOR A0A1 = D0
+	0	0  [1]	1	1	1  [1]		
+	0	0	1	1	1	1	0
+	0	0	1	1	1	0	1
+	0	0	1	1	1	0	0
+	0	0	1	1	0	1	1
+	0	0	1	1	0	1	0	
+	0	0	1	1	0	0	1
+	0	0	1	1	0	0	0
+	0	0	1	0	1	1	1
+	0	0	1	0	1	1	0
+	0	0	1	0	1	0	1
+	0	0	1	0	1	0	0
+	0	0	1	0	0	1	1
+	0	0	1	0	0	1	0
+	0	0	1	0	0	0	1
+	0	0	1	0	0	0	0
+	0	0	0	1	1	1	1
+	0	0	0	1	1	1	0
+	0	0	0	1	1	0	1
+	0	0	0	1	1	0	0
+	0	0	0	1	0	1	1
+	0	0	0	1	0	1	0	
+	0	0	0	1	0	0	1
+	0	0	0	1	0	0	0
+	0	0	0	0	1	1	1
+	0	0	0	0	1	1	0
+	0	0	0	0	1	0	1
+	0	0	0	0	1	0	0
+	0	0	0	0	0	1	1
+	0	0	0	0	0	1	0
+	0	0	0	0	0	0	1
+	0	0	0	0	0	0	0
