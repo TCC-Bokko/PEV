@@ -211,7 +211,11 @@ public class AGenetico
 			tipo = Tipo.MINIMIZACION;
 			for(int i = 0; i < tamPoblacion; i++)
 				poblacion[i] = new CromosomaP1f5();
-			break;	
+			break;
+		case 6:
+			tipo = Tipo.MAXIMIZACION; //Buscamos sacar más aciertos
+			for (int i = 0; i < tamPoblacion; i++)
+				poblacion[i] = new CromosomaArbol(); //Mirara el tipo de inicialización
 		}
 	}
 	
