@@ -15,9 +15,9 @@ public class Arbol {
 	public Arbol() {
 		num_nodos = 0;
 		profundidad = -1;
-		Hi = new Arbol();
-		Hc = new Arbol();
-		Hd = new Arbol();
+		Hi = null;
+		Hc = null;
+		Hd = null;
 	}
 	
 	//GETTERS

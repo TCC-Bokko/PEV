@@ -21,6 +21,7 @@ public class CromosomaArbol extends Cromosoma {
 	// ESTO HAY QUE CAMBIARLO: hay que adaptarlo a lo metido por GUI.
 	// Inicializar vacío, crear tantas entradas A* como solicite el gui.
 	// y luego crear tantos direccionadores D* como solicite el gui.
+	// Ver que las A direccionen las D (2A -> 4D) (3A -> 8D) (4A - 16D)
 	private String[] operandos = new String[] {"A0", "A1", "D0", "D1", "D2", "D3"}; 
 	
 	public CromosomaArbol() {
@@ -36,19 +37,26 @@ public class CromosomaArbol extends Cromosoma {
 	protected void inicializaCromosoma() {
 		switch (inicializacion) {
 		case "Completa":
-			raizArbol = creaArbolCompleto(raizArbol, prof_min-1, prof_max-1);
+			raizArbol = creaArbolCompleto(raizArbol, 0, prof_min-1, prof_max-1);
 			break;
 		case "Creciente":
-			raizArbol = creaArbolCreciente(raizArbol, prof_min-1, prof_max-1);
+			raizArbol = creaArbolCreciente(raizArbol, 0, prof_min-1, prof_max-1);
 			break;
 		case "Ramped&Half":
-			raizArbol = creaArbolRampedAndHalf(raizArbol, prof_min-1, prof_max-1);
+			raizArbol = creaArbolRampedAndHalf(raizArbol, 0, prof_min-1, prof_max-1);
 			break;
 		
 		}
 	}
 	
-	private Arbol creaArbolCompleto(Arbol arbol, int prof_min, int prof_max) {
+	private Arbol creaArbolCompleto(Arbol arbol, int nivel, int prof_min, int prof_max) {
+		if (arbol == null) {
+			arbol = new Arbol();
+		}
+		
+		//Profundidad de este nodo.
+		arbol.setProfundidad(nivel);
+		
 		//Si no es hoja
 		if (prof_min > 0) {
 			//Generar subardol usando operador {IF, NOT, OR, AND}
@@ -60,12 +68,12 @@ public class CromosomaArbol extends Cromosoma {
 			//GENERAR HIJOS
 			
 			//Izquierdo
-			HI = creaArbolCompleto(arbol.getHi(), prof_min-1, prof_max-1);
+			HI = creaArbolCompleto(arbol.getHi(), nivel+1, prof_min-1, prof_max-1);
 			arbol.setNumNodos(arbol.getNumNodos() + arbol.getHi().getNumNodos());
 			
 			//Central (Si procede)
 			if (tres_operandos(operador)) {
-				HC = creaArbolCompleto(arbol.getHc(), prof_min-1, prof_max-1);
+				HC = creaArbolCompleto(arbol.getHc(), nivel+1, prof_min-1, prof_max-1);
 				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHi().getNumNodos());
 			} else {
 				HC = null;
@@ -73,7 +81,7 @@ public class CromosomaArbol extends Cromosoma {
 			}
 			
 			//Derecho
-			HD = creaArbolCompleto(arbol.getHd(), prof_min-1, prof_max-1);
+			HD = creaArbolCompleto(arbol.getHd(), nivel+1, prof_min-1, prof_max-1);
 			arbol.setNumNodos(arbol.getNumNodos() + arbol.getHd().getNumNodos());
 		} else {
 			prof_min = 0;
@@ -98,12 +106,12 @@ public class CromosomaArbol extends Cromosoma {
 				//GENERAR HIJOS
 				
 				//Izquierdo
-				HI = creaArbolCompleto(arbol.getHi(), prof_min-1, prof_max-1);
+				HI = creaArbolCompleto(arbol.getHi(), nivel+1, prof_min-1, prof_max-1);
 				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHi().getNumNodos());
 				
 				//Central (Si procede)
 				if (tres_operandos(operador)) {
-					HC = creaArbolCompleto(arbol.getHc(), prof_min-1, prof_max-1);
+					HC = creaArbolCompleto(arbol.getHc(), nivel+1, prof_min-1, prof_max-1);
 					arbol.setNumNodos(arbol.getNumNodos() + arbol.getHi().getNumNodos());
 				} else {
 					HC = null;
@@ -111,7 +119,7 @@ public class CromosomaArbol extends Cromosoma {
 				}
 				
 				//Derecho
-				HD = creaArbolCompleto(arbol.getHd(), prof_min-1, prof_max-1);
+				HD = creaArbolCompleto(arbol.getHd(), nivel+1, prof_min-1, prof_max-1);
 				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHd().getNumNodos());
 			} else {
 				// Generación subarbol operando
@@ -125,11 +133,11 @@ public class CromosomaArbol extends Cromosoma {
 		return arbol;
 	}
 	
-	private Arbol creaArbolCreciente(Arbol arbol, int prof_min, int prof_max) {
+	private Arbol creaArbolCreciente(Arbol arbol, int nivel, int prof_min, int prof_max) {
 		return arbol;
 	}
 	
-	private Arbol creaArbolRampedAndHalf(Arbol arbol, int prof_min, int prof_max) {
+	private Arbol creaArbolRampedAndHalf(Arbol arbol, int nivel, int prof_min, int prof_max) {
 		return arbol;
 	}
 	
@@ -151,6 +159,78 @@ public class CromosomaArbol extends Cromosoma {
 	public float[] fenotipos() {
 		// TODO Auto-generated method stub
 		return null;
+	}
+	
+	public String fenotipoArbol() {
+		String operacion = "(";
+		
+		//Recorrido recursivo por los hijos del arbol
+		ValoresArbol(operacion, raizArbol);
+		
+		operacion = operacion + ")";
+		
+		return operacion;
+	}
+	
+	private String ValoresArbol(String cadena, Arbol arbol) {
+		//Añadimos el valor del arbol
+		cadena = cadena + arbol.getValor();
+		
+		//Hijo Izquierdo
+		if (arbol.getHi() != null) {
+			//Si encontramos un operador
+			if (arbol.getHi().getValor() == "AND" || 
+					arbol.getHi().getValor() == "IF" || 
+					arbol.getHi().getValor() == "NOT" || 
+					arbol.getHi().getValor() == "OR") {
+				//Nueva operación, abrimos y hacemos llamada recursiva
+				cadena = cadena + "(" + arbol.getHi().getValor() + " ";
+				cadena = ValoresArbol(cadena, arbol.getHi());
+			}
+			else {
+				cadena = cadena + arbol.getHi().getValor() + " ";
+			}
+		}
+		
+		//Hijo Central
+		if (arbol.getHc() != null) {
+			//Si encontramos un operador
+			if (arbol.getHc().getValor() == "AND" || 
+					arbol.getHc().getValor() == "IF" || 
+					arbol.getHc().getValor() == "NOT" || 
+					arbol.getHc().getValor() == "OR") {
+				//Nueva operación, abrimos y hacemos llamada recursiva
+				cadena = cadena + "(" + arbol.getHc().getValor() + " ";
+				cadena = ValoresArbol(cadena, arbol.getHc());
+			}
+			else {
+				cadena = cadena + arbol.getHc().getValor() + " ";
+			}
+		}
+		
+		//Hijo Derecho
+		if (arbol.getHd() != null) {
+			//Si encontramos un operador
+			if (arbol.getHd().getValor() == "AND" || 
+					arbol.getHd().getValor() == "IF" || 
+					arbol.getHd().getValor() == "NOT" || 
+					arbol.getHd().getValor() == "OR") {
+				//Nueva operación, abrimos y hacemos llamada recursiva
+				cadena = cadena + "(" + arbol.getHd().getValor() + " ";
+				cadena = ValoresArbol(cadena, arbol.getHd());
+			}
+			else {
+				cadena = cadena + arbol.getHd().getValor() + " ";
+			}
+		}
+		
+		//Cerramos
+		cadena = cadena + ")";
+		
+		//PRINT DEBUG
+		System.out.println(cadena);
+		
+		return cadena; 
 	}
 
 	@Override
