@@ -13,23 +13,51 @@ public class CromosomaArbol extends Cromosoma {
 	int prof_max;
 	Random r;
 	
+	// Opciones del GUI
+	protected int numAs;
+	protected int numDs;
+	protected Boolean useIf;
+	
 	//Ver donde poner esto para no estar generandolo en cada cromosoma
 	////// WIP - TO DO ///////// Que los datos de dentro dependan del selector del GUI (para el IF)
-	private String[] fulloperador = new String[] {"IF", "AND", "OR", "NOT"};
-	private String[] operador = new String[] {"AND", "OR", "NOT"};
+	private String[] operadores;
 	// ////// WIP - TO DO /////////
 	// ESTO HAY QUE CAMBIARLO: hay que adaptarlo a lo metido por GUI.
 	// Inicializar vacío, crear tantas entradas A* como solicite el gui.
 	// y luego crear tantos direccionadores D* como solicite el gui.
 	// Ver que las A direccionen las D (2A -> 4D) (3A -> 8D) (4A - 16D)
-	private String[] operandos = new String[] {"A0", "A1", "D0", "D1", "D2", "D3"}; 
+	private String[] operandos; 
 	
-	public CromosomaArbol() {
+	public CromosomaArbol(int As, String uif, int pmin, int pmax, String initC) {
+		//Datos del AGen establecidos en el GUI
+		
+		//USO DEL OPERADOR IF
+		if (uif == "True") { 
+			useIf = true;
+			operadores = new String[] {"IF", "AND", "OR", "NOT"};
+		}
+		else { 
+			useIf = false;
+			operadores = new String[] {"AND", "OR", "NOT"};
+		}
+	
+		// CANTIDAD DE OPERANDOS
+		numAs = As;
+		if (numAs == 2) {
+			//2 Address que direccionan 4 datos
+			operandos = new String[] {"A0", "A1", "D0", "D1", "D2", "D3"};
+		} else if (numAs == 3) {
+			// 3 Address que direccionan 8 datos
+			operandos = new String[] {"A0", "A1", "A2", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"};
+		}
+		
+		prof_min = pmin; 
+		prof_max = pmax; 
+		inicializacion = initC;
+		
+		// Llamadas a metodos
 		r = new Random();
 		raizArbol = new Arbol();
-		inicializacion = "Completa"; //Cambiar a lo que reciba por GUI
-		prof_min = 3; //Cambiar a lo que reciba por GUI
-		prof_max = 4; //Cambiar a lo que reciba por GUI
 		inicializaCromosoma();
 	}
 	
@@ -42,7 +70,7 @@ public class CromosomaArbol extends Cromosoma {
 		case "Creciente":
 			raizArbol = creaArbolCreciente(raizArbol, 0, prof_min-1, prof_max-1);
 			break;
-		case "Ramped&Half":
+		case "RampedANDHalf":
 			raizArbol = creaArbolRampedAndHalf(raizArbol, 0, prof_min-1, prof_max-1);
 			break;
 		
@@ -61,8 +89,8 @@ public class CromosomaArbol extends Cromosoma {
 		if (prof_min > 0) {
 			//Generar subardol usando operador {IF, NOT, OR, AND}
 			////// WIP - TO DO ///////// Ver si usamos IF o no en el GUI.
-			int it = r.nextInt(fulloperador.length);
-			String operador = fulloperador[it];
+			int it = r.nextInt(operadores.length);
+			String operador = operadores[it];
 			arbol.setValor(operador);
 			
 			//GENERAR HIJOS
@@ -99,8 +127,8 @@ public class CromosomaArbol extends Cromosoma {
 			int tipo = r.nextInt(2);
 			if (tipo == 0) {
 				////// WIP - TO DO ///////// Ver si usamos IF o no en el GUI.
-				int it = r.nextInt(fulloperador.length);
-				String operador = fulloperador[it];
+				int it = r.nextInt(operadores.length);
+				String operador = operadores[it];
 				arbol.setValor(operador);
 				
 				//GENERAR HIJOS

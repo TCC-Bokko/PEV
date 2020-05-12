@@ -65,7 +65,7 @@ public class AGenetico
 	protected float prob_mutacion;
 	protected float elitismo;
 	
-	//Memoria P2
+	// Memoria
 	protected int generacionMejor = 0;
 	protected int generacionPeor = 0;
 	protected int numCrucesTotal = 0;
@@ -76,9 +76,15 @@ public class AGenetico
 	enum Tipo {MINIMIZACION, MAXIMIZACION, DEFAULT}
 	Tipo tipo;
 	
-	// Practica 2
+	// Práctica 2
 	protected String tipoMutacion;
-	//protected int n;
+	
+	// Práctica 3
+	protected int numAs;	//cantidad de lineas de direccionamiento (Adress)
+	protected String useif;
+	protected int pmax;
+	protected int pmin;
+	protected String initC;
 	
 	// -------- GRAFICA --------- // 
 	
@@ -113,7 +119,7 @@ public class AGenetico
 	public void ejecuta()
 	{
 		// Bucle del algoritmo
-		//Genera
+		// Genera
 		System.out.println("-------- INICIO DE POBLACION"  + " --------" );
 		generacionActual = 1;
 		
@@ -199,7 +205,7 @@ public class AGenetico
 		case 10:
 			tipo = Tipo.MAXIMIZACION; //Buscamos sacar más aciertos
 			for (int i = 0; i < tamPoblacion; i++)
-				poblacion[i] = new CromosomaArbol(); //Mirara el tipo de inicialización
+				poblacion[i] = new CromosomaArbol(numAs, useif, pmin, pmax, initC); //Mirara el tipo de inicialización
 		}
 	}
 	
@@ -550,10 +556,27 @@ public class AGenetico
 	public void setGrafica(Grafica grafica) {
 		_grafica = grafica;
 	}
-	// Setters Práctica 2 y 3
 	public void setMutacion(String Mutacion) {
 		tipoMutacion = Mutacion;
 	}
+	// Setters Práctica 3
+	public void setNumAs(String As) {
+		if (As == "2") numAs = 2;
+		else if (As == "3") numAs = 3;
+	}
+	public void setUseIf(String uif){
+		useif = uif;
+	}
+	public void setPmin(int pm) {
+		pmin = pm;
+	}
+	public void setPmax(int pM) {
+		pmax = pM;
+	}
+	public void setInitType(String iniT) {
+		initC = iniT;
+	}
+	
 
 	
 	//GETTERS

@@ -154,13 +154,13 @@ public class GUI extends JFrame {
 		ConfigPanel<AlGen> configAlGen = new ConfigPanel<AlGen>();
 		
 		///////////// NUESTRAS OPCIONES /////////////////
-		//String[] gen = new String[] {"Binario", "Real"};
 		String[] funciones = new String[] {"P3: P.Genetica"};
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE", "Ranking", "Truncamiento", "Restos"};
 		String[] cruces = new String[] {"Permutacion"};
-		// Practica 2
-		//String[] numValores = new String[] {"1", "2", "3", "4", "5", "6", "7"};
+		String[] entradas = new String[] {"2", "3"};
 		String[] mutaciones = new String[] {"Funcion", "Terminal", "Permutacion", "Hoist", "Expansion", "Contraccion", "Subarbol"};
+		String[] generacion = new String[] {"Completa", "Creciente", "RampedANDHalf"};
+		String[] usarif = new String[] { "True", "False"};
 		
 		////////////////////////////////////
 		// AÑADIR ELEMENTOS
@@ -171,16 +171,22 @@ public class GUI extends JFrame {
 		//		  "Campo: Buscara Getters y Setters con ese nombre p.ej. getFuncion, setFuncion. (O eso entiendo yo que hace)
 		// ESTABLECER VALORES
 		configAlGen.addOption(new IntegerOption<AlGen>("Poblacion:","Define cantidad de individuos", "tamPob", 0, 500));
-		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:","Define cantidad de generaciones", "maxGen", 10, 2000));
+		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:", "Define cantidad de generaciones", "maxGen", 10, 2000));
+		configAlGen.addOption(new IntegerOption<AlGen>("Prof. Minima:", "Define profundidad minima", "minProf", 0, 3));
+		configAlGen.addOption(new IntegerOption<AlGen>("Prof. Maxima:","Define profundidad máxima", "maxProf", 1, 20));
 		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Cruce:","Con que % se cruzaran [0.0, 1.0]", "probCruce", 0.0, 1.0));
 		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Mutacion:","Con que % mutara [0.0, 1.0]", "probMut", 0.0, 1.0));
 		configAlGen.addOption(new DoubleOption<AlGen>("Elitismo:","% poblacion elite [0.0, 1.0]", "elitismo", 0.0, 1.0));
 		// CHOICE OPTION
-		configAlGen.addOption(new ChoiceOption<AlGen>("Funcion", "fitness del individuo", "funcion", funciones));                      
+		configAlGen.addOption(new ChoiceOption<AlGen>("Entradas(Ax)","Define cantidad de entradas direccionadoras", "numAs", entradas));
+		configAlGen.addOption(new ChoiceOption<AlGen>("Usar IF","Permite o no el uso de funciones IF", "useIf", usarif));
+		// No ponemos un selector de lineas de datos (Dx) ya que son dependientes del direccionamiento de las Ax.
+		configAlGen.addOption(new ChoiceOption<AlGen>("Generacion", "Establece la inicializacion de la poblacion", "generador", generacion));
+		configAlGen.addOption(new ChoiceOption<AlGen>("Funcion", "fitness del individuo", "funcion", funciones));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","seleccion", selectores));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Cruces","Tipo de Cruce","cruce", cruces));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Mutacion","Tipo de Mutacion","mutacion", mutaciones));
-		//configAlGen.addOption(new ChoiceOption<AlGen>("N","Cantidad de valores P1Prob4", "n", numValores));
+
 		// CERRAR LAS OPCIONES
 		configAlGen.endOptions();
 		
@@ -207,17 +213,23 @@ public class GUI extends JFrame {
 		public String funcion = "P3: P.Genetica";
 		public String cruce = "Permutacion";
 		public String seleccion = "Ruleta";
+		public String mutacion = "Funcion";
 		public double elitismo = 0.05;
 		public double probCruce = 0.4;
 		public double probMut = 0.03;
 		protected AGenetico aGen;
-		//Practica 2
-		public String mutacion = "Funcion";
-		//public String n = "5";
-	
+		// P3
+		public String numAs = "2";
+		public int minProf = 0;
+		public int maxProf = 3;
+		public String useIf = "True";
+		public String generador = "Completa";
+		
+		
 		//Mejores abs
 		protected float mejor_fit = 1.0f;
 		protected float[] mejor_feno;
+		
 		
 		// Constructora vacía
 		public AlGen() {
@@ -287,6 +299,42 @@ public class GUI extends JFrame {
 		public String getMutacion() {
 			return this.mutacion;
 		}
+		// PRáctica 3
+		// Address
+		public void setnumAs(String As) {
+			this.numAs = As;
+		}
+		public String getnumAs() {
+			return this.numAs;
+		}
+		// Profundidades
+		public void setmaxProf(int Mp) {
+			this.maxProf = Mp;
+		}
+		public int getmaxProf() {
+			return this.maxProf;
+		}
+		public void setminProf(int mp) {
+			this.minProf = mp;
+		}
+		public int getminProf() {
+			return this.minProf;
+		}
+		// Tipo creacion
+		public void setgenerador(String g) {
+			this.generador = g;
+		}
+		public String getgenerador() {
+			return this.generador;
+		}
+		// IF
+		public void setuseIf(String uif) {
+			this.useIf = uif;
+		}
+		public String getuseIf() {
+			return this.useIf;
+		}
+		
 
 		//METODOS PROPIOS
 		public void preparaEvolucion() {
@@ -309,9 +357,13 @@ public class GUI extends JFrame {
 			this.aGen.setElitismo(this.elitismo);
 			this.aGen.setTipSel(this.seleccion);
 			this.aGen.setTipCru(this.cruce);
-			//Practica2y3
-			//this.aGen.setN(this.n);
 			this.aGen.setMutacion(this.mutacion);
+			//Practica3
+			this.aGen.setNumAs(this.numAs);
+			this.aGen.setPmax(this.maxProf);
+			this.aGen.setPmin(this.minProf);
+			this.aGen.setUseIf(this.useIf);
+			this.aGen.setInitType(this.generador);
 		}
 
 		public void ejecutaEvolucion(Grafica grafica) {
