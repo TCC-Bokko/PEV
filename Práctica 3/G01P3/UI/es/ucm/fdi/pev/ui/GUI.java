@@ -157,7 +157,7 @@ public class GUI extends JFrame {
 		//String[] gen = new String[] {"Binario", "Real"};
 		String[] funciones = new String[] {"P3: P.Genetica"};
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE", "Ranking", "Truncamiento", "Restos"};
-		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX", "OX", "OXpp", "CX", "ERX", "CO", "HT"};
+		String[] cruces = new String[] {"Permutacion"};
 		// Practica 2
 		//String[] numValores = new String[] {"1", "2", "3", "4", "5", "6", "7"};
 		String[] mutaciones = new String[] {"Funcion", "Terminal", "Permutacion", "Hoist", "Expansion", "Contraccion", "Subarbol"};
@@ -205,7 +205,7 @@ public class GUI extends JFrame {
 		public int maxGen = 100;
 		public int tamPob = 100;
 		public String funcion = "P3: P.Genetica";
-		public String cruce = "OX";
+		public String cruce = "Permutacion";
 		public String seleccion = "Ruleta";
 		public double elitismo = 0.05;
 		public double probCruce = 0.4;
@@ -281,7 +281,6 @@ public class GUI extends JFrame {
 		public float[] getMejorFeno() {
 			return mejor_feno;
 		}
-		//Practica 2
 		public void setMutacion(String Mutacion) {
 			this.mutacion = Mutacion;
 		}
@@ -291,42 +290,10 @@ public class GUI extends JFrame {
 
 		//METODOS PROPIOS
 		public void preparaEvolucion() {
-			// "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz"
-			//INICIALIZAMOS EL AG
-			
+	
 			aGen = new AGenetico();
 			
 			switch (funcion) {
-			/*
-				case "func 1":
-					aGen.setNumProblema(1);
-					break;
-				case "f2: Hölder Table":
-					aGen.setNumProblema(2);
-					break;
-				case "f3: Schubert":
-					aGen.setNumProblema(3);
-					break;
-				case "f4: Michalewicz":
-					aGen.setNumProblema(4);
-					break;
-				case "f5: f4 con reales":
-					aGen.setNumProblema(5);
-					break;
-				//Practica 2
-				case "P2: Ajuste":
-					aGen.setNumProblema(6);
-					break;
-				case "P2: datos12":
-					aGen.setNumProblema(7);
-					break;
-				case "P2: datos15":
-					aGen.setNumProblema(8);
-					break;
-				case "P2: datos30":
-					aGen.setNumProblema(9);
-					break;
-			*/
 				//Práctica 3
 				case "P3: P.Genetica":
 					aGen.setNumProblema(10);

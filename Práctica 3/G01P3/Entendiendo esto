@@ -1,0 +1,217 @@
+[] CromosomaP3 Arbol
+[] GenP3  {}
+[] Función adaptación (cuan bueno es con aciertos o fallos)
+[] Generación
+	[] Completa: p.32 Prog Genetica
+		· Vamos tomando nodos del conjunto de funciones hasta
+		llegar a una máxima profundidad del arbol predefinida.
+		· Una vez en la profundidad máxima, los simbolos solo
+		se toman del conjunto de terminales.
+	[] Creciente: p.34 Prog Genetica
+		· Vamos tomando nodos del conjunto de funciones y terminales
+		hasta llegar al límite de profundidad predefinido.
+		· En la profundidad máxima, los simbolos solo se toman
+		del conjunto de terminales.
+	[] Ramped & Half
+[] Selección
+	[OK] Dejar los que había.
+
+[] Cruce ??
+	[] Permutación
+[] Mutación
+	[] Terminal: Cambia una operando
+	[] Función: Cambia un operador
+	[] Permutación: intercambia el orden de dos operandos
+	[] Hoist: Coge un subarbol dentro del arbol y descarta el resto.
+	[] Expansión: Sustituye una hoja operando con un subarbol
+	[] Contracción: Convierte un nodo función en una hoja operando, descartando lo demás.
+	[] subárbol: descarta un subarbol y vuelve a generarlo aleatoriamente. 
+[] 2 Metodos de bloating ??
+	[] Naive
+	[] Tarpeian
+	[] CPP
+	[] Avanzado
+[] GUI para configurar parametros y mostrar grafica
+	[] Profundidad máxima Arboles
+	[] Numero de entradas
+	[] Numero de Direcciones
+	[] Selector de cruces
+	[] Selector de mutación
+	[] Selector de Control Bloating
+
+BLOATING
+Tamaño del cromosoma crece a lo largo de las generaciones.
+Hay que controlar la profundidad de los árboles.
+Se puede reducir penalizando el tamaño de los cromosomas.
+
+
+CONJUNTO TERMINALES
+Resolver funcionamiento multiplexor 6 entradas.
+2 dirección A0 A1
+4 Datos D0 D1 D2 D3
+
+CONJUNTO FUNCIONES
+Funcion NOT (1 Argumento)
+Funciones AND OR (2 Argumentos)
+
+Funcion IF (3 Argumentos X Y Z)
+	- IF X entonces IF Y
+	- IF NOT X entonces Z
+
+codifican 4 números binarios
+A0
+A1 
+
+Esta codificación elije que devuelve el multiplexor en su salida.
+00 01 10 11
+D0 D1 D2 D3
+
+Función de Aptitud
+Se mira el total de aciertos (maximizar) o fallos (minimizar) sobre los 64 casos posibles de prueba
+
+
+POSIBILIDADES REALES (128)  - Posibilidades a considerar (64) SOLO ENTRADA Y SALIDA CORRECTA. Ver aciertos y fallos.
+
+	A0	A1	D0	D1	D2	D3	OUTPUT	Resultado
+	------------------------------------------------------------------------- SECTOR A0A1 = D3
+	1	1	1	1	1  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	1	1	1	0
+	1	1	1	1	1	0	1
+	1	1	1	1	1  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	1	0  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	1	0	1	0	
+	1	1	1	1	0	0	1
+	1	1	1	1	0  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	0	1  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	0	1	1	0
+	1	1	1	0	1	0	1
+	1	1	1	0	1  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	0	0  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	1	0	0	1	0
+	1	1	1	0	0	0	1
+	1	1	1	0	0  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	1	1  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	1	1	1	0
+	1	1	0	1	1	0	1
+	1	1	0	1	1  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	1	0  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	1	0	1	0	
+	1	1	0	1	0	0	1
+	1	1	0	1	0  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	0	1  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	0	1	1	0
+	1	1	0	0	1	0	1
+	1	1	0	0	1  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	0	0  [1] [1]		Correcto A0A1=D3 -> Salida = D3
+	1	1	0	0	0	1	0
+	1	1	0	0	0	0	1	
+	1	1	0	0	0  [0] [0]		Correcto A0A1=D3 -> Salida = D3
+	-------------------------------------------------------------------------- SECTOR A0A1 = D2
+	1	0	1	1  [1]	1  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	1	1	1	0
+	1	0	1	1  [1]	0  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	1	1	0	0		
+	1	0	1	1	0	1	1
+	1	0	1	1  [0]	1  [0]		Correcto A0A1=D2 -> Salida = D2	
+	1	0	1	1	0	0	1
+	1	0	1	1  [0]	0  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	0  [1]	1  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	0	1	1	0
+	1	0	1	0  [1]	0  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	0	1	0	0
+	1	0	1	0	0	1	1
+	1	0	1	0  [0]	1  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	1	0	0	0	1
+	1	0	1	0  [0]	0  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	1  [1]	1  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	1	1	1	0
+	1	0	0	1  [1]	0  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	1	1	0	0
+	1	0	0	1	0	1	1
+	1	0	0	1  [0]	1  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	1	0	0	1
+	1	0	0	1  [0]	0  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	0  [1]	1  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	0	1	1	0
+	1	0	0	0  [1]	0  [1]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	0	1	0	0
+	1	0	0	0	0	1	1
+	1	0	0	0  [0]	1  [0]		Correcto A0A1=D2 -> Salida = D2
+	1	0	0	0	0	0	1
+	1	0	0	0  [0]	0  [0]		Correcto A0A1=D2 -> Salida = D2
+	-------------------------------------------------------------------------- SECTOR A0A1 = D1
+	0	1	1  [1]	1	1  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	1	1	1	0
+	0	1	1  [1]	1	0  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	1	1	0	0
+	0	1	1  [1]	0	1  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	1	0	1	0	
+	0	1	1  [1]	0	0  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	1	0	0	0				
+	0	1	1	0	1	1	1		
+	0	1	1  [0]	1	1  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	0	1	0	1
+	0	1	1  [0]	1	0  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	0	0	1	1
+	0	1	1  [0]	0	1  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	1	0	0	0	1
+	0	1	1  [0]	0	0  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0  [1]	1	1  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	1	1	1	0
+	0	1	0  [1]	1	0  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	1	1	0	0
+	0	1	0  [1]	0	1  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	1	0	1	0	
+	0	1	0  [1]	0	0  [1]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	1	0	0	0
+	0	1	0	0	1	1	1
+	0	1	0  [0]	1	1  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	0	1	0	1
+	0	1	0  [0]	1	0  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	0	0	1	1
+	0	1	0  [0]	0	1  [0]		Correcto A0A1=D1 -> Salida = D1
+	0	1	0	0	0	0	1
+	0	1	0  [0]	0	0  [0]		Correcto A0A1=D1 -> Salida = D1
+	-------------------------------------------------------------------------- SECTOR A0A1 = D0
+	0	0  [1]	1	1	1  [1]		Correcto A0A1=D0 -> Salida = D0
+	0	0	1	1	1	1	0		
+	0	0	1	1	1	0	1		Correcto A0A1=D0 -> Salida = D0
+	0	0	1	1	1	0	0
+	0	0	1	1	0	1	1		Correcto A0A1=D0 -> Salida = D0
+	0	0	1	1	0	1	0	
+	0	0	1	1	0	0	1		Correcto A0A1=D0 -> Salida = D0
+	0	0	1	1	0	0	0
+	0	0	1	0	1	1	1		Correcto A0A1=D0 -> Salida = D0
+	0	0	1	0	1	1	0
+	0	0	1	0	1	0	1		Correcto A0A1=D0 -> Salida = D0
+	0	0	1	0	1	0	0
+	0	0	1	0	0	1	1		Correcto A0A1=D0 -> Salida = D0
+	0	0	1	0	0	1	0
+	0	0	1	0	0	0	1		Correcto A0A1=D0 -> Salida = D0
+	0	0	1	0	0	0	0
+	0	0	0	1	1	1	1
+	0	0	0	1	1	1	0		Correcto A0A1=D0 -> Salida = D0
+	0	0	0	1	1	0	1
+	0	0	0	1	1	0	0		Correcto A0A1=D0 -> Salida = D0
+	0	0	0	1	0	1	1
+	0	0	0	1	0	1	0		Correcto A0A1=D0 -> Salida = D0
+	0	0	0	1	0	0	1
+	0	0	0	1	0	0	0		Correcto A0A1=D0 -> Salida = D0
+	0	0	0	0	1	1	1
+	0	0	0	0	1	1	0		Correcto A0A1=D0 -> Salida = D0
+	0	0	0	0	1	0	1
+	0	0	0	0	1	0	0		Correcto A0A1=D0 -> Salida = D0
+	0	0	0	0	0	1	1
+	0	0	0	0	0	1	0		Correcto A0A1=D0 -> Salida = D0
+	0	0	0	0	0	0	1
+	0	0	0	0	0	0	0		Correcto A0A1=D0 -> Salida = D0
+
+
+
+Generar poblacion inicial de expresiones aleatorias. Arboles sintaticamente correctos
+
+ARBOL Postorden: IZQ - DER - RAIZ
+		A
+	B 		C
+
+H		

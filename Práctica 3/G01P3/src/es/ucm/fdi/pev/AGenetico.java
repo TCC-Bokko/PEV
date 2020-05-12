@@ -5,6 +5,9 @@ import es.ucm.fdi.pev.cruce.*;
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
 
+//Clase Cruce
+import es.ucm.fdi.pev.cruce.CruceArbol;
+
 //Clases Mutacion
 import es.ucm.fdi.pev.mutacion.Terminal;
 import es.ucm.fdi.pev.mutacion.Funcion;
@@ -13,7 +16,6 @@ import es.ucm.fdi.pev.mutacion.Hoist;
 import es.ucm.fdi.pev.mutacion.Expansion;
 import es.ucm.fdi.pev.mutacion.Contraccion;
 import es.ucm.fdi.pev.mutacion.Subarbol;
-
 
 //Clases GUI
 import es.ucm.fdi.pev.ui.GUI;
@@ -193,31 +195,6 @@ public class AGenetico
 	{	
 		switch (numProblema)
 		{
-		case 1:
-			tipo = Tipo.MAXIMIZACION;
-			for(int i = 0; i < tamPoblacion; i++)
-				poblacion[i] = new CromosomaP1f1();
-			break;
-		case 2:
-			tipo = Tipo.MINIMIZACION;
-			for(int i = 0; i < tamPoblacion; i++)
-				poblacion[i] = new CromosomaP1f2();
-			break;
-		case 3:
-			tipo = Tipo.MINIMIZACION;
-			for(int i = 0; i < tamPoblacion; i++)
-				poblacion[i] = new CromosomaP1f3();
-			break;
-		case 4:
-			tipo = Tipo.MINIMIZACION;
-			for(int i = 0; i < tamPoblacion; i++)
-				poblacion[i] = new CromosomaP1f4();
-			break;
-		case 5:
-			tipo = Tipo.MINIMIZACION;
-			for(int i = 0; i < tamPoblacion; i++)
-				poblacion[i] = new CromosomaP1f5();
-			break;
 		//Practica 3
 		case 10:
 			tipo = Tipo.MAXIMIZACION; //Buscamos sacar más aciertos
@@ -233,24 +210,8 @@ public class AGenetico
 		
 		switch (numProblema)
 		{
-			case 6:
-				tipo = Tipo.MINIMIZACION;
-				P2_ej1(0);
-				break;
-			case 7:
-				tipo = Tipo.MINIMIZACION;
-				P2_ej1(1);
-				break;
-			case 8:
-				tipo = Tipo.MINIMIZACION;
-				P2_ej1(2);
-				break;
-			case 9:
-				tipo = Tipo.MINIMIZACION;
-				P2_ej1(3);
-				break;
+			//Práctica 3
 			case 10:
-				tipo = Tipo.MAXIMIZACION;
 				creaPoblacion();
 				break;
 			default:
@@ -263,98 +224,6 @@ public class AGenetico
 		mejor_abs = poblacion[0];
 		peor_abs = poblacion[0];
 		abs_fitness = mejor_fitness = peor_fitness = abs_worst_fitness = poblacion[0].evalua();
-	}
-	
-	// Crea la poblacion para el ejercicio concreto (leyendo, en este caso, de fichero)
-	protected void P2_ej1(int tipo)
-	{
-		int tam = 0; 	
-		int[][] distancias = null;
-		int[][] flujos = null;
-		
-		String filePath = "";
-		switch (tipo) {
-			case 0:
-				filePath = "Data/ajuste.txt";
-				break;
-			case 1:
-				filePath = "Data/datos12.txt";
-				break;
-			case 2:
-				filePath = "Data/datos15.txt";
-				break;
-			case 3:
-				filePath = "Data/datos30.txt";
-				break;
-		}
-		
-		BufferedReader reader;	
-		try {
-			
-			reader = new BufferedReader(new FileReader(filePath));
-
-			String line = reader.readLine();	
-			
-			
-			// 1) INICIALIZACION Y LECTURA DEL TAM. DE LAS MATRICES
-			tam = Integer.parseInt(line.trim());
-			distancias = new int[tam][tam];
-			flujos = new int[tam][tam];
-			
-			reader.readLine(); // Nos quitamos el espacio en blanco
-			line = reader.readLine(); // Leemos la primera lï¿½nea de la matriz
-			
-			
-			// 2) LECTURA DE LA MATRIZ DE FLUJOS: 
-			int i = 0;
-			while (!line.isEmpty()) 
-			{	
-				
-				Scanner s = new Scanner(line);
-				
-				int x = 0;
-				while(s.hasNextInt())
-				{
-					distancias[i][x] = s.nextInt();
-					x++;
-				}
-				
-				i++;
-				
-				s.close();
-				line = reader.readLine();
-			}
-			
-			
-			// 3) LECTURA DE LA MATRIZ DE FLUJOS: 
-			line = reader.readLine(); // Leemos la primera linea de la matriz
-			i = 0;
-			while (line != null) 
-			{	
-				Scanner s = new Scanner(line);
-				
-				int x = 0;
-				while(s.hasNextInt())
-				{
-					flujos[i][x] = s.nextInt();
-					x++;
-				}
-				i++;
-				
-				s.close();
-				line = reader.readLine();
-			}
-			
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-		// 4) CREACION DE LA POBLACION CON LOS DATOS YA OBTENIDOS
-		
-		for(int i = 0; i < tamPoblacion; i++)
-			poblacion[i] = new CromosomaP2f1(tam, distancias, flujos);
-		
 	}
 
 	// FUNCIONES DEL BUCLE
@@ -425,38 +294,10 @@ public class AGenetico
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
 			
-			switch (tipoCruce) {
-				case "Monopunto":
-					Monopunto.monopunto(poblacion[padre1], poblacion[padre2]);
-					break;
-				case "Uniforme":
-					Uniforme.uniforme(poblacion[padre1], poblacion[padre2]);
-					break;
-				case "Aritmetico":
-					Aritmetico.aritmetico(poblacion[padre1], poblacion[padre2]);
-					break;
-				case "PMX":
-					PMX.pmx(poblacion[padre1], poblacion[padre2]);
-					break;
-				case "OX":
-					OX.ox(poblacion[padre1], poblacion[padre2]);
-					break;
-				case "OXpp":
-					OXpp.oxpp(poblacion[padre1], poblacion[padre2]);
-					break;
-				case "CX":
-					CX.cx(poblacion[padre1], poblacion[padre2]);
-					break;
-				case "CO":
-					CodifOrdinal.codifOrdinal(poblacion[padre1], poblacion[padre2]);
-					break;
-				case "ERX":
-					ERX.erx(poblacion[padre1], poblacion[padre2]);
-					break;
-				case "HT":
-					HT.ht(poblacion[padre1], poblacion[padre2]);
-					break;
-			}
+			// PRACTICA 3
+			// Solo hay un tipo de cruzamiento.
+			CruceArbol.cruceArbol(poblacion[padre1], poblacion[padre2]);
+			
 			numCrucesTotal++;
 		}
 	}
@@ -743,12 +584,9 @@ public class AGenetico
 	public float[] getMejorFeno() {
 		return mejor_abs.fenotipos();
 	}
-	//Practica 2
+	//Practica 2 y 3
 	public String getMutacion() {
 		return tipoMutacion;
 	}
-	/*
-	public int getN() {
-		return n;
-	}*/
+
 }

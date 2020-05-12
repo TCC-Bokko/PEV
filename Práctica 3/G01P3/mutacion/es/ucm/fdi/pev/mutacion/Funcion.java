@@ -22,5 +22,6 @@ public class Funcion {
 	{
 		// WIP - TO DO
 		// Funcion: Cambia uno de los nodos operador (función).
+		// Ojo, debe tener el mismo nivel de aridad (cantidad de parametros)
 	}
 }
