@@ -28,8 +28,8 @@ public class CromosomaArbol extends Cromosoma {
 		r = new Random();
 		raizArbol = new Arbol();
 		inicializacion = "Completa"; //Cambiar a lo que reciba por GUI
-		prof_min = 1; //Cambiar a lo que reciba por GUI
-		prof_max = 3; //Cambiar a lo que reciba por GUI
+		prof_min = 3; //Cambiar a lo que reciba por GUI
+		prof_max = 4; //Cambiar a lo que reciba por GUI
 		inicializaCromosoma();
 	}
 	

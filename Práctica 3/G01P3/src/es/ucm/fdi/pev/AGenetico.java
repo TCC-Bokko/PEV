@@ -4,12 +4,18 @@ import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.cruce.*;
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
-import es.ucm.fdi.pev.mutacion.Basica;
-import es.ucm.fdi.pev.mutacion.Desplazamiento;
-import es.ucm.fdi.pev.mutacion.Heuristica;
-import es.ucm.fdi.pev.mutacion.Insercion;
-import es.ucm.fdi.pev.mutacion.Intercambio;
-import es.ucm.fdi.pev.mutacion.Inversion;
+
+//Clases Mutacion
+import es.ucm.fdi.pev.mutacion.Terminal;
+import es.ucm.fdi.pev.mutacion.Funcion;
+import es.ucm.fdi.pev.mutacion.Permutacion;
+import es.ucm.fdi.pev.mutacion.Hoist;
+import es.ucm.fdi.pev.mutacion.Expansion;
+import es.ucm.fdi.pev.mutacion.Contraccion;
+import es.ucm.fdi.pev.mutacion.Subarbol;
+
+
+//Clases GUI
 import es.ucm.fdi.pev.ui.GUI;
 import es.ucm.fdi.pev.ui.Grafica;
 
@@ -212,7 +218,8 @@ public class AGenetico
 			for(int i = 0; i < tamPoblacion; i++)
 				poblacion[i] = new CromosomaP1f5();
 			break;
-		case 6:
+		//Practica 3
+		case 10:
 			tipo = Tipo.MAXIMIZACION; //Buscamos sacar más aciertos
 			for (int i = 0; i < tamPoblacion; i++)
 				poblacion[i] = new CromosomaArbol(); //Mirara el tipo de inicialización
@@ -241,6 +248,10 @@ public class AGenetico
 			case 9:
 				tipo = Tipo.MINIMIZACION;
 				P2_ej1(3);
+				break;
+			case 10:
+				tipo = Tipo.MAXIMIZACION;
+				creaPoblacion();
 				break;
 			default:
 				creaPoblacion();
@@ -450,30 +461,35 @@ public class AGenetico
 		}
 	}
 	
+	//ACTUALIZADO A P3
 	private void mutacion()
 	{			
 		boolean haMutado = false;
 		for (Cromosoma c : poblacion)
 		switch (tipoMutacion)
 		{
-		case "Basica":
-			haMutado = Basica.basica(c, prob_mutacion);
-			break;
-		case "Inversion":
-			haMutado = Inversion.inversion(c, prob_mutacion);
-			break;
-		case "Insercion":
-			haMutado = Insercion.insercion(c, prob_mutacion);
-			break;
-		case "Intercambio":
-			haMutado = Intercambio.intercambio(c, prob_mutacion);
-			break;
-		case "Heuristica":
-			haMutado = Heuristica.heuristica(c, prob_mutacion);
-			break;
-		case "Desplazamiento":
-			haMutado = Desplazamiento.desplazamiento(c, prob_mutacion);
-			break;		
+		 // PRACTICA 3
+		 case "Terminal":
+		 	haMutado = Terminal.terminal(c, prob_mutacion);
+		 	break;
+		 case "Funcion":
+		 	haMutado = Funcion.funcion(c, prob_mutacion);
+		 	break;
+		 case "Permutacion":
+		 	haMutado = Permutacion.permutacion(c, prob_mutacion);
+		 	break;
+		 case "Hoist":
+		 	haMutado = Hoist.hoist(c, prob_mutacion);
+		 	break;
+		 case "Expansion":
+		 	haMutado = Expansion.expansion(c, prob_mutacion);
+		 	break;
+		 case "Contraccion":
+		 	haMutado = Contraccion.contraccion(c, prob_mutacion);
+		 	break;
+		 case "Subarbol":
+		 	haMutado = Subarbol.subarbol(c, prob_mutacion);
+		 	break;
 		}
 		if (haMutado) numMutacionesTotal++;
 	}
@@ -581,7 +597,6 @@ public class AGenetico
 			punt_acum = punt_acum + poblacion[j].getPuntuacion();
 		}
 	}
-	
 	
 	protected void maximizacion()
 	{
@@ -694,17 +709,11 @@ public class AGenetico
 	public void setGrafica(Grafica grafica) {
 		_grafica = grafica;
 	}
-	// Setters Practica 2
+	// Setters Práctica 2 y 3
 	public void setMutacion(String Mutacion) {
 		tipoMutacion = Mutacion;
 	}
-	/*
-	public void setN(String N) {
-		n = Integer.parseInt(N);
-	}
-	public void setN(int N) {
-		n = N;
-	}*/
+
 	
 	//GETTERS
 	public int getTamPob() {

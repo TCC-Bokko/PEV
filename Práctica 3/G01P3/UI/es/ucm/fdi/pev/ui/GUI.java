@@ -155,15 +155,12 @@ public class GUI extends JFrame {
 		
 		///////////// NUESTRAS OPCIONES /////////////////
 		//String[] gen = new String[] {"Binario", "Real"};
-		String[] funciones = new String[] {
-				/*"func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz", "f5: f4 con reales",*/
-				"P2: Ajuste", "P2: datos12", "P2: datos15", "P2: datos30"
-				};
+		String[] funciones = new String[] {"P3: P.Genetica"};
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE", "Ranking", "Truncamiento", "Restos"};
 		String[] cruces = new String[] {"Monopunto", "Uniforme", "Aritmetico", "PMX", "OX", "OXpp", "CX", "ERX", "CO", "HT"};
 		// Practica 2
 		//String[] numValores = new String[] {"1", "2", "3", "4", "5", "6", "7"};
-		String[] mutaciones = new String[] {/*"Basica", */"Insercion", "Inversion", "Intercambio", "Heuristica", "Desplazamiento"};
+		String[] mutaciones = new String[] {"Funcion", "Terminal", "Permutacion", "Hoist", "Expansion", "Contraccion", "Subarbol"};
 		
 		////////////////////////////////////
 		// AÑADIR ELEMENTOS
@@ -207,7 +204,7 @@ public class GUI extends JFrame {
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
 		public int maxGen = 100;
 		public int tamPob = 100;
-		public String funcion = "P2: datos30";
+		public String funcion = "P3: P.Genetica";
 		public String cruce = "OX";
 		public String seleccion = "Ruleta";
 		public double elitismo = 0.05;
@@ -215,7 +212,7 @@ public class GUI extends JFrame {
 		public double probMut = 0.03;
 		protected AGenetico aGen;
 		//Practica 2
-		public String mutacion = "Insercion";
+		public String mutacion = "Funcion";
 		//public String n = "5";
 	
 		//Mejores abs
@@ -291,20 +288,7 @@ public class GUI extends JFrame {
 		public String getMutacion() {
 			return this.mutacion;
 		}
-		/*
-		public void setN(String N) {
-			this.n = N;
-		}
-		public void setN(int N) {
-			this.n = Integer.toString(N);
-		}
-		public String getN() {
-			return this.n;
-		}
-		public int getNInt() {
-			return Integer.parseInt(this.n);
-		}
-		*/
+
 		//METODOS PROPIOS
 		public void preparaEvolucion() {
 			// "func 1", "f2: Hölder Table", "f3: Schubert", "f4: Michalewicz"
@@ -313,6 +297,7 @@ public class GUI extends JFrame {
 			aGen = new AGenetico();
 			
 			switch (funcion) {
+			/*
 				case "func 1":
 					aGen.setNumProblema(1);
 					break;
@@ -341,6 +326,11 @@ public class GUI extends JFrame {
 				case "P2: datos30":
 					aGen.setNumProblema(9);
 					break;
+			*/
+				//Práctica 3
+				case "P3: P.Genetica":
+					aGen.setNumProblema(10);
+					break;
 			}
 			
 			// LE PASAMOS LOS VALORES
@@ -352,7 +342,7 @@ public class GUI extends JFrame {
 			this.aGen.setElitismo(this.elitismo);
 			this.aGen.setTipSel(this.seleccion);
 			this.aGen.setTipCru(this.cruce);
-			//Practica2
+			//Practica2y3
 			//this.aGen.setN(this.n);
 			this.aGen.setMutacion(this.mutacion);
 		}
