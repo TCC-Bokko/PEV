@@ -13,7 +13,10 @@ public class CromosomaArbol extends Cromosoma {
 	Arbol HD;
 	Arbol HC;
 	String inicializacion;
-	int prof_min;
+	String Bloating;
+	double tamMedioPob;
+	
+	//int prof_min;
 	int prof_max;
 	Random r;
 	List<Arbol> nodos; 
@@ -27,7 +30,7 @@ public class CromosomaArbol extends Cromosoma {
 	private String[] operadores;
 	private String[] operandos; 
 	
-	public CromosomaArbol(int As, String uif, int pmin, int pmax, String initC) {
+	public CromosomaArbol(int As, String uif, int pmax, String initC, String bloat) {
 		//Datos del AGen establecidos en el GUI
 		
 		//USO DEL OPERADOR IF
@@ -50,10 +53,11 @@ public class CromosomaArbol extends Cromosoma {
 			operandos = new String[] {"A0", "A1", "A2", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"};
 		}
 		
-		prof_min = pmin; 
+		//prof_min = pmin; 
 		prof_max = pmax; 
 		inicializacion = initC;
 		nodos = new ArrayList<Arbol>();
+		Bloating = bloat;
 		
 		// Llamadas a metodos
 		r = new Random();
@@ -194,12 +198,6 @@ public class CromosomaArbol extends Cromosoma {
 	}
 
 	@Override
-	public Cromosoma clone() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public float[] fenotipos() {
 		String fenotipo;
 		fenotipo = fenotipoArbol();
@@ -278,13 +276,37 @@ public class CromosomaArbol extends Cromosoma {
 		
 		return cadena; 
 	}
+	
+	protected float controlBloating() {
+		float fitnessFinal = 0f;
+		
+		if (Bloating == "Tarpeian") {
+			// Si el tamaño del arbol del individuo es mayor que el tamaño medio de la población
+			// Tiene una posibilidad X de devolver un mal fitness (OJO: Maximizamos, más puntuaje mejor)
+			
+		} else if (Bloating == "Penalizacion") {
+			// Aplica al fitness 
+		}
+		
+		return fitnessFinal;
+	}
 
+	// METODOS DEL PADRE
 	@Override
 	public float evalua() {
 		fitness = FuncionEvalArbol.funcionEvalArbol(raizArbol);
+		
+		fitness = controlBloating();
+		
 		return (float)fitness;
 	}
-
+	
+	@Override
+	public Cromosoma clone() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
 	@Override
 	public boolean compara_mejor_fitness(float f) {
 		// TODO Auto-generated method stub
@@ -303,4 +325,20 @@ public class CromosomaArbol extends Cromosoma {
 		return 0;
 	}
 	
+	// GETTERS Y SETTERS
+	public Arbol getArbol() {
+		return raizArbol;
+	}
+	
+	public void setArbol(Arbol a) {
+		raizArbol = a;
+	}
+	
+	public int getTamArbol() {
+		return raizArbol.getNumNodos();
+	}
+
+	public void setMediaPob(double tmp) {
+		tamMedioPob = tmp;
+	}
 }

@@ -159,6 +159,7 @@ public class GUI extends JFrame {
 		String[] cruces = new String[] {"Permutacion"};
 		String[] entradas = new String[] {"2", "3"};
 		String[] mutaciones = new String[] {"Funcion", "Terminal", "Permutacion", "Hoist", "Expansion", "Contraccion", "Subarbol"};
+		String[] bloating = new String[] {"Tarpeian", "Penalizacion"};
 		String[] generacion = new String[] {"Completa", "Creciente", "RampedANDHalf"};
 		String[] usarif = new String[] { "True", "False"};
 		
@@ -172,7 +173,7 @@ public class GUI extends JFrame {
 		// ESTABLECER VALORES
 		configAlGen.addOption(new IntegerOption<AlGen>("Poblacion:","Define cantidad de individuos", "tamPob", 0, 500));
 		configAlGen.addOption(new IntegerOption<AlGen>("Generaciones:", "Define cantidad de generaciones", "maxGen", 10, 2000));
-		configAlGen.addOption(new IntegerOption<AlGen>("Prof. Minima:", "Define profundidad minima", "minProf", 0, 3));
+		//configAlGen.addOption(new IntegerOption<AlGen>("Prof. Minima:", "Define profundidad minima", "minProf", 0, 3));
 		configAlGen.addOption(new IntegerOption<AlGen>("Prof. Maxima:","Define profundidad máxima", "maxProf", 1, 20));
 		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Cruce:","Con que % se cruzaran [0.0, 1.0]", "probCruce", 0.0, 1.0));
 		configAlGen.addOption(new DoubleOption<AlGen>("Prob. Mutacion:","Con que % mutara [0.0, 1.0]", "probMut", 0.0, 1.0));
@@ -182,6 +183,7 @@ public class GUI extends JFrame {
 		configAlGen.addOption(new ChoiceOption<AlGen>("Usar IF","Permite o no el uso de funciones IF", "useIf", usarif));
 		// No ponemos un selector de lineas de datos (Dx) ya que son dependientes del direccionamiento de las Ax.
 		configAlGen.addOption(new ChoiceOption<AlGen>("Generacion", "Establece la inicializacion de la poblacion", "generador", generacion));
+		configAlGen.addOption(new ChoiceOption<AlGen>("C. Bloating", "Control de crecimiento arboles", "bloating", bloating));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Funcion", "fitness del individuo", "funcion", funciones));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","seleccion", selectores));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Cruces","Tipo de Cruce","cruce", cruces));
@@ -214,13 +216,14 @@ public class GUI extends JFrame {
 		public String cruce = "Permutacion";
 		public String seleccion = "Ruleta";
 		public String mutacion = "Funcion";
+		public String bloating = "Tarpeian";
 		public double elitismo = 0.05;
 		public double probCruce = 0.4;
 		public double probMut = 0.03;
 		protected AGenetico aGen;
 		// P3
 		public String numAs = "2";
-		public int minProf = 0;
+		//public int minProf = 0;
 		public int maxProf = 3;
 		public String useIf = "True";
 		public String generador = "Completa";
@@ -314,12 +317,14 @@ public class GUI extends JFrame {
 		public int getmaxProf() {
 			return this.maxProf;
 		}
+		/*
 		public void setminProf(int mp) {
 			this.minProf = mp;
 		}
 		public int getminProf() {
 			return this.minProf;
 		}
+		*/
 		// Tipo creacion
 		public void setgenerador(String g) {
 			this.generador = g;
@@ -333,6 +338,13 @@ public class GUI extends JFrame {
 		}
 		public String getuseIf() {
 			return this.useIf;
+		}
+		//Bloating
+		public void setbloating(String b) {
+			this.bloating = b;
+		}
+		public String getbloating() {
+			return this.bloating;
 		}
 		
 
@@ -361,9 +373,10 @@ public class GUI extends JFrame {
 			//Practica3
 			this.aGen.setNumAs(this.numAs);
 			this.aGen.setPmax(this.maxProf);
-			this.aGen.setPmin(this.minProf);
+			//this.aGen.setPmin(this.minProf);
 			this.aGen.setUseIf(this.useIf);
 			this.aGen.setInitType(this.generador);
+			this.aGen.setBloat(this.bloating);
 		}
 
 		public void ejecutaEvolucion(Grafica grafica) {

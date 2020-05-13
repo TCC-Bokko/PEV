@@ -9,7 +9,7 @@ public class Arbol {
 	private Arbol Hi;		//Hijo izquierdo
 	private Arbol Hc;		//Hijo central
 	private Arbol Hd;		//Hijo derecho
-	private int num_nodos;	//Número de nodos
+	private int num_nodos;	//Número de nodos (Tamaño del arbol)
 	private int profundidad; //profundidad
 	
 	public Arbol() {

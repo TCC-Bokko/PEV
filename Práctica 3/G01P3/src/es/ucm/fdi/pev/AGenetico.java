@@ -83,8 +83,12 @@ public class AGenetico
 	protected int numAs;	//cantidad de lineas de direccionamiento (Adress)
 	protected String useif;
 	protected int pmax;
-	protected int pmin;
+	//protected int pmin;
 	protected String initC;
+	protected String bloat;
+	protected double tamArbolMedioPobl;
+	
+	
 	
 	// -------- GRAFICA --------- // 
 	
@@ -142,6 +146,8 @@ public class AGenetico
 			evaluacion();	
 			
 			media = calculaMedia();
+			tamArbolMedioPobl = calculaTamMed(); //Primera ejecución coge el tamMax. En siguientes lee de variable.
+			
 			_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media); //Pasa los datos de esta generacion a la grafica, calcula media y compara maxAbsoluto.
 		
 			generacionActual++;
@@ -180,6 +186,7 @@ public class AGenetico
 		System.out.println(textoPeorAbs);
 		System.out.printf("Peor fitness: %d\n", (int) peor_fitness);
 		System.out.printf("Generacion del peor: %d\n", generacionPeor);
+		System.out.printf("Tamaño medio poblacion: %d", tamArbolMedioPobl);
 		_grafica.dibujaGrafica();
 	}
 	
@@ -199,6 +206,8 @@ public class AGenetico
 	
 	protected void creaPoblacion()
 	{	
+		tamArbolMedioPobl = pmax;
+		
 		if (initC == "RampedAndHalf") {
 			//Debemos dividir la población en grupos
 			// Tantos grupos como PROF_MAX-1
@@ -218,11 +227,11 @@ public class AGenetico
 				for (int i = indv; i < groupLimit; i++) {
 					if (i % 2 == 0) {
 						//Creción completa
-						poblacion[i] = new CromosomaArbol(numAs, useif, pmin, g+2, "Completa");
+						poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Completa", bloat);
 						INDVcount++;
 					} else {
 						//Creación creciente
-						poblacion[i] = new CromosomaArbol(numAs, useif, pmin, g+2, "Creciente");
+						poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Creciente", bloat);
 						INDVcount++;
 					}
 					indv = i;
@@ -234,11 +243,11 @@ public class AGenetico
 					for (int i = 0; i < sobran; i++) {
 						if (i % 2 == 0) {
 							//Creción completa
-							poblacion[i] = new CromosomaArbol(numAs, useif, pmin, g+2, "Completa");
+							poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Completa", bloat);
 							INDVcount++;
 						} else {
 							//Creación creciente
-							poblacion[i] = new CromosomaArbol(numAs, useif, pmin, g+2, "Creciente");
+							poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Creciente", bloat);
 							INDVcount++;
 						}
 					}
@@ -257,7 +266,7 @@ public class AGenetico
 		} else {
 			// Si no es ramped and half procedemos normalmente.
 			for (int i = 0; i < tamPoblacion; i++) {
-				poblacion[i] = new CromosomaArbol(numAs, useif, pmin, pmax, initC); //Mirara el tipo de inicialización
+				poblacion[i] = new CromosomaArbol(numAs, useif, pmax, initC, bloat); //Mirara el tipo de inicialización
 			}
 		}
 		
@@ -354,7 +363,6 @@ public class AGenetico
 		}
 	}
 	
-	//ACTUALIZADO A P3
 	private void mutacion()
 	{			
 		boolean haMutado = false;
@@ -394,7 +402,12 @@ public class AGenetico
 		mejor_fitness = poblacion[0].getFitness();
 		
 		for (Cromosoma c : poblacion)
-		{
+		{			
+			//ESPECIFICO P3 (Pasarle media poblacion para bloating)
+			CromosomaArbol CAp = (CromosomaArbol) c;
+			CAp.setMediaPob(tamArbolMedioPobl);
+			c = CAp;
+			
 			// Calculo de fitness de cada individuo
 			c.evalua();
 			
@@ -570,7 +583,24 @@ public class AGenetico
 			
 			return media;		
 		}
+	
+	protected double calculaTamMed() {
+		double media = 0d;
+		double sumatorio = 0d;
 		
+		// Sumatorio
+		for (int i = 0; i < tamPoblacion; i++) {
+			CromosomaArbol CA = (CromosomaArbol) poblacion[i];
+			sumatorio += CA.getTamArbol(); //Nodos
+		}
+		
+		// MEDIA
+		media = sumatorio / tamPoblacion;
+		
+		return media;
+	}
+	
+	
 	/////////////////////////////////////////////////
 	//
 	// GETTERS Y SETTERS (Usados en GUI)
@@ -613,18 +643,22 @@ public class AGenetico
 	public void setUseIf(String uif){
 		useif = uif;
 	}
+	/*
 	public void setPmin(int pm) {
 		pmin = pm;
 	}
+	*/
 	public void setPmax(int pM) {
 		pmax = pM;
 	}
 	public void setInitType(String iniT) {
 		initC = iniT;
 	}
+	public void setBloat(String b) {
+		bloat = b;
+	}
 	
 
-	
 	//GETTERS
 	public int getTamPob() {
 		return tamPoblacion;
