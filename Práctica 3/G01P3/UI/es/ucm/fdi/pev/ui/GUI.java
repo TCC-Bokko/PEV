@@ -154,11 +154,11 @@ public class GUI extends JFrame {
 		ConfigPanel<AlGen> configAlGen = new ConfigPanel<AlGen>();
 		
 		///////////// NUESTRAS OPCIONES /////////////////
-		String[] funciones = new String[] {"P3: P.Genetica"};
+		String[] funciones = new String[] {"Max. Aciertos"};
 		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE", "Ranking", "Truncamiento", "Restos"};
 		String[] cruces = new String[] {"Permutacion"};
 		String[] entradas = new String[] {"2", "3"};
-		String[] mutaciones = new String[] {"Funcion", "Terminal", "Permutacion", "Hoist", "Expansion", "Contraccion", "Subarbol"};
+		String[] mutaciones = new String[] {"Funcion", "Terminal", "Permutacion", "Subarbol"}; //, "Hoist", "Expansion", "Contraccion", };
 		String[] bloating = new String[] {"Tarpeian", "Penalizacion"};
 		String[] generacion = new String[] {"Completa", "Creciente", "RampedANDHalf"};
 		String[] usarif = new String[] { "True", "False"};
@@ -184,7 +184,7 @@ public class GUI extends JFrame {
 		// No ponemos un selector de lineas de datos (Dx) ya que son dependientes del direccionamiento de las Ax.
 		configAlGen.addOption(new ChoiceOption<AlGen>("Generacion", "Establece la inicializacion de la poblacion", "generador", generacion));
 		configAlGen.addOption(new ChoiceOption<AlGen>("C. Bloating", "Control de crecimiento arboles", "bloating", bloating));
-		configAlGen.addOption(new ChoiceOption<AlGen>("Funcion", "fitness del individuo", "funcion", funciones));
+		configAlGen.addOption(new ChoiceOption<AlGen>("Evalucion", "fitness del individuo", "funcion", funciones));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","seleccion", selectores));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Cruces","Tipo de Cruce","cruce", cruces));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Mutacion","Tipo de Mutacion","mutacion", mutaciones));
@@ -212,7 +212,7 @@ public class GUI extends JFrame {
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
 		public int maxGen = 100;
 		public int tamPob = 100;
-		public String funcion = "P3: P.Genetica";
+		public String funcion = "Max. Aciertos";
 		public String cruce = "Permutacion";
 		public String seleccion = "Ruleta";
 		public String mutacion = "Funcion";
