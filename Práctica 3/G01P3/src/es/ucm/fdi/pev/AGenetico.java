@@ -199,32 +199,78 @@ public class AGenetico
 	
 	protected void creaPoblacion()
 	{	
-		switch (numProblema)
-		{
-		//Practica 3
-		case 10:
-			tipo = Tipo.MAXIMIZACION; //Buscamos sacar más aciertos
-			for (int i = 0; i < tamPoblacion; i++)
+		if (initC == "RampedAndHalf") {
+			//Debemos dividir la población en grupos
+			// Tantos grupos como PROF_MAX-1
+			int grupos = pmax - 1;
+			
+			// Dividir individuos entre grupos
+			Boolean dividesWell = false;
+			int sobran = tamPoblacion % grupos;
+			if (sobran == 0) dividesWell = true;
+			int indXgrupo = tamPoblacion / grupos;
+			int indv = 0;	//Itedrador de individuo.
+			int groupLimit = indXgrupo;
+			int INDVcount = 0; //Para garantizar que estan todos.
+			
+			//Bucle recorrido por la población.
+			for (int g = 0; g < grupos; g++) {
+				for (int i = indv; i < groupLimit; i++) {
+					if (i % 2 == 0) {
+						//Creción completa
+						poblacion[i] = new CromosomaArbol(numAs, useif, pmin, g+2, "Completa");
+						INDVcount++;
+					} else {
+						//Creación creciente
+						poblacion[i] = new CromosomaArbol(numAs, useif, pmin, g+2, "Creciente");
+						INDVcount++;
+					}
+					indv = i;
+				}
+				groupLimit = groupLimit + indXgrupo;
+				
+				//Control de los individuos que puedan sobrar al final al no dividir bien poblacion entre grupos
+				if (g == grupos-1 && !dividesWell) {
+					for (int i = 0; i < sobran; i++) {
+						if (i % 2 == 0) {
+							//Creción completa
+							poblacion[i] = new CromosomaArbol(numAs, useif, pmin, g+2, "Completa");
+							INDVcount++;
+						} else {
+							//Creación creciente
+							poblacion[i] = new CromosomaArbol(numAs, useif, pmin, g+2, "Creciente");
+							INDVcount++;
+						}
+					}
+				}
+				
+				//Comprobación final
+				if (INDVcount == tamPoblacion) {
+					System.out.println("[RAMPED AND HALF] Se ha inicializado toda la población.");
+				} else {
+					System.out.println("[RAMPED AND HALF] ERROR!!!!!! NO SE HA INICIALIZADO TODA LA POBLACION.");
+					System.out.printf("INDVCount: %d\n", INDVcount);
+					System.out.printf("tamPoblacion: %d\n", tamPoblacion);
+				}
+			}
+			
+		} else {
+			// Si no es ramped and half procedemos normalmente.
+			for (int i = 0; i < tamPoblacion; i++) {
 				poblacion[i] = new CromosomaArbol(numAs, useif, pmin, pmax, initC); //Mirara el tipo de inicialización
+			}
 		}
+		
 	}
 	
 	protected void inicializaPoblacion() 
 	{	
 		poblacion = new Cromosoma[tamPoblacion];
 		elite = new LinkedList<Cromosoma>();
+		tipo = Tipo.MAXIMIZACION; //Buscamos sacar más aciertos
 		
-		switch (numProblema)
-		{
-			//Práctica 3
-			case 10:
-				creaPoblacion();
-				break;
-			default:
-				creaPoblacion();
-				break;
-		}
-		
+		//Práctica 3
+		creaPoblacion();
 		
 		// Valores por defecto inicializados:
 		mejor_abs = poblacion[0];

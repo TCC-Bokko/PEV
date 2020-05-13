@@ -1,5 +1,9 @@
 package es.ucm.fdi.pev.estructura;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
+
+import es.ucm.fdi.pev.evaluacion.FuncionEvalArbol;
 
 public class CromosomaArbol extends Cromosoma {
 	//Raiz
@@ -12,20 +16,15 @@ public class CromosomaArbol extends Cromosoma {
 	int prof_min;
 	int prof_max;
 	Random r;
+	List<Arbol> nodos; 
+	double fitness;
 	
 	// Opciones del GUI
 	protected int numAs;
 	protected int numDs;
 	protected Boolean useIf;
 	
-	//Ver donde poner esto para no estar generandolo en cada cromosoma
-	////// WIP - TO DO ///////// Que los datos de dentro dependan del selector del GUI (para el IF)
 	private String[] operadores;
-	// ////// WIP - TO DO /////////
-	// ESTO HAY QUE CAMBIARLO: hay que adaptarlo a lo metido por GUI.
-	// Inicializar vacío, crear tantas entradas A* como solicite el gui.
-	// y luego crear tantos direccionadores D* como solicite el gui.
-	// Ver que las A direccionen las D (2A -> 4D) (3A -> 8D) (4A - 16D)
 	private String[] operandos; 
 	
 	public CromosomaArbol(int As, String uif, int pmin, int pmax, String initC) {
@@ -54,10 +53,10 @@ public class CromosomaArbol extends Cromosoma {
 		prof_min = pmin; 
 		prof_max = pmax; 
 		inicializacion = initC;
+		nodos = new ArrayList<Arbol>();
 		
 		// Llamadas a metodos
 		r = new Random();
-		raizArbol = new Arbol();
 		inicializaCromosoma();
 	}
 	
@@ -65,30 +64,27 @@ public class CromosomaArbol extends Cromosoma {
 	protected void inicializaCromosoma() {
 		switch (inicializacion) {
 		case "Completa":
-			raizArbol = creaArbolCompleto(raizArbol, 0, prof_min-1, prof_max-1);
+			raizArbol = creaArbolCompleto(0, prof_max-1);
 			break;
 		case "Creciente":
-			raizArbol = creaArbolCreciente(raizArbol, 0, prof_min-1, prof_max-1);
+			raizArbol = creaArbolCreciente(0, prof_max-1);
 			break;
-		case "RampedANDHalf":
-			raizArbol = creaArbolRampedAndHalf(raizArbol, 0, prof_min-1, prof_max-1);
+		default:
+			raizArbol = creaArbolCompleto(0, prof_max-1);
 			break;
-		
 		}
 	}
 	
-	private Arbol creaArbolCompleto(Arbol arbol, int nivel, int prof_min, int prof_max) {
-		if (arbol == null) {
-			arbol = new Arbol();
-		}
+	private Arbol creaArbolCompleto(int nivel, int prof_max) {
+		// Completa genera nodos de tipo operador hasta alcanzar profundidad maxima donde genera nodos operando.
+		Arbol arbol = new Arbol();
 		
 		//Profundidad de este nodo.
 		arbol.setProfundidad(nivel);
 		
 		//Si no es hoja
-		if (prof_min > 0) {
+		if (nivel < prof_max) {
 			//Generar subardol usando operador {IF, NOT, OR, AND}
-			////// WIP - TO DO ///////// Ver si usamos IF o no en el GUI.
 			int it = r.nextInt(operadores.length);
 			String operador = operadores[it];
 			arbol.setValor(operador);
@@ -96,76 +92,96 @@ public class CromosomaArbol extends Cromosoma {
 			//GENERAR HIJOS
 			
 			//Izquierdo
-			HI = creaArbolCompleto(arbol.getHi(), nivel+1, prof_min-1, prof_max-1);
+			arbol.setHI(creaArbolCompleto(nivel+1, prof_max));
+			//Añadimos este nodo y le sumamos los nodos de los hijos.
+			arbol.setNumNodos(arbol.getNumNodos()+1);
 			arbol.setNumNodos(arbol.getNumNodos() + arbol.getHi().getNumNodos());
 			
 			//Central (Si procede)
 			if (tres_operandos(operador)) {
-				HC = creaArbolCompleto(arbol.getHc(), nivel+1, prof_min-1, prof_max-1);
-				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHi().getNumNodos());
+				arbol.setHC(creaArbolCompleto(nivel+1, prof_max));
+				arbol.setNumNodos(arbol.getNumNodos()+1);
+				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHc().getNumNodos());
 			} else {
 				HC = null;
 				arbol.setHC(HC);
 			}
 			
 			//Derecho
-			HD = creaArbolCompleto(arbol.getHd(), nivel+1, prof_min-1, prof_max-1);
+			arbol.setHD(creaArbolCompleto(nivel+1, prof_max));
+			arbol.setNumNodos(arbol.getNumNodos()+1);
 			arbol.setNumNodos(arbol.getNumNodos() + arbol.getHd().getNumNodos());
-		} else {
-			prof_min = 0;
-		}
+		} 
 		
 		//Si es una HOJA
-		if (prof_max == 0) {
+		if (nivel == prof_max) {
 			//Generar subarbol usando datos de tipo operandos
 			int it = r.nextInt(operandos.length);
 			String operando = operandos[it];
 			arbol.setValor(operando);
 			arbol.setNumNodos(arbol.getNumNodos()+1);			
-		} else {
-			//Se decide aleatoriamente si colocamos operando u operador
-			int tipo = r.nextInt(2);
-			if (tipo == 0) {
-				////// WIP - TO DO ///////// Ver si usamos IF o no en el GUI.
+		}
+		
+		nodos.add(arbol); //Una vez el arbol esta construido lo metemos en la lista de nodos.
+		return arbol;
+	}
+	
+	private Arbol creaArbolCreciente(int nivel, int prof_max) {
+		// Crecientea genera nodos aleatorios de cualquier tipo
+		// hasta alcanzar profundidad maxima donde únicamente genera nodos operando.
+		Arbol arbol = new Arbol();
+		//Profundidad de este nodo.
+		arbol.setProfundidad(nivel);
+		
+		//Si no es hoja
+		if (nivel < prof_max) {
+			//Generar subardol usando operador u operando {IF, NOT, OR, AND}
+			int type = r.nextInt(2);
+			if (type == 0) {
 				int it = r.nextInt(operadores.length);
 				String operador = operadores[it];
 				arbol.setValor(operador);
 				
-				//GENERAR HIJOS
-				
+				//GENERAR HIJOS si ha salido un operador
 				//Izquierdo
-				HI = creaArbolCompleto(arbol.getHi(), nivel+1, prof_min-1, prof_max-1);
+				arbol.setHI(creaArbolCompleto(nivel+1, prof_max));
+				//Añadimos este nodo y le sumamos los nodos de los hijos.
+				arbol.setNumNodos(arbol.getNumNodos()+1);
 				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHi().getNumNodos());
 				
 				//Central (Si procede)
 				if (tres_operandos(operador)) {
-					HC = creaArbolCompleto(arbol.getHc(), nivel+1, prof_min-1, prof_max-1);
-					arbol.setNumNodos(arbol.getNumNodos() + arbol.getHi().getNumNodos());
+					arbol.setHC(creaArbolCompleto(nivel+1, prof_max));
+					arbol.setNumNodos(arbol.getNumNodos()+1);
+					arbol.setNumNodos(arbol.getNumNodos() + arbol.getHc().getNumNodos());
 				} else {
 					HC = null;
 					arbol.setHC(HC);
 				}
 				
 				//Derecho
-				HD = creaArbolCompleto(arbol.getHd(), nivel+1, prof_min-1, prof_max-1);
+				arbol.setHD(creaArbolCompleto(nivel+1, prof_max));
+				arbol.setNumNodos(arbol.getNumNodos()+1);
 				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHd().getNumNodos());
 			} else {
-				// Generación subarbol operando
+				// En el caso de que se genere un operando
 				int it = r.nextInt(operandos.length);
 				String operando = operandos[it];
 				arbol.setValor(operando);
 				arbol.setNumNodos(arbol.getNumNodos()+1);	
-			}
+			}					
+		} 
+		
+		//Si es una HOJA
+		if (nivel == prof_max) {
+			//Generar subarbol usando datos de tipo operandos
+			int it = r.nextInt(operandos.length);
+			String operando = operandos[it];
+			arbol.setValor(operando);
+			arbol.setNumNodos(arbol.getNumNodos()+1);			
 		}
 		
-		return arbol;
-	}
-	
-	private Arbol creaArbolCreciente(Arbol arbol, int nivel, int prof_min, int prof_max) {
-		return arbol;
-	}
-	
-	private Arbol creaArbolRampedAndHalf(Arbol arbol, int nivel, int prof_min, int prof_max) {
+		nodos.add(arbol); //Una vez el arbol esta construido lo metemos en la lista de nodos.
 		return arbol;
 	}
 	
@@ -185,7 +201,9 @@ public class CromosomaArbol extends Cromosoma {
 
 	@Override
 	public float[] fenotipos() {
-		// TODO Auto-generated method stub
+		String fenotipo;
+		fenotipo = fenotipoArbol();
+		System.out.println(fenotipo);
 		return null;
 	}
 	
@@ -263,8 +281,8 @@ public class CromosomaArbol extends Cromosoma {
 
 	@Override
 	public float evalua() {
-		// TODO Auto-generated method stub
-		return 0;
+		fitness = FuncionEvalArbol.funcionEvalArbol(raizArbol);
+		return (float)fitness;
 	}
 
 	@Override
