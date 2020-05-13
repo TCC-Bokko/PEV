@@ -21,6 +21,7 @@ public class CromosomaArbol extends Cromosoma {
 	Random r;
 	List<Arbol> nodos; 
 	double fitness;
+	double k; // Factor de corrección para control bloating por penalizacion
 	
 	// Opciones del GUI
 	protected int numAs;
@@ -277,15 +278,25 @@ public class CromosomaArbol extends Cromosoma {
 		return cadena; 
 	}
 	
-	protected float controlBloating() {
-		float fitnessFinal = 0f;
+	protected double controlBloating() {
+		double fitnessFinal = fitness;
 		
 		if (Bloating == "Tarpeian") {
 			// Si el tamaño del arbol del individuo es mayor que el tamaño medio de la población
 			// Tiene una posibilidad X de devolver un mal fitness (OJO: Maximizamos, más puntuaje mejor)
+			int num_nodos = raizArbol.getNumNodos();
+			if (num_nodos > tamMedioPob) {
+				// 50% posibilidades dar mal fitness
+				int prob = r.nextInt(10);
+				if (prob < 5) {
+					fitnessFinal = 1.0d;
+				}
+			}
 			
 		} else if (Bloating == "Penalizacion") {
-			// Aplica al fitness 
+			// Aplica al fitness un coeficiente de corrección dependiendo de la cantidad de 
+			// Al ser un problema de maximización se resta del fitness el resultado.
+			fitnessFinal = fitness - k * raizArbol.getNumNodos();			
 		}
 		
 		return fitnessFinal;
@@ -340,5 +351,8 @@ public class CromosomaArbol extends Cromosoma {
 
 	public void setMediaPob(double tmp) {
 		tamMedioPob = tmp;
+	}
+	public void setk(double Kin) {
+		k = Kin;
 	}
 }

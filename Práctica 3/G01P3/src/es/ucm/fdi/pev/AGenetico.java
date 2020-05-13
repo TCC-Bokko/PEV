@@ -58,6 +58,7 @@ public class AGenetico
 	protected int generacionActual;
 	protected String tipoCruce;
 	protected String tipoSeleccion;
+	protected String tipoMutacion;
 
 	protected int numProblema;
 	
@@ -75,10 +76,7 @@ public class AGenetico
 	
 	enum Tipo {MINIMIZACION, MAXIMIZACION, DEFAULT}
 	Tipo tipo;
-	
-	// Práctica 2
-	protected String tipoMutacion;
-	
+
 	// Práctica 3
 	protected int numAs;	//cantidad de lineas de direccionamiento (Adress)
 	protected String useif;
@@ -87,7 +85,8 @@ public class AGenetico
 	protected String initC;
 	protected String bloat;
 	protected double tamArbolMedioPobl;
-	
+	protected double k; // Coeficiente penalizacion para bloating.
+	protected double nodos_total;
 	
 	
 	// -------- GRAFICA --------- // 
@@ -127,6 +126,10 @@ public class AGenetico
 		System.out.println("-------- INICIO DE POBLACION"  + " --------" );
 		generacionActual = 1;
 		
+		//P3
+		k = 0d;
+		tamArbolMedioPobl = pmax;
+		
 		inicializaPoblacion();
 		evaluacion(); 
 		double media = calculaMedia();
@@ -146,7 +149,10 @@ public class AGenetico
 			evaluacion();	
 			
 			media = calculaMedia();
-			tamArbolMedioPobl = calculaTamMed(); //Primera ejecución coge el tamMax. En siguientes lee de variable.
+			
+			// Especificos de P3
+			tamArbolMedioPobl = calculaTamMed(); // Primera ejecución coge el tamMax. En siguientes lee de variable.
+			calculaK(); // Calculo de coeficiente para penalizar en bloating (Actualiza k) Primera ejecución k = 0;
 			
 			_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media); //Pasa los datos de esta generacion a la grafica, calcula media y compara maxAbsoluto.
 		
@@ -187,6 +193,7 @@ public class AGenetico
 		System.out.printf("Peor fitness: %d\n", (int) peor_fitness);
 		System.out.printf("Generacion del peor: %d\n", generacionPeor);
 		System.out.printf("Tamaño medio poblacion: %d", tamArbolMedioPobl);
+		System.out.printf("Coef. Bloating penalizacion: %d", k);
 		_grafica.dibujaGrafica();
 	}
 	
@@ -205,9 +212,7 @@ public class AGenetico
 	}
 	
 	protected void creaPoblacion()
-	{	
-		tamArbolMedioPobl = pmax;
-		
+	{			
 		if (initC == "RampedAndHalf") {
 			//Debemos dividir la población en grupos
 			// Tantos grupos como PROF_MAX-1
@@ -397,15 +402,15 @@ public class AGenetico
 	
 	private void evaluacion() 
 	{
-		
 		fitness_total = 0;
 		mejor_fitness = poblacion[0].getFitness();
 		
 		for (Cromosoma c : poblacion)
 		{			
-			//ESPECIFICO P3 (Pasarle media poblacion para bloating)
+			//ESPECIFICO P3 (Setup del Bloating)
 			CromosomaArbol CAp = (CromosomaArbol) c;
 			CAp.setMediaPob(tamArbolMedioPobl);
+			CAp.setk(k);
 			c = CAp;
 			
 			// Calculo de fitness de cada individuo
@@ -416,7 +421,6 @@ public class AGenetico
 					
 			evalua_mejor(c);
 		}
-		
 		
 		switch (tipo)
 		{
@@ -600,6 +604,54 @@ public class AGenetico
 		return media;
 	}
 	
+	protected void calculaK() {
+		Double Cov;
+		Double Var;
+		
+		// COVARIANZA (tamaño individuo, fitness)
+		// Cov = (Sum (tam individuo * fitness) / tamPoblacion) - (tamañoMedio * fitnesMedio)
+		
+		// VARIANZA (tamaño individuos)
+		// Var(x) = SUM(tamArbol - mediaTamaños)^2 / poblacion
+		// Sumatorio
+		double SumVar = 0d;
+		double tamRes;
+		
+		// Sumatorios
+		double SumCov = 0d;
+		double operando1;
+		double fInd;
+		double tamArb;
+		
+		for (int i = 0; i < tamPoblacion; i++) {
+			// Obtenemos datos del individuo
+			fInd = poblacion[i].getFitness(); //Cov
+			CromosomaArbol CA = (CromosomaArbol)poblacion[i];
+			tamArb = CA.getTamArbol();
+			tamRes = tamArb - tamArbolMedioPobl; //Var
+			// Calculos
+			SumCov += fInd * tamArb; // Cov
+			SumVar += Math.pow(tamRes, 2); // Var
+		}
+		operando1 = SumCov / tamPoblacion;
+		
+		// Tamaño y fitness Medio
+		double operando2;
+		double fitness_medio = fitness_total / tamPoblacion;
+		operando2 = tamArbolMedioPobl * fitness_medio;
+		
+		// Calculamos ambas partes Cov
+		Cov = operando1 - operando2;
+		System.out.printf("[Calculo K] Covarianza: %f", Cov);
+			
+		// Calculamos Var
+		Var = SumVar / tamPoblacion;
+		System.out.printf("[Calculo K] Varianza: %f", Var);
+		
+		//Actualizamos K (Factor corrección)
+		k = Cov / Var;
+		System.out.printf("[Calculo K] K final: %f", k);
+	}
 	
 	/////////////////////////////////////////////////
 	//
@@ -658,7 +710,6 @@ public class AGenetico
 		bloat = b;
 	}
 	
-
 	//GETTERS
 	public int getTamPob() {
 		return tamPoblacion;
@@ -687,7 +738,6 @@ public class AGenetico
 	public float[] getMejorFeno() {
 		return mejor_abs.fenotipos();
 	}
-	//Practica 2 y 3
 	public String getMutacion() {
 		return tipoMutacion;
 	}
