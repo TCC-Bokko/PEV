@@ -371,33 +371,35 @@ public class AGenetico
 	private void mutacion()
 	{			
 		boolean haMutado = false;
-		for (Cromosoma c : poblacion)
-		switch (tipoMutacion)
-		{
-		 // PRACTICA 3
-		 case "Terminal":
-		 	haMutado = Terminal.terminal(c, prob_mutacion);
-		 	break;
-		 case "Funcion":
-		 	haMutado = Funcion.funcion(c, prob_mutacion);
-		 	break;
-		 case "Permutacion":
-		 	haMutado = Permutacion.permutacion(c, prob_mutacion);
-		 	break;
-		 case "Hoist":
-		 	haMutado = Hoist.hoist(c, prob_mutacion);
-		 	break;
-		 case "Expansion":
-		 	haMutado = Expansion.expansion(c, prob_mutacion);
-		 	break;
-		 case "Contraccion":
-		 	haMutado = Contraccion.contraccion(c, prob_mutacion);
-		 	break;
-		 case "Subarbol":
-		 	haMutado = Subarbol.subarbol(c, prob_mutacion);
-		 	break;
+		for (Cromosoma c : poblacion) {
+			switch (tipoMutacion)
+			{
+			 // PRACTICA 3
+			 case "Terminal":
+			 	haMutado = Terminal.terminal(c, prob_mutacion);
+			 	break;
+			 case "Funcion":
+			 	haMutado = Funcion.funcion(c, prob_mutacion);
+			 	break;
+			 case "Permutacion":
+			 	haMutado = Permutacion.permutacion(c, prob_mutacion);
+			 	break;
+			 case "Hoist":
+			 	haMutado = Hoist.hoist(c, prob_mutacion);
+			 	break;
+			 case "Expansion":
+			 	haMutado = Expansion.expansion(c, prob_mutacion);
+			 	break;
+			 case "Contraccion":
+			 	haMutado = Contraccion.contraccion(c, prob_mutacion);
+			 	break;
+			 case "Subarbol":
+			 	haMutado = Subarbol.subarbol(c, prob_mutacion);
+			 	break;
+			}
+			
+			if (haMutado) numMutacionesTotal++;
 		}
-		if (haMutado) numMutacionesTotal++;
 	}
 	
 	private void evaluacion() 

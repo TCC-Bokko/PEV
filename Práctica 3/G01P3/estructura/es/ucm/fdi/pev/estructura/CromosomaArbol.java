@@ -427,7 +427,11 @@ public class CromosomaArbol extends Cromosoma {
 		checkProfundidad();
 		return profundidadIndividuo;
 	}
-
+	
+	public int getNumAs() { //Usado por la mutación
+		return numAs;
+	}
+	
 	public void setMediaPob(double tmp) {
 		tamMedioPob = tmp;
 	}
@@ -438,5 +442,9 @@ public class CromosomaArbol extends Cromosoma {
 	
 	public List<Arbol> getListaNodos(){
 		return nodos;
+	}
+	
+	public void setListaNodos(List<Arbol> nl) {
+		nodos = nl;
 	}
 }
