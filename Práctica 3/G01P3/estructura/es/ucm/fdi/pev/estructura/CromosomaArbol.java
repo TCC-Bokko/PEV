@@ -8,6 +8,7 @@ import es.ucm.fdi.pev.evaluacion.FuncionEvalArbol;
 public class CromosomaArbol extends Cromosoma {
 	//Raiz
 	Arbol raizArbol;
+	
 	//Auxiliares
 	Arbol HI;	
 	Arbol HD;
@@ -15,11 +16,12 @@ public class CromosomaArbol extends Cromosoma {
 	String inicializacion;
 	String Bloating;
 	double tamMedioPob;
+	int profundidadIndividuo;
 	
 	//int prof_min;
 	int prof_max;
 	Random r;
-	List<Arbol> nodos; 
+	List<Arbol> nodos; //Almacena nodos (arboles) creados en POSTORDEN IZQ, DER, RAIZ.
 	double fitness;
 	double k; // Factor de corrección para control bloating por penalizacion
 	
@@ -69,23 +71,28 @@ public class CromosomaArbol extends Cromosoma {
 	protected void inicializaCromosoma() {
 		switch (inicializacion) {
 		case "Completa":
-			raizArbol = creaArbolCompleto(0, prof_max-1);
+			raizArbol = creaArbolCompleto(0, prof_max-1, null);
 			break;
 		case "Creciente":
-			raizArbol = creaArbolCreciente(0, prof_max-1);
+			raizArbol = creaArbolCreciente(0, prof_max-1, null);
 			break;
 		default:
-			raizArbol = creaArbolCompleto(0, prof_max-1);
+			raizArbol = creaArbolCompleto(0, prof_max-1, null);
 			break;
 		}
 	}
 	
-	private Arbol creaArbolCompleto(int nivel, int prof_max) {
+	// Creación del individuo
+	private Arbol creaArbolCompleto(int nivel, int prof_max, Arbol padre) {
 		// Completa genera nodos de tipo operador hasta alcanzar profundidad maxima donde genera nodos operando.
 		Arbol arbol = new Arbol();
 		
 		//Profundidad de este nodo.
 		arbol.setProfundidad(nivel);
+		//Padre
+		if (padre != null) {
+			arbol.setPadre(padre);
+		}
 		
 		//Si no es hoja
 		if (nivel < prof_max) {
@@ -96,15 +103,15 @@ public class CromosomaArbol extends Cromosoma {
 			
 			//GENERAR HIJOS
 			
-			//Izquierdo
-			arbol.setHI(creaArbolCompleto(nivel+1, prof_max));
+			//Izquierdo (Usado en todos)
+			arbol.setHI(creaArbolCompleto(nivel+1, prof_max, arbol));
 			//Añadimos este nodo y le sumamos los nodos de los hijos.
-			arbol.setNumNodos(arbol.getNumNodos()+1);
+			arbol.setNumNodos(arbol.getNumNodos()+1);	//Cada nodo (sub-arbol) almacena el número de nodos que contiene (raiz incluida)
 			arbol.setNumNodos(arbol.getNumNodos() + arbol.getHi().getNumNodos());
 			
-			//Central (Si procede)
+			//Central (Usado en IF)
 			if (tres_operandos(operador)) {
-				arbol.setHC(creaArbolCompleto(nivel+1, prof_max));
+				arbol.setHC(creaArbolCompleto(nivel+1, prof_max, arbol));
 				arbol.setNumNodos(arbol.getNumNodos()+1);
 				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHc().getNumNodos());
 			} else {
@@ -112,10 +119,12 @@ public class CromosomaArbol extends Cromosoma {
 				arbol.setHC(HC);
 			}
 			
-			//Derecho
-			arbol.setHD(creaArbolCompleto(nivel+1, prof_max));
-			arbol.setNumNodos(arbol.getNumNodos()+1);
-			arbol.setNumNodos(arbol.getNumNodos() + arbol.getHd().getNumNodos());
+			//Derecho (Usado en AND, OR, IF)
+			if (dos_operandos(operador)) {
+				arbol.setHD(creaArbolCompleto(nivel+1, prof_max, arbol));
+				arbol.setNumNodos(arbol.getNumNodos()+1);
+				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHd().getNumNodos());
+			}
 		} 
 		
 		//Si es una HOJA
@@ -131,12 +140,16 @@ public class CromosomaArbol extends Cromosoma {
 		return arbol;
 	}
 	
-	private Arbol creaArbolCreciente(int nivel, int prof_max) {
+	private Arbol creaArbolCreciente(int nivel, int prof_max, Arbol padre) {
 		// Crecientea genera nodos aleatorios de cualquier tipo
 		// hasta alcanzar profundidad maxima donde únicamente genera nodos operando.
 		Arbol arbol = new Arbol();
 		//Profundidad de este nodo.
 		arbol.setProfundidad(nivel);
+		//Padre
+		if (padre != null) {
+			arbol.setPadre(padre);
+		}
 		
 		//Si no es hoja
 		if (nivel < prof_max) {
@@ -148,15 +161,15 @@ public class CromosomaArbol extends Cromosoma {
 				arbol.setValor(operador);
 				
 				//GENERAR HIJOS si ha salido un operador
-				//Izquierdo
-				arbol.setHI(creaArbolCompleto(nivel+1, prof_max));
+				//Izquierdo (Usado en todos)
+				arbol.setHI(creaArbolCompleto(nivel+1, prof_max, arbol));
 				//Añadimos este nodo y le sumamos los nodos de los hijos.
 				arbol.setNumNodos(arbol.getNumNodos()+1);
 				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHi().getNumNodos());
 				
-				//Central (Si procede)
+				//Central (Usado en IF)
 				if (tres_operandos(operador)) {
-					arbol.setHC(creaArbolCompleto(nivel+1, prof_max));
+					arbol.setHC(creaArbolCompleto(nivel+1, prof_max, arbol));
 					arbol.setNumNodos(arbol.getNumNodos()+1);
 					arbol.setNumNodos(arbol.getNumNodos() + arbol.getHc().getNumNodos());
 				} else {
@@ -164,10 +177,12 @@ public class CromosomaArbol extends Cromosoma {
 					arbol.setHC(HC);
 				}
 				
-				//Derecho
-				arbol.setHD(creaArbolCompleto(nivel+1, prof_max));
-				arbol.setNumNodos(arbol.getNumNodos()+1);
-				arbol.setNumNodos(arbol.getNumNodos() + arbol.getHd().getNumNodos());
+				//Derecho (Usado en AND, OR, IF)
+				if (dos_operandos(operador)) {
+					arbol.setHD(creaArbolCompleto(nivel+1, prof_max, arbol));
+					arbol.setNumNodos(arbol.getNumNodos()+1);
+					arbol.setNumNodos(arbol.getNumNodos() + arbol.getHd().getNumNodos());
+				}
 			} else {
 				// En el caso de que se genere un operando
 				int it = r.nextInt(operandos.length);
@@ -190,6 +205,7 @@ public class CromosomaArbol extends Cromosoma {
 		return arbol;
 	}
 	
+	// Métodos propios del individuo
 	private Boolean tres_operandos(String operador) {
 		Boolean isValid = false;
 		
@@ -197,15 +213,15 @@ public class CromosomaArbol extends Cromosoma {
 		
 		return isValid;
 	}
-
-	@Override
-	public float[] fenotipos() {
-		String fenotipo;
-		fenotipo = fenotipoArbol();
-		System.out.println(fenotipo);
-		return null;
-	}
 	
+	private Boolean dos_operandos(String operador) {
+		Boolean isValid = false;
+		
+		if (operador != "NOT") isValid = true;
+		
+		return isValid;
+	}
+
 	public String fenotipoArbol() {
 		String operacion = "(";
 		
@@ -302,6 +318,52 @@ public class CromosomaArbol extends Cromosoma {
 		return fitnessFinal;
 	}
 
+	protected void checkProfundidad() {
+		int maxProf = 0;
+		int actProf;
+		Arbol actArb;
+		for (int i = 0; i < nodos.size(); i++) {
+			actArb = nodos.get(i);
+			actProf = actArb.getProfundidad();
+			if (actProf > maxProf) maxProf = actProf;
+		}
+		
+		profundidadIndividuo = maxProf;
+	}
+	
+	public void actualizaArbol() {
+		//Una vez terminado el cruce hace falta actualizar el cromosoma
+		// Actualizar lista
+		actualizaLista(null);
+		// actualiza profundidad
+		checkProfundidad();
+		System.out.printf("Profundidad tras cruce: %d\n", profundidadIndividuo);
+		// actualiza num nodos
+		System.out.printf("Nodos tras cruce: %d\n", nodos.size());
+	}
+	
+	private void actualizaLista(Arbol a) {
+		if (a == null) {
+			// Vaciamos lista nodos Postorden
+			nodos.clear();
+			// Establecemos raizArbol como inicio del recorrido
+			a = raizArbol;
+		}
+		
+		// Si es un OPERANDOR recorrer sus hijos
+		String valorA = a.getValor();
+		if (valorA == "AND" || valorA == "OR" || valorA == "NOT" || valorA == "IF") {
+			// recorrido arbol postorden IZQ, CENTRAL, DERECHO, RAIZ
+			actualizaLista(a.getHi());
+			if (tres_operandos(a.getValor())) actualizaLista(a.getHc());
+			if (dos_operandos(a.getValor())) actualizaLista(a.getHi());
+		}
+		// Si es un OPERANDO simplemente se añade a la lista de nodos.
+		
+		// Empezamos a recorrer por la raizArbol
+		nodos.add(a);
+	}
+	
 	// METODOS DEL PADRE
 	@Override
 	public float evalua() {
@@ -336,6 +398,14 @@ public class CromosomaArbol extends Cromosoma {
 		return 0;
 	}
 	
+	@Override
+	public float[] fenotipos() {
+		String fenotipo;
+		fenotipo = fenotipoArbol();
+		System.out.println(fenotipo);
+		return null;
+	}
+	
 	// GETTERS Y SETTERS
 	public Arbol getArbol() {
 		return raizArbol;
@@ -346,13 +416,27 @@ public class CromosomaArbol extends Cromosoma {
 	}
 	
 	public int getTamArbol() {
+		//Comprobación num nodos
+		System.out.printf("Nodos en lista: %d", nodos.size());
+		System.out.printf("Nodos segun raiz: %d", raizArbol.getNumNodos());
+		
 		return raizArbol.getNumNodos();
+	}
+	
+	public int getProfInd(){
+		checkProfundidad();
+		return profundidadIndividuo;
 	}
 
 	public void setMediaPob(double tmp) {
 		tamMedioPob = tmp;
 	}
+	
 	public void setk(double Kin) {
 		k = Kin;
+	}
+	
+	public List<Arbol> getListaNodos(){
+		return nodos;
 	}
 }

@@ -6,15 +6,17 @@ public class Arbol {
 	// NOT acepta un argumento
 	
 	private String dato; // operando u operador (AND OR NOT IF)
+	private Arbol padre;
 	private Arbol Hi;		//Hijo izquierdo
 	private Arbol Hc;		//Hijo central
 	private Arbol Hd;		//Hijo derecho
 	private int num_nodos;	//Número de nodos (Tamaño del arbol)
-	private int profundidad; //profundidad
+	private int profundidad; //profundidad a la que se encuentra la raiz de este nodo.
 	
 	public Arbol() {
 		num_nodos = 0;
 		profundidad = -1;
+		padre = null;
 		Hi = null;
 		Hc = null;
 		Hd = null;
@@ -44,8 +46,14 @@ public class Arbol {
 	public int getProfundidad() {
 		return profundidad;
 	}
+	public Arbol getPadre() {
+		return this.padre;
+	}
 	
 	//SETTERS
+	public void setPadre(Arbol parent) {
+		this.padre = parent;
+	}
 	public void setValor(String value) {
 		this.dato = value;
 	}

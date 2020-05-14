@@ -17,11 +17,11 @@
 		del conjunto de terminales.
 	[OK] Ramped & Half
 
-[] Selección
+[OK] Selección
 	[OK] Dejar los que había.
 
-[] Cruce 
-	[] Permutación:
+[OK] Cruce 
+	[OK] Permutación:
 		Buscar un punto aleatorio en cada uno de los padres (nodo función)
 		Intercambia los subarboles de los nodos entre los padres.
 		Se intenta que se intercambien nodos función con más posiblidad (0.9)
@@ -43,12 +43,12 @@
 			hay que recalcular C(t) en cada generación
 			da un tamaño medio de los individuos sea más o menos el mismo.
 
-[] GUI para configurar parametros y mostrar grafica
+[OK] GUI para configurar parametros y mostrar grafica
 	[OK] Profundidad máxima Arboles
 	[OK] Numero de entradas
 	[OK] Selector de cruces
 	[OK] Selector de mutación
-	[] Selector de Control Bloating
+	[OK] Selector de Control Bloating
 
 BLOATING
 Tamaño del cromosoma crece a lo largo de las generaciones.
