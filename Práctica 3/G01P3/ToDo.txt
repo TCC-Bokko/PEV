@@ -1,5 +1,10 @@
-[] CromosomaP3 Arbol
+::: TO DO LIST :::
+
+[WIP] CromosomaP3 Arbol
 [] Función adaptación (cuan bueno es con aciertos o fallos)
+	[] Ver como se ejecutan los programas
+	[] Contar los aciertos
+	[] Escribir comparadores del cromosomaArbol heredados.
 [OK] Generación
 	[OK] Completa: p.32 Prog Genetica
 		Genera elementos nodo de funciones hasta llegar a prof max y en la prof max solo genera terminales.
@@ -26,11 +31,11 @@
 		Intercambia los subarboles de los nodos entre los padres.
 		Se intenta que se intercambien nodos función con más posiblidad (0.9)
 
-[] Mutación
+[OK] Mutación
 	[OK] Terminal: Cambia una operando (hoja) - OBLIGATORIO
-	[] Función: Cambia un operador - OBLIGADO
-	[] subárbol: descarta un subarbol y vuelve a generarlo aleatoriamente. - OBLIGATORIO
-	[] Permutación: intercambia el orden de dos operandos - OBLIGATORIO
+	[OK] Función: Cambia un operador - OBLIGADO
+	[OK] subárbol: descarta un subarbol y vuelve a generarlo aleatoriamente. - OBLIGATORIO
+	[OK] Permutación: intercambia el orden de dos operandos - OBLIGATORIO
 	---------
 	[] Hoist: Coge un subarbol dentro del arbol y descarta el resto.
 	[] Expansión: Sustituye una hoja operando con un subarbol
@@ -49,6 +54,8 @@
 	[OK] Selector de cruces
 	[OK] Selector de mutación
 	[OK] Selector de Control Bloating
+
+:: DESARROLLANDO CONCEPTOS ::
 
 BLOATING
 Tamaño del cromosoma crece a lo largo de las generaciones.
