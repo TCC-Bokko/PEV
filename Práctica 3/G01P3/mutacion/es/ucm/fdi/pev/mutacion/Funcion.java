@@ -23,7 +23,6 @@ public class Funcion {
 	
 	private static void muta(Cromosoma c)
 	{
-		// WIP - TO DO
 		// Funcion: Cambia uno de los nodos operador (función).
 		// Ojo, debe tener el mismo nivel de aridad (cantidad de parametros)
 		CromosomaArbol CA = (CromosomaArbol) c;

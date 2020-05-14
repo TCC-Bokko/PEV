@@ -140,7 +140,8 @@ public class CromosomaArbol extends Cromosoma {
 		return arbol;
 	}
 	
-	private Arbol creaArbolCreciente(int nivel, int prof_max, Arbol padre) {
+	// Publico para la mutación subarbol
+	public Arbol creaArbolCreciente(int nivel, int prof_max, Arbol padre) {
 		// Crecientea genera nodos aleatorios de cualquier tipo
 		// hasta alcanzar profundidad maxima donde únicamente genera nodos operando.
 		Arbol arbol = new Arbol();
@@ -337,9 +338,9 @@ public class CromosomaArbol extends Cromosoma {
 		actualizaLista(null);
 		// actualiza profundidad
 		checkProfundidad();
-		System.out.printf("Profundidad tras cruce: %d\n", profundidadIndividuo);
+		System.out.printf("Profundidad despues: %d\n", profundidadIndividuo);
 		// actualiza num nodos
-		System.out.printf("Nodos tras cruce: %d\n", nodos.size());
+		System.out.printf("Nodos despues: %d\n", nodos.size());
 	}
 	
 	private void actualizaLista(Arbol a) {

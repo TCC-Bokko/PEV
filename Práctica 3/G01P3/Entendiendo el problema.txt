@@ -29,7 +29,7 @@
 [] Mutación
 	[OK] Terminal: Cambia una operando (hoja) - OBLIGATORIO
 	[OK] Función: Cambia un operador - OBLIGADO
-	[] subárbol: descarta un subarbol y vuelve a generarlo aleatoriamente. - OBLIGATORIO
+	[OK] subárbol: descarta un subarbol y vuelve a generarlo aleatoriamente. - OBLIGATORIO
 	[] Permutación: intercambia el orden de dos operandos - OBLIGATORIO
 	---------
 	[] Hoist: Coge un subarbol dentro del arbol y descarta el resto.
