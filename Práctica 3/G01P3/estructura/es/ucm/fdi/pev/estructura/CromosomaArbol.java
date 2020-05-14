@@ -443,8 +443,11 @@ public class CromosomaArbol extends Cromosoma {
 	public List<Arbol> getListaNodos(){
 		return nodos;
 	}
-	
 	public void setListaNodos(List<Arbol> nl) {
 		nodos = nl;
+	}
+	
+	public Boolean getUseIf() { //Usado por mutacion
+		return useIf;
 	}
 }
