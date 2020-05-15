@@ -43,7 +43,9 @@ public class Funcion {
 		Random r = new Random();
 		
 		if (aridad == 1) {
-			// Soy consciente de que no cambiara nada, pero esto nos vale para otras funciones que tengan más de un operador con aridad 1
+			// Soy consciente de que no cambiara nada, 
+			// pero esto nos vale para otras funciones que tengan más de un 
+			// operador con aridad 1
 			int selec = r.nextInt(operadoresAridad1.length);
 			nuevoValor = operadoresAridad1[selec];
 		}
@@ -96,4 +98,5 @@ public class Funcion {
 		return aridad;
 		
 	}
+	
 }

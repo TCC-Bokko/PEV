@@ -2,7 +2,7 @@
 
 [WIP] CromosomaP3 Arbol
 [WIP] Función adaptación (cuan bueno es con aciertos o fallos)
-	[] Ver como se ejecutan los programas
+	[OK] Ver como se ejecutan los programas
 	[OK] Ver resultado ejecución y contar los aciertos
 	[] Escribir comparadores del cromosomaArbol heredados.
 [OK] Generación

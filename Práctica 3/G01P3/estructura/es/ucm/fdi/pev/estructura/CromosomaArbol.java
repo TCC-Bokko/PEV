@@ -33,8 +33,14 @@ public class CromosomaArbol extends Cromosoma {
 	
 	private String[] operadores;
 	private String[] operandos; 
+	Boolean debugEjecucion = true;
+	
+	public CromosomaArbol(Cromosoma c) {
+		super(c);
+	}
 	
 	public CromosomaArbol(int As, String uif, int pmax, String initC, String bloat, String[] multiplex) {
+		if (debugEjecucion) System.out.println("[CromosomaArbol.Constructora()]");
 		//Datos del AGen establecidos en el GUI
 		
 		//USO DEL OPERADOR IF
@@ -71,7 +77,8 @@ public class CromosomaArbol extends Cromosoma {
 	
 	@Override
 	protected void inicializaCromosoma() {
-		switch (inicializacion) {
+		if (debugEjecucion) System.out.println("[CromosomaArbol.inicializaCromosoma()]");
+		switch (this.inicializacion) {
 		case "Completa":
 			raizArbol = creaArbolCompleto(0, prof_max-1, null);
 			break;
@@ -86,6 +93,7 @@ public class CromosomaArbol extends Cromosoma {
 	
 	// Creación del individuo
 	private Arbol creaArbolCompleto(int nivel, int prof_max, Arbol padre) {
+		if (debugEjecucion) System.out.println("[CromosomaArbol.creaArbolCompleto()]");
 		// Completa genera nodos de tipo operador hasta alcanzar profundidad maxima donde genera nodos operando.
 		Arbol arbol = new Arbol();
 		
@@ -144,6 +152,7 @@ public class CromosomaArbol extends Cromosoma {
 	
 	// Publico para la mutación subarbol
 	public Arbol creaArbolCreciente(int nivel, int prof_max, Arbol padre) {
+		if (debugEjecucion) System.out.println("[CromosomaArbol.creaArbolCreciente()]");
 		// Crecientea genera nodos aleatorios de cualquier tipo
 		// hasta alcanzar profundidad maxima donde únicamente genera nodos operando.
 		Arbol arbol = new Arbol();
@@ -226,6 +235,7 @@ public class CromosomaArbol extends Cromosoma {
 	}
 
 	public String fenotipoArbol() {
+		if (debugEjecucion) System.out.println("[CromosomaArbol.fenotipoArbol()]");
 		String operacion = "(";
 		
 		//Recorrido recursivo por los hijos del arbol
@@ -237,6 +247,7 @@ public class CromosomaArbol extends Cromosoma {
 	}
 	
 	private String ValoresArbol(String cadena, Arbol arbol) {
+		if (debugEjecucion) System.out.println("[CromosomaArbol.ValoresArbol()]");
 		//Añadimos el valor del arbol
 		cadena = cadena + arbol.getValor();
 		
@@ -298,6 +309,7 @@ public class CromosomaArbol extends Cromosoma {
 	}
 	
 	protected double controlBloating() {
+		if (debugEjecucion) System.out.println("[CromosomaArbol.controlBloating()]");
 		double fitnessFinal = fitness;
 		
 		if (Bloating == "Tarpeian") {
@@ -322,6 +334,7 @@ public class CromosomaArbol extends Cromosoma {
 	}
 
 	protected void checkProfundidad() {
+		if (debugEjecucion) System.out.println("[CromosomaArbol.checkProfundidad()]");
 		int maxProf = 0;
 		int actProf;
 		Arbol actArb;
@@ -335,6 +348,7 @@ public class CromosomaArbol extends Cromosoma {
 	}
 	
 	public void actualizaArbol() {
+		if (debugEjecucion) System.out.println("[CromosomaArbol.actualizaArbol()]");
 		//Una vez terminado el cruce hace falta actualizar el cromosoma
 		// Actualizar lista
 		actualizaLista(null);
@@ -346,6 +360,7 @@ public class CromosomaArbol extends Cromosoma {
 	}
 	
 	private void actualizaLista(Arbol a) {
+		if (debugEjecucion) System.out.println("[CromosomaArbol.actualizaLista()]");
 		if (a == null) {
 			// Vaciamos lista nodos Postorden
 			nodos.clear();
@@ -379,25 +394,30 @@ public class CromosomaArbol extends Cromosoma {
 	
 	@Override
 	public Cromosoma clone() {
-		// TODO Auto-generated method stub
-		return null;
+		return new CromosomaArbol(this);
 	}
 	
 	@Override
 	public boolean compara_mejor_fitness(float f) {
-		// TODO Auto-generated method stub
-		return false;
+		// Recibe un fitness y devuelve si el cromosoma es mejor (true) o peor (false)
+		if (fitness > f) return true;
+		else return false;
 	}
 
 	@Override
 	public boolean compara_peor_fitness(float f) {
-		// TODO Auto-generated method stub
-		return false;
+		// Recibe un fitness y devuelve si el cromosoma es peor (true) o mejor (false)
+		if (fitness < f) return true;
+		else return false;
 	}
 
 	@Override
 	public int compareTo(Cromosoma c) {
-		// TODO Auto-generated method stub
+		if(this.fitness < c.getFitness())
+			return -1;
+		else if(this.fitness > c.getFitness())
+			return 1;
+		
 		return 0;
 	}
 	

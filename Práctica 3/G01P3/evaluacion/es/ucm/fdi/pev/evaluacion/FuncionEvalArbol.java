@@ -22,11 +22,9 @@ public class FuncionEvalArbol {
 	}
 	
 	private static Boolean ejecutaPrograma(Arbol arbol, String valores) {
-		char resultado = '0';
-		
 		// Ejecución
-		
-			// OJO: FALTA LA EJECUCIÓN AQUI.
+		Boolean resultadoEjecucion = ejecutaArbol(arbol, valores);
+		char resultado = boolAchar(resultadoEjecucion); 
 		
 		// Ver elemento apuntado. 
 		if (valores.length() == 6) {
@@ -56,6 +54,174 @@ public class FuncionEvalArbol {
 			return false;
 		}
 	
+	}
+	
+	private static Boolean ejecutaArbol(Arbol arbol, String valores) {
+		String nodo = arbol.getValor();
+	
+		// BLOQUE IF
+		if (nodo == "IF") {
+			Boolean bIzq;
+			Boolean bCen;
+			Boolean bDer;
+			
+			// Obtener valores de hijos
+			// Llamadas recursivas si son operador
+			// H. IZQUIERDO
+			if (isOperador(arbol.getHi().getValor())) {
+				bIzq = ejecutaArbol(arbol.getHi(), valores);
+			} else {
+				bIzq = operandoAboolean(arbol.getHi().getValor(), valores);
+			}
+			// H.Central
+			if (isOperador(arbol.getHc().getValor())) {
+				bCen = ejecutaArbol(arbol.getHc(), valores);
+			} else {
+				bCen = operandoAboolean(arbol.getHc().getValor(), valores);
+			}
+			// H. Derecho
+			if (isOperador(arbol.getHd().getValor())) {
+				bDer = ejecutaArbol(arbol.getHd(), valores);
+			} else {
+				bDer = operandoAboolean(arbol.getHd().getValor(), valores);
+			}
+			// Devolviendo el resultado de la operación lógica
+			if(bIzq) return bCen;
+			else return bDer;
+		
+		// BLOQUE OR
+		} else if (nodo == "OR" ) {
+			Boolean bIzq;
+			Boolean bDer;
+			
+			// Obtener valores de hijos
+			// H. Izquierdo
+			if (isOperador(arbol.getHi().getValor())) {
+				bIzq = ejecutaArbol(arbol.getHi(), valores);
+			} else {
+				bIzq = operandoAboolean(arbol.getHi().getValor(), valores);
+			}
+			// H. Derecho
+			if (isOperador(arbol.getHd().getValor())) {
+				bDer = ejecutaArbol(arbol.getHd(), valores);
+			} else {
+				bDer = operandoAboolean(arbol.getHd().getValor(), valores);
+			}
+			// Devolviendo el resultado de la operacion lógica
+			return (bIzq || bDer);
+		
+		// BLOQUE AND
+		} else if (nodo == "AND") {
+			Boolean bIzq;
+			Boolean bDer;
+			
+			//Obtener valores de hijos
+			// H. Izquierdo
+			if (isOperador(arbol.getHi().getValor())) {
+				bIzq = ejecutaArbol(arbol.getHi(), valores);
+			} else {
+				bIzq = operandoAboolean(arbol.getHi().getValor(), valores);
+			}
+			// H. Derecho
+			if (isOperador(arbol.getHd().getValor())) {
+				bDer = ejecutaArbol(arbol.getHd(), valores);
+			} else {
+				bDer = operandoAboolean(arbol.getHd().getValor(), valores);
+			}
+			
+			//Devolver operacion AND
+			return (bIzq && bDer);
+			
+		// BLOQUE NOT
+		} else if (nodo == "NOT") {
+			Boolean bIzq;
+		
+			//Obtener valor hijo
+			// H. Izquierdo
+			if (isOperador(arbol.getHi().getValor())) {
+				bIzq = ejecutaArbol(arbol.getHi(), valores);
+			} else {
+				bIzq = operandoAboolean(arbol.getHi().getValor(), valores);
+			}
+			
+			return !bIzq;
+			
+		} else {
+			//Aqui no deberian llegar operandos, pero por si acaso, se tratan, si el nodo no corresponde ni a un operando saltará un mensaje de error.
+			System.out.printf("La función del nodo %s no es un operador válido. Tratando como operando. \n", nodo);
+			return operandoAboolean(nodo, valores);
+		}
+		
+	}
+	
+	// Devuelve si el valor es true o falso desde los valores
+	private static Boolean operandoAboolean(String tipo, String valores) {
+		char valor;
+		
+		switch (tipo) {
+			case "A0":
+				valor = valores.charAt(0);
+				break;
+			case "A1":
+				valor = valores.charAt(1);
+				break;
+			case "A2":
+				valor = valores.charAt(2);
+				break;
+			case "D0":
+				if (valores.length() == 6) valor = valores.charAt(2);
+				else valor = valores.charAt(3);
+				break;
+			case "D1":
+				if (valores.length() == 6) valor = valores.charAt(3);
+				else valor = valores.charAt(4);
+				break;
+			case "D2":
+				if (valores.length() == 6) valor = valores.charAt(4);
+				else valor = valores.charAt(5);
+				break;
+			case "D3":
+				if (valores.length() == 6) valor = valores.charAt(5);
+				else valor = valores.charAt(6);
+				break;
+			case "D4":
+				valor = valores.charAt(7);
+				break;
+			case "D5":
+				valor = valores.charAt(8);
+				break;
+			case "D6":
+				valor = valores.charAt(9);
+				break;
+			case "D7":
+				valor = valores.charAt(10);
+				break;
+			default:
+				valor = 'N';
+				break;
+		}
+		
+		if (valor == '0') return false;
+		else if (valor == '1') return true;
+		else {
+			System.out.println("[Evalua-Arbol.charAboolean] Error: caracter leido no es 0 o 1. Devolviendo false.");
+			return false;
+		}
+	}
+	
+	private static char boolAchar(Boolean b) {
+		if (b) return '1';
+		else return '0';
+	}
+	
+	// Devuelve si el nodo corresponde a un operador o un operando
+	private static Boolean isOperador(String tipo) {
+		if (tipo == "OR" || tipo == "AND" || tipo == "NOT" || tipo == "IF") {
+			return true;
+		} else {
+			return false;
+		}
+		
 	}
 	
 }

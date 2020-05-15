@@ -89,6 +89,7 @@ public class AGenetico
 	protected double nodos_total;
 	// Para la evaluación.
 	String[] valoresMultiplexor;
+	Boolean debugEjecucion = true;
 	
 	
 	// -------- GRAFICA --------- // 
@@ -123,6 +124,7 @@ public class AGenetico
 
 	public void ejecuta()
 	{
+		if (debugEjecucion) System.out.println("[AGenetico.Ejecuta()]");
 		// Bucle del algoritmo
 		// Genera
 		System.out.println("-------- INICIO DE POBLACION"  + " --------" );
@@ -214,6 +216,7 @@ public class AGenetico
 	}
 	
 	protected void inicializaGrafica() {
+		if (debugEjecucion) System.out.println("[AGenetico.inicializaGrafica()]");
 		marco = new JFrame();
 		panel = new Plot2DPanel();
 		//panel.setSize(600, 600);
@@ -229,6 +232,7 @@ public class AGenetico
 	
 	protected void creaPoblacion()
 	{			
+		if (debugEjecucion) System.out.println("[AGenetico.creaPoblacion()]");
 		if (initC == "RampedAndHalf") {
 			//Debemos dividir la población en grupos
 			// Tantos grupos como PROF_MAX-1
@@ -295,6 +299,7 @@ public class AGenetico
 	
 	protected void inicializaPoblacion() 
 	{	
+		if (debugEjecucion) System.out.println("[AGenetico.inicializaPoblacion()]");
 		poblacion = new Cromosoma[tamPoblacion];
 		elite = new LinkedList<Cromosoma>();
 		tipo = Tipo.MAXIMIZACION; //Buscamos sacar más aciertos
@@ -312,6 +317,7 @@ public class AGenetico
 	
 	private void seleccion()
 	{		
+		if (debugEjecucion) System.out.println("[AGenetico.Seleccion()]");
 		Cromosoma[] nueva_pob = new Cromosoma[poblacion.length];
 		int[] pob_idx = new int[poblacion.length]; // Indices de los individuos seleccionados
 		//Switch dependiendo del tipo de cruce
@@ -354,6 +360,7 @@ public class AGenetico
 	
 	private void cruce() 
 	{		
+		if (debugEjecucion) System.out.println("[AGenetico.Cruce()]");
 		// Array con los indices de los padres seleccionados para cruzarse
 		ArrayList<Integer> sel = new ArrayList<Integer>();
 		
@@ -386,6 +393,7 @@ public class AGenetico
 	
 	private void mutacion()
 	{			
+		if (debugEjecucion) System.out.println("[AGenetico.Mutacion()]");
 		boolean haMutado = false;
 		for (Cromosoma c : poblacion) {
 			switch (tipoMutacion)
@@ -420,6 +428,7 @@ public class AGenetico
 	
 	private void evaluacion() 
 	{
+		if (debugEjecucion) System.out.println("[AGenetico.Evaluacion()]");
 		fitness_total = 0;
 		mejor_fitness = poblacion[0].getFitness();
 		
@@ -458,6 +467,7 @@ public class AGenetico
 	
 	protected void elitismo()
 	{
+		if (debugEjecucion) System.out.println("[AGenetico.Elitismo()]");
 		// Si hay porcentaje de elitismo:
 		if(elitismo > 0.0f)
 		{
@@ -473,6 +483,7 @@ public class AGenetico
 	
 	protected Cromosoma[] sustituyeElite(Cromosoma[] pob)
 	{
+		if (debugEjecucion) System.out.println("[AGenetico.sustituyeElite()]");
 		if(elitismo > 0 && elite.size() > 0)
 		{
 			Arrays.sort(pob, Collections.reverseOrder());
@@ -486,6 +497,7 @@ public class AGenetico
 		
 	protected void evalua_mejor(Cromosoma c) 
 	{	
+		if (debugEjecucion) System.out.println("[AGenetico.evalua_mejor()]");
 		if(c.compara_mejor_fitness(mejor_fitness))
 		{
 			mejor_fitness = c.getFitness();
@@ -511,11 +523,13 @@ public class AGenetico
 	
 	private boolean terminado() 
 	{
+		if (debugEjecucion) System.out.println("[AGenetico.terminado()]");
 		return generacionActual > maxGeneraciones;
 	}
 		
 	protected void adapta_puntuacion() 
 	{
+		if (debugEjecucion) System.out.println("[AGenetico.adapta_puntuacion()]");
 		// Probabilidad relativa [0,1) para metodos de seleccion
 		float punt_acum = 0;
 		for (int j = 0; j < poblacion.length; j++)
@@ -528,6 +542,7 @@ public class AGenetico
 	
 	protected void maximizacion()
 	{
+		if (debugEjecucion) System.out.println("[AGenetico.maximizacion()]");
 		float fmin = Float.POSITIVE_INFINITY;
 		
 		for (Cromosoma c : poblacion)
@@ -559,6 +574,7 @@ public class AGenetico
 	
 	protected void minimizacion()
 	{
+		if (debugEjecucion) System.out.println("[AGenetico.minimizacion()]");
 		float fmax = Float.NEGATIVE_INFINITY;
 		
 		for (Cromosoma c : poblacion)
@@ -589,26 +605,28 @@ public class AGenetico
 	}
 		
 	protected double calculaMedia() {
-			//Recorre los valores de fitness de la generaciï¿½n y saca una media
-			float sum = 0.0f;
-			double media = 0.0f;
-			
-			//Sumamos los fitness
-			for (int i = 0; i < tamPoblacion; i++) {
-				sum = sum + poblacion[i].getFitness();
-			}
-			
-			media = (double)sum / (double)tamPoblacion;		
-			
-			
-			//System.out.println("Mejor abs: " + abs_fitness);
-			
-			return media;		
+		if (debugEjecucion) System.out.println("[AGenetico.calculaMedia()]");
+		//Recorre los valores de fitness de la generaciï¿½n y saca una media
+		float sum = 0.0f;
+		double media = 0.0f;
+		
+		//Sumamos los fitness
+		for (int i = 0; i < tamPoblacion; i++) {
+			sum = sum + poblacion[i].getFitness();
 		}
+		
+		media = (double)sum / (double)tamPoblacion;		
+		
+		
+		//System.out.println("Mejor abs: " + abs_fitness);
+		
+		return media;		
+	}
 	
 	// METODOS ESPECIFICOS DE LA PRACTICA 3
 	
 	protected double calculaTamMed() {
+		if (debugEjecucion) System.out.println("[AGenetico.calculaTamMed()]");
 		double media = 0d;
 		double sumatorio = 0d;
 		
@@ -625,6 +643,7 @@ public class AGenetico
 	}
 	
 	protected void calculaK() {
+		if (debugEjecucion) System.out.println("[AGenetico.calculaK()]");
 		Double Cov;
 		Double Var;
 		
@@ -673,7 +692,8 @@ public class AGenetico
 		System.out.printf("[Calculo K] K final: %f", k);
 	}
 	
-	private static String[] inicializaValores(String[] multiplex, int tam) {
+	protected String[] inicializaValores(String[] multiplex, int tam) {
+		if (debugEjecucion) System.out.println("[AGenetico.inicializaValores()]");
 		int num = 0;
 		String convertido;
 		
@@ -686,7 +706,7 @@ public class AGenetico
 		return multiplex;
 	}
 	
-	private static String alargaString(String numBin, int longitud) {
+	protected String alargaString(String numBin, int longitud) {
 		String cero = "0";
 		while(numBin.length() != longitud) {
 			numBin = cero.concat(numBin);
