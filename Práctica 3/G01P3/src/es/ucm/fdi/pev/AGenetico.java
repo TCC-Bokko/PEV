@@ -87,6 +87,8 @@ public class AGenetico
 	protected double tamArbolMedioPobl;
 	protected double k; // Coeficiente penalizacion para bloating.
 	protected double nodos_total;
+	// Para la evaluación.
+	String[] valoresMultiplexor;
 	
 	
 	// -------- GRAFICA --------- // 
@@ -126,15 +128,29 @@ public class AGenetico
 		System.out.println("-------- INICIO DE POBLACION"  + " --------" );
 		generacionActual = 1;
 		
-		//P3
-		k = 0d;
-		tamArbolMedioPobl = pmax;
-		
 		inicializaPoblacion();
 		evaluacion(); 
 		double media = calculaMedia();
 		_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media);
-	
+		
+		// INICIALIZACIONES ESPECIFICAS P3
+		k = 0d;
+		tamArbolMedioPobl = pmax;
+		// Inicialización del vector de operandos (Solo una vez durante toda la ejecución).
+		int tam = 0;
+		if (numAs == 2) {
+			tam = 6; // A0,A1,D0,D1,D2,D3
+			valoresMultiplexor = new String[128];
+		} else if (numAs == 3) {
+			tam = 11; // A0, A1, A2, D0, D1, D2, D3, D4, D5, D6, D7
+			valoresMultiplexor = new String[2048];
+		} else {
+			System.out.println("[Evaluacion-Arbol] Error. NumAs tiene un valor distinto de 2 o 3.");
+		}
+		valoresMultiplexor = inicializaValores(valoresMultiplexor, tam);
+		
+		
+		// BUCLE PRINCIPAL
 		while (!terminado()) 
 		{	
 			System.out.println("-------- GENERACION " + generacionActual + " --------" );
@@ -232,11 +248,11 @@ public class AGenetico
 				for (int i = indv; i < groupLimit; i++) {
 					if (i % 2 == 0) {
 						//Creción completa
-						poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Completa", bloat);
+						poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
 						INDVcount++;
 					} else {
 						//Creación creciente
-						poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Creciente", bloat);
+						poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
 						INDVcount++;
 					}
 					indv = i;
@@ -248,11 +264,11 @@ public class AGenetico
 					for (int i = 0; i < sobran; i++) {
 						if (i % 2 == 0) {
 							//Creción completa
-							poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Completa", bloat);
+							poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
 							INDVcount++;
 						} else {
 							//Creación creciente
-							poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Creciente", bloat);
+							poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
 							INDVcount++;
 						}
 					}
@@ -271,7 +287,7 @@ public class AGenetico
 		} else {
 			// Si no es ramped and half procedemos normalmente.
 			for (int i = 0; i < tamPoblacion; i++) {
-				poblacion[i] = new CromosomaArbol(numAs, useif, pmax, initC, bloat); //Mirara el tipo de inicialización
+				poblacion[i] = new CromosomaArbol(numAs, useif, pmax, initC, bloat, valoresMultiplexor); //Mirara el tipo de inicialización
 			}
 		}
 		
@@ -590,6 +606,8 @@ public class AGenetico
 			return media;		
 		}
 	
+	// METODOS ESPECIFICOS DE LA PRACTICA 3
+	
 	protected double calculaTamMed() {
 		double media = 0d;
 		double sumatorio = 0d;
@@ -653,6 +671,27 @@ public class AGenetico
 		//Actualizamos K (Factor corrección)
 		k = Cov / Var;
 		System.out.printf("[Calculo K] K final: %f", k);
+	}
+	
+	private static String[] inicializaValores(String[] multiplex, int tam) {
+		int num = 0;
+		String convertido;
+		
+		for (int f = 0; f < multiplex.length; f++) {
+			convertido = Integer.toBinaryString(num);
+			convertido = alargaString(convertido, tam);
+			multiplex[f] = convertido;
+		}
+		
+		return multiplex;
+	}
+	
+	private static String alargaString(String numBin, int longitud) {
+		String cero = "0";
+		while(numBin.length() != longitud) {
+			numBin = cero.concat(numBin);
+		}
+		return numBin;
 	}
 	
 	/////////////////////////////////////////////////

@@ -15,6 +15,7 @@ public class CromosomaArbol extends Cromosoma {
 	Arbol HC;
 	String inicializacion;
 	String Bloating;
+	String[] valoresMultiplexor;
 	double tamMedioPob;
 	int profundidadIndividuo;
 	
@@ -33,7 +34,7 @@ public class CromosomaArbol extends Cromosoma {
 	private String[] operadores;
 	private String[] operandos; 
 	
-	public CromosomaArbol(int As, String uif, int pmax, String initC, String bloat) {
+	public CromosomaArbol(int As, String uif, int pmax, String initC, String bloat, String[] multiplex) {
 		//Datos del AGen establecidos en el GUI
 		
 		//USO DEL OPERADOR IF
@@ -57,10 +58,11 @@ public class CromosomaArbol extends Cromosoma {
 		}
 		
 		//prof_min = pmin; 
-		prof_max = pmax; 
-		inicializacion = initC;
-		nodos = new ArrayList<Arbol>();
-		Bloating = bloat;
+		prof_max = pmax; 				// para inicializacion
+		inicializacion = initC;			// para inicializacion
+		nodos = new ArrayList<Arbol>();	// usado en varios sitios
+		Bloating = bloat;				// para cruce
+		valoresMultiplexor = multiplex;	// para evaluacion
 		
 		// Llamadas a metodos
 		r = new Random();
@@ -368,7 +370,7 @@ public class CromosomaArbol extends Cromosoma {
 	// METODOS DEL PADRE
 	@Override
 	public float evalua() {
-		fitness = FuncionEvalArbol.funcionEvalArbol(raizArbol);
+		fitness = FuncionEvalArbol.funcionEvalArbol(raizArbol, numAs, valoresMultiplexor);
 		
 		fitness = controlBloating();
 		
@@ -444,6 +446,7 @@ public class CromosomaArbol extends Cromosoma {
 	public List<Arbol> getListaNodos(){
 		return nodos;
 	}
+	
 	public void setListaNodos(List<Arbol> nl) {
 		nodos = nl;
 	}
@@ -451,4 +454,5 @@ public class CromosomaArbol extends Cromosoma {
 	public Boolean getUseIf() { //Usado por mutacion
 		return useIf;
 	}
+	
 }
