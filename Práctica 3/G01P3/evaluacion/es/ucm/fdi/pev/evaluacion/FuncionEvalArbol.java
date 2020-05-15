@@ -6,8 +6,9 @@ public class FuncionEvalArbol {
 		//WIP - TO DO
 		// FUNCION DE EVALUACION DEL ARBOL, VER CASOS CORRECTOS DONDE SALIDA CORRESPONDE A DATO APUNTADO.
 		double aciertos = 0;
-		int tam = 0; 
+
 		//Integer[][] valoresMultiplexor;
+		System.out.printf("Primer valor del multiplexor: [%s]\n", multiplexor[0]);
 		String[] valoresMultiplexor = multiplexor;
 		
 		// Pasar valores por el arbol de programación y
@@ -21,18 +22,16 @@ public class FuncionEvalArbol {
 		return aciertos;
 	}
 	
-	private static Boolean ejecutaPrograma(Arbol arbol, String valores) {
+	private static boolean ejecutaPrograma(Arbol arbol, String valores) {
 		// Ejecución
-		Boolean resultadoEjecucion = ejecutaArbol(arbol, valores);
+		boolean resultadoEjecucion = ejecutaArbol(arbol, valores);
 		char resultado = boolAchar(resultadoEjecucion); 
 		
 		// Ver elemento apuntado. 
 		if (valores.length() == 6) {
 			// Vemos el valor apuntado
-			String direccion = "";
-			for (int i = 0; i < 2; i++) {
-				direccion.concat(Character.toString(valores.charAt(i)));
-			}
+			String direccion = Character.toString(valores.charAt(0));
+			direccion.concat(Character.toString(valores.charAt(1)));
 			int posSalida = Integer.parseInt(direccion)+2;
 			
 			//Comparamos con el resultado de la ejecución
@@ -40,10 +39,9 @@ public class FuncionEvalArbol {
 			else return false;
 			
 		} else if (valores.length() == 11) {
-			String direccion = "";
-			for (int i = 0; i < 3; i++) {
-				direccion.concat(Character.toString(valores.charAt(i)));
-			}
+			String direccion = Character.toString(valores.charAt(0));
+			direccion.concat(Character.toString(valores.charAt(1)));
+			direccion.concat(Character.toString(valores.charAt(2)));
 			int posSalida = Integer.parseInt(direccion)+3;
 			
 			//Comparamos con el resultado de la ejecución
@@ -56,14 +54,14 @@ public class FuncionEvalArbol {
 	
 	}
 	
-	private static Boolean ejecutaArbol(Arbol arbol, String valores) {
+	private static boolean ejecutaArbol(Arbol arbol, String valores) {
 		String nodo = arbol.getValor();
 	
 		// BLOQUE IF
 		if (nodo == "IF") {
-			Boolean bIzq;
-			Boolean bCen;
-			Boolean bDer;
+			boolean bIzq;
+			boolean bCen;
+			boolean bDer;
 			
 			// Obtener valores de hijos
 			// Llamadas recursivas si son operador
@@ -91,8 +89,8 @@ public class FuncionEvalArbol {
 		
 		// BLOQUE OR
 		} else if (nodo == "OR" ) {
-			Boolean bIzq;
-			Boolean bDer;
+			boolean bIzq;
+			boolean bDer;
 			
 			// Obtener valores de hijos
 			// H. Izquierdo
@@ -112,8 +110,8 @@ public class FuncionEvalArbol {
 		
 		// BLOQUE AND
 		} else if (nodo == "AND") {
-			Boolean bIzq;
-			Boolean bDer;
+			boolean bIzq;
+			boolean bDer;
 			
 			//Obtener valores de hijos
 			// H. Izquierdo
@@ -134,7 +132,7 @@ public class FuncionEvalArbol {
 			
 		// BLOQUE NOT
 		} else if (nodo == "NOT") {
-			Boolean bIzq;
+			boolean bIzq;
 		
 			//Obtener valor hijo
 			// H. Izquierdo
@@ -155,7 +153,7 @@ public class FuncionEvalArbol {
 	}
 	
 	// Devuelve si el valor es true o falso desde los valores
-	private static Boolean operandoAboolean(String tipo, String valores) {
+	private static boolean operandoAboolean(String tipo, String valores) {
 		char valor;
 		
 		switch (tipo) {
@@ -209,13 +207,13 @@ public class FuncionEvalArbol {
 		}
 	}
 	
-	private static char boolAchar(Boolean b) {
+	private static char boolAchar(boolean b) {
 		if (b) return '1';
 		else return '0';
 	}
 	
 	// Devuelve si el nodo corresponde a un operador o un operando
-	private static Boolean isOperador(String tipo) {
+	private static boolean isOperador(String tipo) {
 		if (tipo == "OR" || tipo == "AND" || tipo == "NOT" || tipo == "IF") {
 			return true;
 		} else {

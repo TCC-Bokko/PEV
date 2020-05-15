@@ -130,11 +130,6 @@ public class AGenetico
 		System.out.println("-------- INICIO DE POBLACION"  + " --------" );
 		generacionActual = 1;
 		
-		inicializaPoblacion();
-		evaluacion(); 
-		double media = calculaMedia();
-		_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media);
-		
 		// INICIALIZACIONES ESPECIFICAS P3
 		k = 0d;
 		tamArbolMedioPobl = pmax;
@@ -150,6 +145,13 @@ public class AGenetico
 			System.out.println("[Evaluacion-Arbol] Error. NumAs tiene un valor distinto de 2 o 3.");
 		}
 		valoresMultiplexor = inicializaValores(valoresMultiplexor, tam);
+		
+		// Llamadas a metodos de la ejecución
+		inicializaPoblacion();
+		evaluacion(); 
+		double media = calculaMedia();
+		_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media);
+		
 		
 		
 		// BUCLE PRINCIPAL
@@ -232,14 +234,14 @@ public class AGenetico
 	
 	protected void creaPoblacion()
 	{			
-		if (debugEjecucion) System.out.println("[AGenetico.creaPoblacion()]");
+		if (debugEjecucion) System.out.printf("[AGenetico.creaPoblacion()] InitC = %s\n", initC);
 		if (initC == "RampedAndHalf") {
 			//Debemos dividir la población en grupos
 			// Tantos grupos como PROF_MAX-1
 			int grupos = pmax - 1;
 			
 			// Dividir individuos entre grupos
-			Boolean dividesWell = false;
+			boolean dividesWell = false;
 			int sobran = tamPoblacion % grupos;
 			if (sobran == 0) dividesWell = true;
 			int indXgrupo = tamPoblacion / grupos;
@@ -252,11 +254,11 @@ public class AGenetico
 				for (int i = indv; i < groupLimit; i++) {
 					if (i % 2 == 0) {
 						//Creción completa
-						poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
+						poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
 						INDVcount++;
 					} else {
 						//Creación creciente
-						poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
+						poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
 						INDVcount++;
 					}
 					indv = i;
@@ -268,11 +270,11 @@ public class AGenetico
 					for (int i = 0; i < sobran; i++) {
 						if (i % 2 == 0) {
 							//Creción completa
-							poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
+							poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
 							INDVcount++;
 						} else {
 							//Creación creciente
-							poblacion[i] = new CromosomaArbol(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
+							poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
 							INDVcount++;
 						}
 					}
@@ -287,11 +289,22 @@ public class AGenetico
 					System.out.printf("tamPoblacion: %d\n", tamPoblacion);
 				}
 			}
-			
 		} else {
+			// DEBUG
+			boolean MostrarEsto = false;;
+			if (MostrarEsto) {
+				System.out.println("[AGenetico.creaPoblacion()]");
+				System.out.println("Objetos enviados:");
+				System.out.printf("As: %d\n", numAs);
+				System.out.printf("uif: %s\n", useif);
+				System.out.printf("pmax: %d\n", pmax);
+				System.out.printf("initC: %s\n", initC);
+				System.out.printf("bloat: %s\n", bloat);
+			}
 			// Si no es ramped and half procedemos normalmente.
 			for (int i = 0; i < tamPoblacion; i++) {
-				poblacion[i] = new CromosomaArbol(numAs, useif, pmax, initC, bloat, valoresMultiplexor); //Mirara el tipo de inicialización
+				System.out.printf("Nuevo Arbol número (empieza en 1): %d\n", i+1);
+				poblacion[i] = new CromosomaP3(numAs, useif, pmax, initC, bloat, valoresMultiplexor); //Mirara el tipo de inicialización
 			}
 		}
 		
@@ -435,18 +448,20 @@ public class AGenetico
 		for (Cromosoma c : poblacion)
 		{			
 			//ESPECIFICO P3 (Setup del Bloating)
-			CromosomaArbol CAp = (CromosomaArbol) c;
+			CromosomaP3 CAp = (CromosomaP3) c;
 			CAp.setMediaPob(tamArbolMedioPobl);
 			CAp.setk(k);
-			c = CAp;
+			
 			
 			// Calculo de fitness de cada individuo
-			c.evalua();
+			CAp.evalua();
 			
 			// Calculo del fitness total de la poblacion		
-			fitness_total += c.getFitness();
+			fitness_total += CAp.getFitness();
 					
-			evalua_mejor(c);
+			evalua_mejor(CAp);
+			
+			c = CAp;
 		}
 		
 		switch (tipo)
@@ -632,7 +647,7 @@ public class AGenetico
 		
 		// Sumatorio
 		for (int i = 0; i < tamPoblacion; i++) {
-			CromosomaArbol CA = (CromosomaArbol) poblacion[i];
+			CromosomaP3 CA = (CromosomaP3) poblacion[i];
 			sumatorio += CA.getTamArbol(); //Nodos
 		}
 		
@@ -665,7 +680,7 @@ public class AGenetico
 		for (int i = 0; i < tamPoblacion; i++) {
 			// Obtenemos datos del individuo
 			fInd = poblacion[i].getFitness(); //Cov
-			CromosomaArbol CA = (CromosomaArbol)poblacion[i];
+			CromosomaP3 CA = (CromosomaP3)poblacion[i];
 			tamArb = CA.getTamArbol();
 			tamRes = tamArb - tamArbolMedioPobl; //Var
 			// Calculos

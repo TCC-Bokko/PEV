@@ -1,7 +1,7 @@
 package es.ucm.fdi.pev.estructura;
 
 
-public class Arbol {
+public class Arbol implements Gen {
 	// AND y OR 2 argumentos
 	// NOT acepta un argumento
 	
@@ -20,6 +20,16 @@ public class Arbol {
 		Hi = null;
 		Hc = null;
 		Hd = null;
+	}
+	
+	public Arbol(Arbol a) {
+		dato = a.dato;
+		padre = a.padre;
+		Hi = a.Hi;
+		Hc = a.Hc;
+		Hd = a.Hd;
+		num_nodos = a.num_nodos;
+		profundidad = a.profundidad;
 	}
 	
 	//GETTERS
@@ -71,5 +81,44 @@ public class Arbol {
 	}
 	public void setProfundidad(int pf) {
 		this.profundidad = pf;
+	}
+
+	@Override
+	public Gen clone() {
+		return new Arbol(this);
+	}
+
+	@Override
+	public int size() {
+		return this.num_nodos;
+	}
+
+	@Override
+	public void randomInit() {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public boolean muta(float prob) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Gen cruce(int corte, Gen g) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String getType() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public String genotipo() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

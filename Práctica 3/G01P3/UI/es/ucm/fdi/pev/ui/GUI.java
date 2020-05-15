@@ -210,8 +210,8 @@ public class GUI extends JFrame {
 		// Para pasarselo mediante métodos.
 		
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
-		public int maxGen = 100;
-		public int tamPob = 100;
+		public int maxGen = 10;
+		public int tamPob = 3;
 		public String funcion = "Max. Aciertos";
 		public String cruce = "Permutacion";
 		public String seleccion = "Ruleta";

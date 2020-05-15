@@ -20,6 +20,7 @@ public abstract class Cromosoma  implements Comparable<Cromosoma> {
 	protected int longitud;
 	
 	public Cromosoma() {
+		System.out.println("[Cromosoma.Constructora()]");
 		inicializaCromosoma();
 	}
 	public Cromosoma(Cromosoma c)

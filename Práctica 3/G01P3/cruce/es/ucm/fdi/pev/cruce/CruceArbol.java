@@ -2,7 +2,7 @@ package es.ucm.fdi.pev.cruce;
 
 import es.ucm.fdi.pev.estructura.Arbol;
 import es.ucm.fdi.pev.estructura.Cromosoma;
-import es.ucm.fdi.pev.estructura.CromosomaArbol;
+import es.ucm.fdi.pev.estructura.CromosomaP3;
 
 import java.util.List;
 import java.util.Random;
@@ -19,8 +19,8 @@ public class CruceArbol {
 		////////////////////////////////////////////////////////////////////
 		// CARGA DE LOS PADRES
 		////////////////////////////////////////////////////////////////////
-		CromosomaArbol CA1 = (CromosomaArbol) c1;
-		CromosomaArbol CA2 = (CromosomaArbol) c2;
+		CromosomaP3 CA1 = (CromosomaP3) c1;
+		CromosomaP3 CA2 = (CromosomaP3) c2;
 		List<Arbol> nodosP1 = CA1.getListaNodos();
 		List<Arbol> nodosP2 = CA2.getListaNodos();
 		

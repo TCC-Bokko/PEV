@@ -1,10 +1,10 @@
 ::: TO DO LIST :::
 
-[WIP] CromosomaP3 Arbol
-[WIP] Función adaptación (cuan bueno es con aciertos o fallos)
+[OK] CromosomaP3 Arbol
+[OK] Función adaptación (cuan bueno es con aciertos o fallos)
 	[OK] Ver como se ejecutan los programas
 	[OK] Ver resultado ejecución y contar los aciertos
-	[] Escribir comparadores del cromosomaArbol heredados.
+	[OK] Escribir comparadores del cromosomaArbol heredados.
 [OK] Generación
 	[OK] Completa: p.32 Prog Genetica
 		Genera elementos nodo de funciones hasta llegar a prof max y en la prof max solo genera terminales.

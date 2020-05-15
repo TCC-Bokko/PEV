@@ -1,57 +1,75 @@
 package es.ucm.fdi.pev.estructura;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import es.ucm.fdi.pev.evaluacion.FuncionEvalArbol;
+public class CromosomaP3 extends CromosomaArbol {
 
-public class CromosomaArbol extends Cromosoma {
-	//Raiz
-	protected Arbol raizArbol;
-	
-	//Auxiliares
-	protected Arbol HI;	
-	protected Arbol HD;
-	protected Arbol HC;
-	protected String inicializacion;
-	protected String Bloating;
-	protected String[] valoresMultiplexor;
-	protected double tamMedioPob;
-	protected int profundidadIndividuo;
-	
-	//int prof_min;
-	protected int prof_max;
-	protected Random r;
-	protected List<Arbol> nodos; //Almacena nodos (arboles) creados en POSTORDEN IZQ, DER, RAIZ.
-	protected double k; // Factor de corrección para control bloating por penalizacion
-	
-	// Opciones del GUI
-	protected int numAs;
-	protected int numDs;
-	protected boolean useIf;
-	
-	protected String[] operadores;
-	protected String[] operandos; 
-	protected boolean debugEjecucion = true;
-	
-	public CromosomaArbol(Cromosoma c) {
+	public CromosomaP3(CromosomaArbol c) {
+		super(c);
 	}
 	
-	public CromosomaArbol() {
-		super();
-	}
+	public CromosomaP3(int As, String uif, int pmax, String initC, String bloat, String[] multiplex) {
+		if (debugEjecucion) System.out.println("[CromosomaP3.constructora()]");
+		//Datos del AGen establecidos en el GUI
+		
+		//USO DEL OPERADOR IF
+		if (uif == "True") useIf = true;
+		else if (uif == "False") useIf = false;
+		else System.out.println("[CromosomaArbol.Constructora] Valor useif no es string True o False.");
 	
+		// CANTIDAD DE OPERANDOS
+		numAs = As;
+		//prof_min = pmin; 
+		prof_max = pmax; 				// para inicializacion
+		inicializacion = initC;			// para inicializacion
+		
+		Bloating = bloat;				// para cruce
+		valoresMultiplexor = multiplex;	// para evaluacion
+		
+		// Llamadas a metodos
+		inicializaCromosoma();
+	}
 	
 	@Override
 	protected void inicializaCromosoma() {
+		if (debugEjecucion) System.out.println("[CromosomaP3.inicializaCromosoma()]");
+		r = new Random();
+		// INICIALIZACION ARRAYS
+		// NODOS
+		nodos = new ArrayList<Arbol>();	// usado en varios sitios
+		// OPERANDOS
+		if (numAs == 2) {
+			//2 Address que direccionan 4 datos
+			operandos = new String[] {"A0", "A1", "D0", "D1", "D2", "D3"};
+		} else if (numAs == 3) {
+			// 3 Address que direccionan 8 datos
+			operandos = new String[] {"A0", "A1", "A2", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7"};
+		} else {
+			System.out.println("[CromosomaP3.inicializaCromosoma] Error: numAs no es 2 ni 3.");
+		}
+		// OPERADORES
+		if (useIf) operadores = new String[] {"IF", "AND", "OR", "NOT"};
+		else operadores = new String[] {"AND", "OR", "NOT"};
+		
+		// INICIALIZACION ARBOL
+		if (this.inicializacion == "Completa") {
+			raizArbol = creaArbolCompleto(0, prof_max-1, null);
+		} else if (this.inicializacion == "Creciente") {
+			raizArbol = creaArbolCreciente(0, prof_max-1, null);
+		} else {
+			System.out.println("[CromosomaP3.inicializaCromosoma] Error: inicializacion no es Completa ni creciente.");
+			raizArbol = creaArbolCompleto(0, prof_max-1, null);
+		}
 		genes = new Arbol[1];
-		raizArbol = new Arbol();
 		genes[0] = raizArbol;
 	}
 	
+
 	// Creación del individuo
 	private Arbol creaArbolCompleto(int nivel, int prof_max, Arbol padre) {
-		//if (debugEjecucion) System.out.println("[CromosomaArbol.creaArbolCompleto()]");
+		if (debugEjecucion) System.out.println("[CromosomaP3.creaArbolCompleto()]");
 		// Completa genera nodos de tipo operador hasta alcanzar profundidad maxima donde genera nodos operando.
 		Arbol arbol = new Arbol();
 		
@@ -110,7 +128,7 @@ public class CromosomaArbol extends Cromosoma {
 	
 	// Publico para la mutación subarbol
 	public Arbol creaArbolCreciente(int nivel, int prof_max, Arbol padre) {
-		if (debugEjecucion) System.out.println("[CromosomaArbol.creaArbolCreciente()]");
+		if (debugEjecucion) System.out.println("[CromosomaP3.creaArbolCreciente()]");
 		// Crecientea genera nodos aleatorios de cualquier tipo
 		// hasta alcanzar profundidad maxima donde únicamente genera nodos operando.
 		Arbol arbol = new Arbol();
@@ -176,8 +194,36 @@ public class CromosomaArbol extends Cromosoma {
 	}
 	
 	// Métodos propios del individuo
+	private boolean tres_operandos(String operador) {
+		boolean isValid = false;
+		
+		if (operador == "IF") isValid = true;
+		
+		return isValid;
+	}
+	
+	private boolean dos_operandos(String operador) {
+		boolean isValid = false;
+		
+		if (operador != "NOT") isValid = true;
+		
+		return isValid;
+	}
+
+	public String fenotipoArbol() {
+		if (debugEjecucion) System.out.println("[CromosomaP3.fenotipoArbol()]");
+		String operacion = "(";
+		
+		//Recorrido recursivo por los hijos del arbol
+		ValoresArbol(operacion, raizArbol);
+		
+		operacion = operacion + ")";
+		
+		return operacion;
+	}
+	
 	private String ValoresArbol(String cadena, Arbol arbol) {
-		if (debugEjecucion) System.out.println("[CromosomaArbol.ValoresArbol()]");
+		if (debugEjecucion) System.out.println("[CromosomaP3.ValoresArbol()]");
 		//Añadimos el valor del arbol
 		cadena = cadena + arbol.getValor();
 		
@@ -236,34 +282,6 @@ public class CromosomaArbol extends Cromosoma {
 		System.out.println(cadena);
 		
 		return cadena; 
-	}
-		
-	private boolean tres_operandos(String operador) {
-		boolean isValid = false;
-		
-		if (operador == "IF") isValid = true;
-		
-		return isValid;
-	}
-	
-	private boolean dos_operandos(String operador) {
-		boolean isValid = false;
-		
-		if (operador != "NOT") isValid = true;
-		
-		return isValid;
-	}
-	
-	public String fenotipoArbol() {
-		if (debugEjecucion) System.out.println("[CromosomaArbol.fenotipoArbol()]");
-		String operacion = "(";
-		
-		//Recorrido recursivo por los hijos del arbol
-		ValoresArbol(operacion, raizArbol);
-		
-		operacion = operacion + ")";
-		
-		return operacion;
 	}
 	
 	protected double controlBloating() {
@@ -340,98 +358,49 @@ public class CromosomaArbol extends Cromosoma {
 		nodos.add(a);
 	}
 	
-	
-	// METODOS DEL PADRE
-	@Override
-	public float evalua() {
-		fitness = (float) FuncionEvalArbol.funcionEvalArbol(raizArbol, numAs, valoresMultiplexor);
-		
-		fitness = (float) controlBloating();
-		
-		return fitness;
-	}
-	
-	@Override
-	public Cromosoma clone() {
-		return new CromosomaArbol(this);
-	}
-	
-	@Override
-	public boolean compara_mejor_fitness(float f) {
-		// Recibe un fitness y devuelve si el cromosoma es mejor (true) o peor (false)
-		if (fitness > f) return true;
-		else return false;
-	}
-
-	@Override
-	public boolean compara_peor_fitness(float f) {
-		// Recibe un fitness y devuelve si el cromosoma es peor (true) o mejor (false)
-		if (fitness < f) return true;
-		else return false;
-	}
-
-	@Override
-	public int compareTo(Cromosoma c) {
-		if(this.fitness < c.getFitness())
-			return -1;
-		else if(this.fitness > c.getFitness())
-			return 1;
-		
-		return 0;
-	}
-	
-	@Override
-	public float[] fenotipos() {
-		String fenotipo;
-		fenotipo = fenotipoArbol();
-		System.out.println(fenotipo);
-		return null;
-	}
-	
 	// GETTERS Y SETTERS
-	public Arbol getArbol() {
-		return raizArbol;
-	}
-	
-	public void setArbol(Arbol a) {
-		raizArbol = a;
-	}
-	
-	public int getTamArbol() {
-		//Comprobación num nodos
-		System.out.printf("Nodos en lista: %d", nodos.size());
-		System.out.printf("Nodos segun raiz: %d", raizArbol.getNumNodos());
+		public Arbol getArbol() {
+			return raizArbol;
+		}
 		
-		return raizArbol.getNumNodos();
-	}
-	
-	public int getProfInd(){
-		checkProfundidad();
-		return profundidadIndividuo;
-	}
-	
-	public int getNumAs() { //Usado por la mutación
-		return numAs;
-	}
-	
-	public void setMediaPob(double tmp) {
-		tamMedioPob = tmp;
-	}
-	
-	public void setk(double Kin) {
-		k = Kin;
-	}
-	
-	public List<Arbol> getListaNodos(){
-		return nodos;
-	}
-	
-	public void setListaNodos(List<Arbol> nl) {
-		nodos = nl;
-	}
-	
-	public boolean getUseIf() { //Usado por mutacion
-		return useIf;
-	}
-	
+		public void setArbol(Arbol a) {
+			raizArbol = a;
+		}
+		
+		public int getTamArbol() {
+			//Comprobación num nodos
+			System.out.printf("Nodos en lista: %d", nodos.size());
+			System.out.printf("Nodos segun raiz: %d", raizArbol.getNumNodos());
+			
+			return raizArbol.getNumNodos();
+		}
+		
+		public int getProfInd(){
+			checkProfundidad();
+			return profundidadIndividuo;
+		}
+		
+		public int getNumAs() { //Usado por la mutación
+			return numAs;
+		}
+		
+		public void setMediaPob(double tmp) {
+			tamMedioPob = tmp;
+		}
+		
+		public void setk(double Kin) {
+			k = Kin;
+		}
+		
+		public List<Arbol> getListaNodos(){
+			return nodos;
+		}
+		
+		public void setListaNodos(List<Arbol> nl) {
+			nodos = nl;
+		}
+		
+		public boolean getUseIf() { //Usado por mutacion
+			return useIf;
+		}
 }
