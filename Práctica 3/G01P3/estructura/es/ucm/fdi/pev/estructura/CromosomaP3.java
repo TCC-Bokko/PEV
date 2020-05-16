@@ -456,9 +456,9 @@ public class CromosomaP3 extends CromosomaArbol {
 		//if (debugEjecucion) System.out.println("[CromosomaP3.actualizaArbol()]");
 		//Una vez terminado el cruce hace falta actualizar el cromosoma
 		// Actualizar lista
-		actualizaLista(null);
-		raizArbol.setNumNodos(nodos.size());
+		actualizaLista(raizArbol);
 		actualizaGenes();
+		raizArbol.setNumNodos(nodos.size());
 		
 		// actualiza profundidad
 		profundidadIndividuo = checkProfundidad();
@@ -466,11 +466,10 @@ public class CromosomaP3 extends CromosomaArbol {
 	
 	protected void actualizaLista(GenArbol a) {
 		//if (debugEjecucion) System.out.println("[CromosomaP3.actualizaLista()]");
-		if (a == null) {
+		// Si recibe la raiz o 
+		if (a == raizArbol) {
 			// Vaciamos lista nodos Postorden
 			nodos.clear();
-			// Establecemos raizArbol como inicio del recorrido
-			a = raizArbol;
 		}
 		
 		// Si es un OPERANDOR recorrer sus hijos
@@ -479,12 +478,13 @@ public class CromosomaP3 extends CromosomaArbol {
 			// recorrido arbol postorden IZQ, CENTRAL, DERECHO, RAIZ
 			actualizaLista(a.getHi());
 			if (tres_operandos(a.getValor())) actualizaLista(a.getHc());
-			if (dos_operandos(a.getValor())) actualizaLista(a.getHi());
+			if (dos_operandos(a.getValor())) actualizaLista(a.getHd());
 		}
 		// Si es un OPERANDO simplemente se añade a la lista de nodos.
 		
 		// Empezamos a recorrer por la raizArbol
 		nodos.add(a);
+		
 	}
 	
 	public void actualizaGenes() {
