@@ -3,9 +3,10 @@ package es.ucm.fdi.pev.mutacion;
 import java.util.List;
 import java.util.Random;
 
-import es.ucm.fdi.pev.estructura.Arbol;
+import es.ucm.fdi.pev.estructura.GenArbol;
 import es.ucm.fdi.pev.estructura.Cromosoma;
 import es.ucm.fdi.pev.estructura.CromosomaArbol;
+import es.ucm.fdi.pev.estructura.CromosomaP3;
 
 public class Funcion {
 	public static boolean funcion(Cromosoma c, float prob) 
@@ -25,12 +26,14 @@ public class Funcion {
 	{
 		// Funcion: Cambia uno de los nodos operador (función).
 		// Ojo, debe tener el mismo nivel de aridad (cantidad de parametros)
-		CromosomaArbol CA = (CromosomaArbol) c;
-		List<Arbol> nodos = CA.getListaNodos();
+		CromosomaP3 CA = (CromosomaP3) c;
+		GenArbol[] nodos = (GenArbol[]) CA.getGenes();
+		//List<GenArbol> nodos = CA.getListaNodos();
 		
 		//Obtenemos un nodo Funcion con un operador
 		int posNodo = buscaFuncion(nodos);
-		Arbol nodoMutable = nodos.get(posNodo);
+		GenArbol nodoMutable = nodos[posNodo];
+		//GenArbol nodoMutable = nodos.get(posNodo);
 		String valor = nodoMutable.getValor();
 		int aridad = getAridad(valor);
 		
@@ -62,13 +65,36 @@ public class Funcion {
 		nodoMutable.setValor(nuevoValor);
 		
 		//Lo metemos en la lista -- (A partir de aqui necesario?)
-		nodos.set(posNodo, nodoMutable);
-		CA.setListaNodos(nodos);
+		nodos[posNodo] = nodoMutable;
+		//nodos.set(posNodo, nodoMutable);
+		CA.setGenes(nodos);
+		//CA.setListaNodos(nodos);
 		c = CA;
 	}
 	
+	
 	//Devuelve la posición del nodo operador valido.
-	private static int buscaFuncion(List<Arbol> nodos) {
+	private static int buscaFuncion(GenArbol[] nodos) {
+		Random r = new Random();
+		Boolean valido = false;
+		String tipo;
+		int i = -1;
+		while (!valido || i == -1) {
+			i = r.nextInt(nodos.length); //Como la raiz puede ser un operador, tambien la incluimos
+			tipo = nodos[i].getValor();
+			//Si es una de las funciones
+			if (tipo == "AND" || tipo == "OR" || tipo == "NOT" || tipo == "IF") {
+				valido = true;
+			}
+			
+			if(valido && i == -1) System.out.println("[Mutacion Funcion] ERROR: nodo valido pero en posicion -1.");
+		}
+		
+		return i;
+	}
+	
+	//Devuelve la posición del nodo operador valido.
+	private static int buscaFuncion(List<GenArbol> nodos) {
 		Random r = new Random();
 		Boolean valido = false;
 		String tipo;

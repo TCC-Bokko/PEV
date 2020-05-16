@@ -11,7 +11,6 @@ public class CromosomaP2f1 extends CromosomaEntero {
 	protected int[][] distancias;
 	protected int[][] flujos;
 	
-	
 	public CromosomaP2f1(CromosomaP2f1 c) {
 		super(c);
 		
@@ -53,7 +52,6 @@ public class CromosomaP2f1 extends CromosomaEntero {
 		aux.toArray(genes);
 	}
 	
-
 	@Override
 	public Cromosoma clone() {
 
@@ -90,5 +88,11 @@ public class CromosomaP2f1 extends CromosomaEntero {
 			return 1;
 		
 		return 0;
+	}
+
+	@Override
+	public float[] fenotipos() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

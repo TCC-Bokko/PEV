@@ -3,9 +3,9 @@ package es.ucm.fdi.pev.mutacion;
 import java.util.List;
 import java.util.Random;
 
-import es.ucm.fdi.pev.estructura.Arbol;
+import es.ucm.fdi.pev.estructura.GenArbol;
 import es.ucm.fdi.pev.estructura.Cromosoma;
-import es.ucm.fdi.pev.estructura.CromosomaArbol;
+import es.ucm.fdi.pev.estructura.CromosomaP3;
 
 public class Terminal {
 	public static boolean terminal(Cromosoma c, float prob) 
@@ -24,13 +24,13 @@ public class Terminal {
 	private static void muta(Cromosoma c)
 	{
 		// Terminal: Cambia uno de las hojas operando.
-		CromosomaArbol CA = (CromosomaArbol) c;
-		List<Arbol> nodos = CA.getListaNodos();
+		CromosomaP3 CA = (CromosomaP3) c;
+		List<GenArbol> nodos = CA.getListaNodos();
 		int numAs = CA.getNumAs();
 		
 		//Obtenemos un nodo hoja terminal con un operando
 		int posNodo = buscaTerminal(nodos);
-		Arbol nodoMutable = nodos.get(posNodo); 
+		GenArbol nodoMutable = nodos.get(posNodo); 
 		
 		// Buscamos un nuevo valor
 		String nuevoValor;
@@ -57,7 +57,7 @@ public class Terminal {
 	}
 	
 	//Devuelve la posición del nodo operando valido.
-	private static int buscaTerminal(List<Arbol> nodos) {
+	private static int buscaTerminal(List<GenArbol> nodos) {
 		Random r = new Random();
 		Boolean valido = false;
 		String tipo;

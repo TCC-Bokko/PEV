@@ -11,14 +11,11 @@ public abstract class CromosomaEntero extends Cromosoma{
 		super();
 	}
 	
-	
 	public CromosomaEntero(Cromosoma c) {
 		super(c);
 	}
 	
-	
 	abstract ArrayList<Pair<Float, Float>> inicializaGenes();
-	
 	
 	@Override
 	protected void inicializaCromosoma() {
@@ -45,16 +42,8 @@ public abstract class CromosomaEntero extends Cromosoma{
 		}
 	}
 
-	
 	@Override
-	public float[] fenotipos() {
-		for(int i = 0; i < fenotipos.length; i++)
-		{
-			fenotipos[i] = ((GenEntero) genes[i]).getAlelo();
-		}
-		
-		return fenotipos;
-	}
+	abstract public float[] fenotipos();
 
 	@Override
 	public void setGenes(Gen[] g)

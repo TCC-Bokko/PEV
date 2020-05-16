@@ -16,8 +16,6 @@ public class CromosomaP1f2 extends CromosomaBinario {
 		super(c);
 	}
 
-	
-	
 	@Override
 	ArrayList<Pair<Float, Float>> inicializaGenes() {
 		tolerancia = 0.01f;
@@ -34,9 +32,6 @@ public class CromosomaP1f2 extends CromosomaBinario {
 		return genes_l;
 	}
 	
-	
-	
-
 	@Override
 	public float evalua() 
 	{

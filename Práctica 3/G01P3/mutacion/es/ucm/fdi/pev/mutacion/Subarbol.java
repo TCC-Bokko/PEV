@@ -3,9 +3,9 @@ package es.ucm.fdi.pev.mutacion;
 import java.util.List;
 import java.util.Random;
 
-import es.ucm.fdi.pev.estructura.Arbol;
+import es.ucm.fdi.pev.estructura.GenArbol;
 import es.ucm.fdi.pev.estructura.Cromosoma;
-import es.ucm.fdi.pev.estructura.CromosomaArbol;
+import es.ucm.fdi.pev.estructura.CromosomaP3;
 
 public class Subarbol {
 	public static boolean subarbol(Cromosoma c, float prob) 
@@ -24,8 +24,8 @@ public class Subarbol {
 	private static void muta(Cromosoma c)
 	{
 		// Subarbol: descarta un subarbol y vuelve a generarlo aleatoriamente.
-		CromosomaArbol CA = (CromosomaArbol) c;
-		List<Arbol> nodos = CA.getListaNodos();
+		CromosomaP3 CA = (CromosomaP3) c;
+		List<GenArbol> nodos = CA.getListaNodos();
 		
 		// DEBUG
 		System.out.println("__Arbol_ANTES_Mutacion_Subarbol__");
@@ -34,10 +34,10 @@ public class Subarbol {
 		
 		// Elegimos un nodo (Sin incluir raiz)
 		int posNodo = buscaNodo(nodos);
-		Arbol nodoMutable = nodos.get(posNodo);
+		GenArbol nodoMutable = nodos.get(posNodo);
 	
 		// Nos quedamos con el padre
-		Arbol padreNodo = nodoMutable.getPadre();
+		GenArbol padreNodo = nodoMutable.getPadre();
 		String posicion = "NA";
 		
 		if (padreNodo.getHi() == nodoMutable) posicion = "Izq";
@@ -51,7 +51,7 @@ public class Subarbol {
 		int nivel = nodoMutable.getProfundidad();
 		profmax = profmax + nivel;
 		// Crear arbol nuevo
-		Arbol nuevoNodo = CA.creaArbolCreciente(nivel, profmax, padreNodo);
+		GenArbol nuevoNodo = CA.creaArbolCreciente(nivel, profmax, padreNodo);
 		// Enlazar con el padre.
 		if (posicion == "Izq") {
 			padreNodo.setHI(nuevoNodo);
@@ -75,7 +75,7 @@ public class Subarbol {
 	}
 		
 	//Devuelve la posición del nodo operador valido.
-	private static int buscaNodo(List<Arbol> nodos) {
+	private static int buscaNodo(List<GenArbol> nodos) {
 		Random r = new Random();
 		int i = r.nextInt(nodos.size()-1); // Cualquier nodo excepto raiz
 		

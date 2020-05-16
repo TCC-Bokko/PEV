@@ -1,7 +1,8 @@
 package es.ucm.fdi.pev.cruce;
 
-import es.ucm.fdi.pev.estructura.Arbol;
+import es.ucm.fdi.pev.estructura.GenArbol;
 import es.ucm.fdi.pev.estructura.Cromosoma;
+import es.ucm.fdi.pev.estructura.CromosomaArbol;
 import es.ucm.fdi.pev.estructura.CromosomaP3;
 
 import java.util.List;
@@ -19,30 +20,39 @@ public class CruceArbol {
 		////////////////////////////////////////////////////////////////////
 		// CARGA DE LOS PADRES
 		////////////////////////////////////////////////////////////////////
+		/*
 		CromosomaP3 CA1 = (CromosomaP3) c1;
 		CromosomaP3 CA2 = (CromosomaP3) c2;
-		List<Arbol> nodosP1 = CA1.getListaNodos();
-		List<Arbol> nodosP2 = CA2.getListaNodos();
+		
+		List<GenArbol> nodosP1 = CA1.getListaNodos();
+		List<GenArbol> nodosP2 = CA2.getListaNodos();
+		*/
+		
+		GenArbol[] nodosP1 = (GenArbol[]) c1.getGenes();
+		GenArbol[] nodosP2 = (GenArbol[]) c2.getGenes();
+		
 		
 		// DEBUG
 		System.out.println("__PADRE_1__");
-		System.out.printf("Profundidad ANTES cruce: %d\n", CA1.getProfInd());
-		System.out.printf("Nodos ANTES cruce: %d\n", nodosP1.size());
+		System.out.printf("Profundidad ANTES cruce: %d\n", nodosP1[0].getProfundidad());
+		System.out.printf("Nodos ANTES cruce: %d\n", nodosP1.length); //List<Arbol> usa .size()
 		System.out.println("__PADRE_2__");
-		System.out.printf("Profundidad ANTES cruce: %d\n", CA2.getProfInd());
-		System.out.printf("Nodos ANTES cruce: %d\n", nodosP2.size());
+		System.out.printf("Profundidad ANTES cruce: %d\n", nodosP2[0].getProfundidad());
+		System.out.printf("Nodos ANTES cruce: %d\n", nodosP2.length);
 		
 		////////////////////////////////////////////////////////////////////
 		// ENCONTRAR NODOS DE CRUCE
 		////////////////////////////////////////////////////////////////////
 		// Seleccionar nodos
-		// Elegir al azar del padre1		
-		Arbol subArb1 = eligeNodo(nodosP1);
-		Arbol subArb2 = eligeNodo(nodosP2);
+		// Elegir al azar del padre1
+		int posCruce1 = eligeNodo(nodosP1);
+		int posCruce2 = eligeNodo(nodosP2);
+		GenArbol subArb1 = nodosP1[posCruce1];
+		GenArbol subArb2 = nodosP2[posCruce2];
 		
 		// Intercambiar Subarboles
-		Arbol padreSubArbol1 = subArb1.getPadre();
-		Arbol padreSubArbol2 = subArb2.getPadre();
+		GenArbol padreSubArbol1 = subArb1.getPadre();
+		GenArbol padreSubArbol2 = subArb2.getPadre();
 		
 		// Intercambio en P1
 		if (padreSubArbol1.getHi() == subArb1) {
@@ -74,15 +84,25 @@ public class CruceArbol {
 		// Actualizamos listas de nodos
 		////////////////////////////////////////////////////////////////////
 		System.out.println("__HIJO_1__");
+		CromosomaP3 CA1 = (CromosomaP3) c1;
 		CA1.actualizaArbol();
 		System.out.println("__HIJO_2__");
+		CromosomaP3 CA2 = (CromosomaP3) c1;
 		CA2.actualizaArbol();
-
+		
+		////////////////////////////////////////////////////////////////////
+		// Devolvemos hijos
+		///////////////////////////////////////////////////////////////////
+		nodosP1[posCruce1] = subArb1;
+		nodosP2[posCruce2] = subArb2;
+		
+		c1.setGenes(nodosP1);
+		c2.setGenes(nodosP2);
 	}
 	
-	private static Arbol eligeNodo(List<Arbol> lista) {
+	private static GenArbol eligeNodo(List<GenArbol> lista) {
 		Boolean valido = false;
-		Arbol nodo = null;
+		GenArbol nodo = null;
 		Random r = new Random();
 		int aceptarHoja = 1;
 		
@@ -106,5 +126,36 @@ public class CruceArbol {
 		}
 		
 		return nodo;
+	}
+	
+	private static int eligeNodo(GenArbol[] lista) {
+		Boolean valido = false;
+		GenArbol nodo = null;
+		Random r = new Random();
+		int aceptarHoja = 1;
+		int posElegida = -1;
+		
+		while (!valido || posElegida == -1) {
+			//Sacamos un nodo de la lista
+			int nodoElegido1 = r.nextInt(lista.length-1); // Dado que esta en postorden, el último nodo es la raiz, lo ignoramos.
+			nodo = lista[nodoElegido1];
+			
+			// Vemos si es operador u operando
+			String dato = nodo.getValor();
+			if (dato != "IF" && dato != "OR" && dato != "NOT" && dato != "AND") {
+				// Si es un operando
+				int result = r.nextInt(10);
+				if (result < aceptarHoja) { // Solo aceptaremos operandos un 10% de las veces.
+					valido = true;
+					posElegida = nodoElegido1;
+				}
+			} else {
+				// Es un operador
+				valido = true;
+				posElegida = nodoElegido1;
+			}
+		}
+		
+		return posElegida;
 	}
 }

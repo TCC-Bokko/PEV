@@ -12,19 +12,15 @@ public abstract class CromosomaReal extends Cromosoma {
 		super();
 	}
 	
-	
 	public CromosomaReal(Cromosoma c) {
 		super(c);
 	}
-	
-	
 	
 	// --------------------- FUNCIONES --------------------- //
 	
 	
 	abstract ArrayList<Pair<Float, Float>> inicializaGenes();
-		
-		
+			
 	@Override
 	protected void inicializaCromosoma()
 	{
@@ -49,9 +45,6 @@ public abstract class CromosomaReal extends Cromosoma {
 			i++;
 		}
 	}
-		
-	
-	
 	
 	@Override
 	public float[] fenotipos() {

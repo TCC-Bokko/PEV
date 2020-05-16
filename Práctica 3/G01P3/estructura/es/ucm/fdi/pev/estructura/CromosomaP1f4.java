@@ -16,8 +16,6 @@ public class CromosomaP1f4 extends CromosomaBinario {
 	public CromosomaP1f4(Cromosoma c) {
 		super(c);
 	}
-
-	
 	
 	@Override
 	ArrayList<Pair<Float, Float>> inicializaGenes() {
@@ -38,7 +36,6 @@ public class CromosomaP1f4 extends CromosomaBinario {
 		
 		return genes_l;
 	}
-	
 
 	@Override
 	public float evalua() {
@@ -73,7 +70,6 @@ public class CromosomaP1f4 extends CromosomaBinario {
 		
 		return new CromosomaP1f4(this);
 	}
-
 
 	@Override
 	public boolean compara_peor_fitness(float f) {

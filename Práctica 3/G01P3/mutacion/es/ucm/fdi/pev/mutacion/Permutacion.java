@@ -3,9 +3,9 @@ package es.ucm.fdi.pev.mutacion;
 import java.util.List;
 import java.util.Random;
 
-import es.ucm.fdi.pev.estructura.Arbol;
+import es.ucm.fdi.pev.estructura.GenArbol;
 import es.ucm.fdi.pev.estructura.Cromosoma;
-import es.ucm.fdi.pev.estructura.CromosomaArbol;
+import es.ucm.fdi.pev.estructura.CromosomaP3;
 
 public class Permutacion {
 	public static boolean permutacion(Cromosoma c, float prob) 
@@ -24,15 +24,15 @@ public class Permutacion {
 	private static void muta(Cromosoma c)
 	{
 		// Permutación: Intercambia el orden de dos operandos.
-		CromosomaArbol CA = (CromosomaArbol) c;
-		List<Arbol> nodos = CA.getListaNodos();
+		CromosomaP3 CA = (CromosomaP3) c;
+		List<GenArbol> nodos = CA.getListaNodos();
 		
 		//Obtenemos un nodo Funcion con un operador
 		int posNodo = buscaFuncion(nodos);
-		Arbol nodoMutable = nodos.get(posNodo);
+		GenArbol nodoMutable = nodos.get(posNodo);
 		String valor = nodoMutable.getValor();
 		int aridad = getAridad(valor);
-		Arbol aux;
+		GenArbol aux;
 		Random r = new Random();
 		
 		// Intercambiamos los hijos del nodo.
@@ -72,7 +72,7 @@ public class Permutacion {
 	}
 	
 	//Devuelve la posición del nodo operador valido.
-	private static int buscaFuncion(List<Arbol> nodos) {
+	private static int buscaFuncion(List<GenArbol> nodos) {
 		Random r = new Random();
 		Boolean valido = false;
 		String tipo;

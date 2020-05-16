@@ -11,23 +11,16 @@ public abstract class CromosomaBinario extends Cromosoma {
 	
 	protected float tolerancia = 0.01f;
 		
-	
 	public CromosomaBinario(Cromosoma c) {
 		super(c);
 	}
 
-
 	public CromosomaBinario() {
 		super();
 	}
-	
-	
-	
+			
 	// --------------------- FUNCIONES --------------------- //
-	
-	
 	abstract ArrayList<Pair<Float, Float>> inicializaGenes();
-	
 	
 	@Override
 	protected void inicializaCromosoma()
@@ -54,8 +47,6 @@ public abstract class CromosomaBinario extends Cromosoma {
 			i++;
 		}
 	}
-	
-
 
 	@Override
 	public float[] fenotipos() {	
@@ -81,7 +72,6 @@ public abstract class CromosomaBinario extends Cromosoma {
 		return gMin + (dec * aux);
 	}
 		
-	
 	@Override
 	public void setGenes(Gen[] g)
 	{

@@ -1,19 +1,19 @@
 package es.ucm.fdi.pev.estructura;
 
 
-public class Arbol implements Gen {
+public class GenArbol implements Gen, Cloneable {
 	// AND y OR 2 argumentos
 	// NOT acepta un argumento
 	
 	private String dato; // operando u operador (AND OR NOT IF)
-	private Arbol padre;
-	private Arbol Hi;		//Hijo izquierdo
-	private Arbol Hc;		//Hijo central
-	private Arbol Hd;		//Hijo derecho
+	private GenArbol padre;
+	private GenArbol Hi;		//Hijo izquierdo
+	private GenArbol Hc;		//Hijo central
+	private GenArbol Hd;		//Hijo derecho
 	private int num_nodos;	//Número de nodos (Tamaño del arbol)
 	private int profundidad; //profundidad a la que se encuentra la raiz de este nodo.
 	
-	public Arbol() {
+	public GenArbol() {
 		num_nodos = 0;
 		profundidad = -1;
 		padre = null;
@@ -22,7 +22,7 @@ public class Arbol implements Gen {
 		Hd = null;
 	}
 	
-	public Arbol(Arbol a) {
+	public GenArbol(GenArbol a) {
 		dato = a.dato;
 		padre = a.padre;
 		Hi = a.Hi;
@@ -37,15 +37,15 @@ public class Arbol implements Gen {
 		return dato;
 	}
 	
-	public Arbol getHi() {
+	public GenArbol getHi() {
 		return Hi;
 	}
 	
-	public Arbol getHc() {
+	public GenArbol getHc() {
 		return Hc;
 	}
 	
-	public Arbol getHd() {
+	public GenArbol getHd() {
 		return Hd;
 	}
 	
@@ -56,24 +56,24 @@ public class Arbol implements Gen {
 	public int getProfundidad() {
 		return profundidad;
 	}
-	public Arbol getPadre() {
+	public GenArbol getPadre() {
 		return this.padre;
 	}
 	
 	//SETTERS
-	public void setPadre(Arbol parent) {
+	public void setPadre(GenArbol parent) {
 		this.padre = parent;
 	}
 	public void setValor(String value) {
 		this.dato = value;
 	}
-	public void setHI(Arbol hi) {
+	public void setHI(GenArbol hi) {
 		this.Hi = hi;
 	}
-	public void setHC(Arbol hc) {
+	public void setHC(GenArbol hc) {
 		this.Hc = hc;
 	}
-	public void setHD(Arbol hd) {
+	public void setHD(GenArbol hd) {
 		this.Hd = hd;
 	}
 	public void setNumNodos(int nd) {
@@ -85,7 +85,7 @@ public class Arbol implements Gen {
 
 	@Override
 	public Gen clone() {
-		return new Arbol(this);
+		return new GenArbol(this);
 	}
 
 	@Override

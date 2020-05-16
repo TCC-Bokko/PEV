@@ -443,7 +443,7 @@ public class AGenetico
 	{
 		if (debugEjecucion) System.out.println("[AGenetico.Evaluacion()]");
 		fitness_total = 0;
-		mejor_fitness = poblacion[0].getFitness();
+		mejor_fitness = 0; //poblacion[0].getFitness();
 		
 		for (Cromosoma c : poblacion)
 		{			

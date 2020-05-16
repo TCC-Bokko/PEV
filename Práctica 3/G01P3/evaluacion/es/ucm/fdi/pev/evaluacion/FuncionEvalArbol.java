@@ -1,8 +1,8 @@
 package es.ucm.fdi.pev.evaluacion;
-import es.ucm.fdi.pev.estructura.Arbol;
+import es.ucm.fdi.pev.estructura.GenArbol;
 
 public class FuncionEvalArbol {
-	public static double funcionEvalArbol(Arbol arbol, int numAs, String[] multiplexor) {
+	public static double funcionEvalArbol(GenArbol arbol, int numAs, String[] multiplexor) {
 		//WIP - TO DO
 		// FUNCION DE EVALUACION DEL ARBOL, VER CASOS CORRECTOS DONDE SALIDA CORRESPONDE A DATO APUNTADO.
 		double aciertos = 0;
@@ -22,7 +22,7 @@ public class FuncionEvalArbol {
 		return aciertos;
 	}
 	
-	private static boolean ejecutaPrograma(Arbol arbol, String valores) {
+	private static boolean ejecutaPrograma(GenArbol arbol, String valores) {
 		// Ejecución
 		boolean resultadoEjecucion = ejecutaArbol(arbol, valores);
 		char resultado = boolAchar(resultadoEjecucion); 
@@ -54,7 +54,7 @@ public class FuncionEvalArbol {
 	
 	}
 	
-	private static boolean ejecutaArbol(Arbol arbol, String valores) {
+	private static boolean ejecutaArbol(GenArbol arbol, String valores) {
 		String nodo = arbol.getValor();
 	
 		// BLOQUE IF
