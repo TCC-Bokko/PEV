@@ -89,10 +89,9 @@ public class CromosomaP3 extends CromosomaArbol {
 		System.out.printf("Control Bloating: %s\n", Bloating);
 		System.out.printf("Prof. máxima inicializacion: %d\n", prof_max);
 		System.out.printf("Uso de if: %s\n", uif);
-		//Mostrar datos individuo
-		System.out.printf("Profundidad alcanzada: %d\n", profundidadIndividuo+1);
-		// actualiza num nodos
+		System.out.printf("Profundidad alcanzada: %d\n", profundidadIndividuo);
 		System.out.printf("Nodos generados: %d\n", nodos.size());
+		System.out.printf("Valor del nodo raiz: %s\n", raizArbol.getValor());
 		fenotipos();
 		System.out.println("////////////////////\n");
 	}
@@ -119,12 +118,12 @@ public class CromosomaP3 extends CromosomaArbol {
 		
 		// ARBOLES
 		if (this.inicializacion == "Completa") {
-			raizArbol = creaArbolCompleto(1, prof_max-1, null); // RAIZ EMPEZARA EN PROFUNDIDAD 1
+			raizArbol = creaArbolCompleto(1, prof_max, null); // RAIZ EMPEZARA EN PROFUNDIDAD 1
 		} else if (this.inicializacion == "Creciente") {
-			raizArbol = creaArbolCreciente(1, prof_max-1, null);
+			raizArbol = creaArbolCreciente(1, prof_max, null);
 		} else {
 			//System.out.println("[CromosomaP3.inicializaCromosoma] Error: inicializacion no es Completa ni creciente.");
-			raizArbol = creaArbolCompleto(1, prof_max-1, null);
+			raizArbol = creaArbolCompleto(1, prof_max, null);
 		}
 		
 		//Datos
@@ -202,9 +201,10 @@ public class CromosomaP3 extends CromosomaArbol {
 		if (useIf)	System.out.println("Uso de if: True");
 		else System.out.println("Uso de if: False");
 		//Mostrar datos individuo
-		System.out.printf("Profundidad alcanzada: %d\n", profundidadIndividuo+1);
+		System.out.printf("Profundidad alcanzada: %d\n", profundidadIndividuo);
 		// actualiza num nodos
 		System.out.printf("Nodos generados: %d\n", nodos.size());
+		System.out.printf("Valor del nodo raiz: %s\n", raizArbol.getValor());
 		fenotipos();
 		System.out.println("////////////////////\n");
 	}
@@ -359,7 +359,7 @@ public class CromosomaP3 extends CromosomaArbol {
 	protected String ValoresArbol(String cadena, GenArbol arbol) {
 		//if (debugEjecucion) System.out.println("[CromosomaAP3.ValoresArbol()]");
 		//Añadimos el valor del arbol
-		cadena = cadena + arbol.getValor();
+		cadena = cadena + arbol.getValor() + " ";
 		
 		//Hijo Izquierdo
 		if (arbol.getHi() != null) {
@@ -369,11 +369,13 @@ public class CromosomaP3 extends CromosomaArbol {
 					arbol.getHi().getValor() == "NOT" || 
 					arbol.getHi().getValor() == "OR") {
 				//Nueva operación, abrimos y hacemos llamada recursiva
-				cadena = cadena + "(" + arbol.getHi().getValor() + " ";
+				//cadena = cadena + "(" + arbol.getHi().getValor() + " ";
+				cadena = cadena + "(";
 				cadena = ValoresArbol(cadena, arbol.getHi());
 			}
 			else {
-				cadena = cadena + arbol.getHi().getValor() + " ";
+				cadena = cadena + arbol.getHi().getValor();
+				if (arbol.getValor() != "NOT") cadena = cadena + " ";
 			}
 		}
 		
@@ -385,11 +387,12 @@ public class CromosomaP3 extends CromosomaArbol {
 					arbol.getHc().getValor() == "NOT" || 
 					arbol.getHc().getValor() == "OR") {
 				//Nueva operación, abrimos y hacemos llamada recursiva
-				cadena = cadena + "(" + arbol.getHc().getValor() + " ";
+				cadena = cadena + "(";
+				//cadena = cadena + "(" + arbol.getHc().getValor() + " ";
 				cadena = ValoresArbol(cadena, arbol.getHc());
 			}
 			else {
-				cadena = cadena + arbol.getHc().getValor() + " ";
+				cadena = cadena + arbol.getHc().getValor()+" ";
 			}
 		}
 		
@@ -401,11 +404,12 @@ public class CromosomaP3 extends CromosomaArbol {
 					arbol.getHd().getValor() == "NOT" || 
 					arbol.getHd().getValor() == "OR") {
 				//Nueva operación, abrimos y hacemos llamada recursiva
-				cadena = cadena + "(" + arbol.getHd().getValor() + " ";
+				cadena = cadena + "(";
+				//cadena = cadena + "(" + arbol.getHd().getValor() + " ";
 				cadena = ValoresArbol(cadena, arbol.getHd());
 			}
 			else {
-				cadena = cadena + arbol.getHd().getValor() + " ";
+				cadena = cadena + arbol.getHd().getValor();
 			}
 		}
 		

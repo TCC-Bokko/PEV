@@ -60,7 +60,7 @@
 [OK] Reestructura codigo con arbol como Gen
 [OK] Arreglar generacion valores multiplexor
 [OK] Arreglar profundidades, raiz = prof 1
-[] Arreglar obtencion fenotipo
+[OK] Arreglar obtencion fenotipo
 [] Arreglar seleccion que peta al poco.
 [] Arreglar calculo de k.
 
