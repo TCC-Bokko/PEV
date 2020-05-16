@@ -19,6 +19,7 @@ public class CromosomaP3 extends CromosomaArbol {
 	protected String inicializacion;
 	protected String Bloating;
 	protected String[] valoresMultiplexor;
+	protected String creacion;
 	protected double tamMedioPob;
 	protected int profundidadIndividuo;
 	
@@ -86,6 +87,7 @@ public class CromosomaP3 extends CromosomaArbol {
 		// DEBUG
 		System.out.printf("Bits Direccionado (As): %d\n", numAs);
 		System.out.printf("Tipo Inicializacion: %s\n", inicializacion);
+		if (inicializacion == "RampedANDHalf") System.out.printf("Generado con: %s\n", creacion);
 		System.out.printf("Control Bloating: %s\n", Bloating);
 		System.out.printf("Prof. máxima inicializacion: %d\n", prof_max);
 		System.out.printf("Uso de if: %s\n", uif);
@@ -159,7 +161,9 @@ public class CromosomaP3 extends CromosomaArbol {
 		
 		fitness = result;
 		
-		return result;
+		if (Bloating != "No usar") fitness = controlBloating();
+		
+		return fitness;
 	}
 
 	@Override
@@ -209,7 +213,7 @@ public class CromosomaP3 extends CromosomaArbol {
 		System.out.println("////////////////////\n");
 	}
 	
-	protected double controlBloating() {
+	protected float controlBloating() {
 		//if (debugEjecucion) System.out.println("[CromosomaP3.controlBloating()]");
 		double fitnessFinal = fitness;
 		
@@ -231,7 +235,7 @@ public class CromosomaP3 extends CromosomaArbol {
 			fitnessFinal = fitness - k * raizArbol.getNumNodos();			
 		}
 		
-		return fitnessFinal;
+		return (float) fitnessFinal;
 	}
 		
 	// Creación del individuo
@@ -286,7 +290,7 @@ public class CromosomaP3 extends CromosomaArbol {
 			arbol.setValor(operando);
 			arbol.setNumNodos(arbol.getNumNodos()+1);			
 		}
-		
+		creacion = "Completa";
 		nodos.add(arbol); //Una vez el arbol esta construido lo metemos en la lista de nodos.
 		return arbol;
 	}
@@ -351,6 +355,7 @@ public class CromosomaP3 extends CromosomaArbol {
 			arbol.setNumNodos(arbol.getNumNodos()+1);			
 		}
 		
+		creacion = "Creciente";
 		nodos.add(arbol); //Una vez el arbol esta construido lo metemos en la lista de nodos.
 		return arbol;
 	}

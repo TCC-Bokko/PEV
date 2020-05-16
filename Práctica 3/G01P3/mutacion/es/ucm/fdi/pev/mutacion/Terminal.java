@@ -15,22 +15,38 @@ public class Terminal {
 		float rand = r.nextFloat();
 		
 		if(rand < prob) {
-			muta(c);
-			haMutado = true;
+			haMutado = muta(c);
+			//haMutado = true;
 		}
 		return haMutado;
 	}
 	
-	private static void muta(Cromosoma c)
+	private static boolean muta(Cromosoma c)
 	{
 		// Terminal: Cambia uno de las hojas operando.
 		CromosomaP3 CA = (CromosomaP3) c;
+		CA.actualizaArbol();
 		List<GenArbol> nodos = CA.getListaNodos();
 		int numAs = CA.getNumAs();
 		
-		//Obtenemos un nodo hoja terminal con un operando
-		int posNodo = buscaTerminal(nodos);
-		GenArbol nodoMutable = nodos.get(posNodo); 
+		GenArbol nodoMutable;
+		int posNodo;
+		int numNodos = nodos.size();
+		
+		if (numNodos == 1) {
+			// Solo existe un nodo, la raiz, y es un operando
+			posNodo = 0;
+			nodoMutable = nodos.get(posNodo);
+		}		
+		else if (numNodos == 2) {
+			// Existen dos nodos, un NOT (raiz) y un operando
+			posNodo = 1;
+			nodoMutable = nodos.get(posNodo);
+		} else {
+			//Buscamos un nodo operando
+			posNodo = buscaTerminal(nodos);
+			nodoMutable = nodos.get(posNodo);
+		}
 		
 		// Buscamos un nuevo valor
 		String nuevoValor;
@@ -54,6 +70,8 @@ public class Terminal {
 		CA.setListaNodos(nodos);
 		
 		c = CA;
+		
+		return true;
 	}
 	
 	//Devuelve la posición del nodo operando valido.

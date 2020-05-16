@@ -116,9 +116,15 @@ public class GUI extends JFrame {
 				grafica.setGen(algorGenetico.getmaxGen());
 				grafica.setPob(algorGenetico.gettamPob());
 				grafica.init();
-				//ejecuta algoritmo
 				algorGenetico.ejecutaEvolucion(grafica);
-				actualizaLabel(algorGenetico.getMejorFeno(), algorGenetico.getMejorFit(), textoBestOne);
+				//ejecuta algoritmo
+				int numProblema = algorGenetico.getNumProbl();
+				System.out.printf("Num problema: %d\n", numProblema);
+				if (numProblema == 10) {
+					actualizaLabel(algorGenetico.getMejorFenoString(), algorGenetico.getMejorFit(), textoBestOne);
+				} else {
+					actualizaLabel(algorGenetico.getMejorFeno(), algorGenetico.getMejorFit(), textoBestOne);					
+				}
 			}
 		});
 		panelBotones.add(boton);
@@ -148,6 +154,22 @@ public class GUI extends JFrame {
 		label.setText(textoMejorAbs);
 	}
 	
+	public void actualizaLabel(String xs, float y, JLabel label) {
+		// Obtener mejor cromosoma absoluto del algoritmo genético
+		textoMejorAbs = "Mejor Invididuo (String). Genes: [";
+		String value;
+		
+		textoMejorAbs = textoMejorAbs + xs;
+		
+		// Fitness del mejor cromosoma (Y)
+		textoMejorAbs = textoMejorAbs + "].  FITNESS: ";
+		value = String.valueOf(y);
+		textoMejorAbs = textoMejorAbs + value;
+		
+		label.setText(textoMejorAbs);
+	}
+	
+	
 	//// PANEL DE CONFIGURACION: 
 	public ConfigPanel<AlGen> creaConfAlGen(){
 		// DECLARACION E INICIALIZACION
@@ -159,7 +181,7 @@ public class GUI extends JFrame {
 		String[] cruces = new String[] {"Permutacion"};
 		String[] entradas = new String[] {"2", "3"};
 		String[] mutaciones = new String[] {"Funcion", "Terminal", "Permutacion", "Subarbol"}; //, "Hoist", "Expansion", "Contraccion", };
-		String[] bloating = new String[] {"Tarpeian", "Penalizacion"};
+		String[] bloating = new String[] {"Tarpeian", "Penalizacion", "No usar"};
 		String[] generacion = new String[] {"Completa", "Creciente", "RampedANDHalf"};
 		String[] usarif = new String[] { "True", "False"};
 		
@@ -183,7 +205,7 @@ public class GUI extends JFrame {
 		configAlGen.addOption(new ChoiceOption<AlGen>("Usar IF","Permite o no el uso de funciones IF", "useIf", usarif));
 		// No ponemos un selector de lineas de datos (Dx) ya que son dependientes del direccionamiento de las Ax.
 		configAlGen.addOption(new ChoiceOption<AlGen>("Generacion", "Establece la inicializacion de la poblacion", "generador", generacion));
-		configAlGen.addOption(new ChoiceOption<AlGen>("C. Bloating", "Control de crecimiento arboles", "bloating", bloating));
+		configAlGen.addOption(new ChoiceOption<AlGen>("Control Bloating", "Control de crecimiento arboles", "bloating", bloating));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Evalucion", "fitness del individuo", "funcion", funciones));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Seleccion","Que tipo de seleccion usar","seleccion", selectores));
 		configAlGen.addOption(new ChoiceOption<AlGen>("Cruces","Tipo de Cruce","cruce", cruces));
@@ -211,22 +233,22 @@ public class GUI extends JFrame {
 		
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
 		public int maxGen = 10;
-		public int tamPob = 3;
+		public int tamPob = 10;
 		public String funcion = "Max. Aciertos";
 		public String cruce = "Permutacion";
 		public String seleccion = "Ruleta";
 		public String mutacion = "Funcion";
-		public String bloating = "Tarpeian";
+		public String bloating = "No usar";
 		public double elitismo = 0.05;
 		public double probCruce = 0.4;
-		public double probMut = 0.03;
+		public double probMut = 0.05;
 		protected AGenetico aGen;
 		// P3
 		public String numAs = "2";
 		//public int minProf = 0;
-		public int maxProf = 3;
+		public int maxProf = 5;
 		public String useIf = "True";
-		public String generador = "Completa";
+		public String generador = "RampedANDHalf";
 		
 		
 		//Mejores abs
@@ -239,6 +261,14 @@ public class GUI extends JFrame {
 			
 		}
 		
+		public String getMejorFenoString() {
+			return aGen.getMejorFenoString();
+		}
+
+		public int getNumProbl() {
+			return aGen.getNumProbl();
+		}
+
 		//GETTERS Y SETTERS REQUERIDOS POR EL CONTROL PANEL
 		// Si se ha llamado a la gráfica con la constructora vacía
 		// será necesario llamar a setTamPob y setMaxGen 
@@ -355,7 +385,7 @@ public class GUI extends JFrame {
 			
 			switch (funcion) {
 				//Práctica 3
-				case "P3: P.Genetica":
+				case "Max. Aciertos":
 					aGen.setNumProblema(10);
 					break;
 			}

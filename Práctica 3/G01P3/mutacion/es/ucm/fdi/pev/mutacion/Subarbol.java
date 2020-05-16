@@ -15,35 +15,56 @@ public class Subarbol {
 		float rand = r.nextFloat();
 		
 		if(rand < prob) {
-			muta(c);
-			haMutado = true;
+			haMutado = muta(c);
+			//haMutado = true;
 		}
 		return haMutado;
 	}
 	
-	private static void muta(Cromosoma c)
+	private static boolean muta(Cromosoma c)
 	{
 		// Subarbol: descarta un subarbol y vuelve a generarlo aleatoriamente.
 		CromosomaP3 CA = (CromosomaP3) c;
+		CA.actualizaArbol();
 		List<GenArbol> nodos = CA.getListaNodos();
+		
+		int numNodos = nodos.size();
+		int posNodo;
+		if (numNodos == 1) {
+			//Si solo tiene uno usa la raiz (no existen subarboles)
+			posNodo = 0;
+		} else {
+			// Cambia un subarbol
+			posNodo = buscaNodo(nodos);
+		}
 		
 		// DEBUG
 		System.out.println("__Arbol_ANTES_Mutacion_Subarbol__");
-		System.out.printf("Número de nodos: %d", CA.getNodosInd());
-		System.out.printf("Profundidad arbol: %d", CA.getProfInd());
+		System.out.printf("Número de nodos: %d\n", CA.getNodosInd());
+		System.out.printf("Profundidad arbol: %d\n", CA.getProfInd());
 		
 		// Elegimos un nodo (Sin incluir raiz)
-		int posNodo = buscaNodo(nodos);
 		GenArbol nodoMutable = nodos.get(posNodo);
-	
+		GenArbol padreNodo;
+		String posicion;
 		// Nos quedamos con el padre
-		GenArbol padreNodo = nodoMutable.getPadre();
-		String posicion = "NA";
-		
-		if (padreNodo.getHi() == nodoMutable) posicion = "Izq";
-		else if (padreNodo.getHc() == nodoMutable) posicion = "Cnt";
-		else if (padreNodo.getHi() == nodoMutable) posicion = "Der";
-		else System.out.println("[MutacionSubarbol] Error: No es posible discernir la posicion del nodo obtenido en su padre");
+		if (numNodos > 1) {
+			 padreNodo = nodoMutable.getPadre();
+			posicion = "NA";
+			int aridad = getAridad(padreNodo.getValor());
+			
+			//buscar en el arbol
+			if (padreNodo.getHi() == nodoMutable) posicion = "Izq";
+			if (aridad == 3) {
+				// Comprobar si es el centro
+				if (padreNodo.getHc() == nodoMutable) posicion = "Cnt";
+			}
+			if (aridad >= 2) {
+				if (padreNodo.getHi() == nodoMutable) posicion = "Der";
+				
+			}
+			
+		}
 		
 		// Reconstruimos el nodo (de modo completo)
 		Random r = new Random();
@@ -53,14 +74,16 @@ public class Subarbol {
 		// Crear arbol nuevo
 		GenArbol nuevoNodo = CA.creaArbolCreciente(nivel, profmax, padreNodo);
 		// Enlazar con el padre.
-		if (posicion == "Izq") {
-			padreNodo.setHI(nuevoNodo);
-		} else if (posicion == "Cnt"){
-			padreNodo.setHC(nuevoNodo);
-		} else if (posicion == "Der") {
-			padreNodo.setHD(nuevoNodo);	
-		} else {
-			System.out.println("[MutacionSubarbol] Error: Devolviendo el mismo hijo.");
+		if (numNodos > 1) {
+			if (posicion == "Izq") {
+				padreNodo.setHI(nuevoNodo);
+			} else if (posicion == "Cnt"){
+				padreNodo.setHC(nuevoNodo);
+			} else if (posicion == "Der") {
+				padreNodo.setHD(nuevoNodo);	
+			} else {
+				System.out.println("[MutacionSubarbol] Error: Devolviendo el mismo hijo.");
+			}
 		}
 		
 		// Tenemos que recalcular el cromosoma (generar lista nodos, ver profundidad, ver cantidad nodos)
@@ -72,6 +95,7 @@ public class Subarbol {
 		//Devolvemos el cromosoma mutado
 		c = CA;
 		
+		return true;
 	}
 		
 	//Devuelve la posición del nodo operador valido.
@@ -80,5 +104,21 @@ public class Subarbol {
 		int i = r.nextInt(nodos.size()-1); // Cualquier nodo excepto raiz
 		
 		return i;
+	}
+	
+	private static boolean esOperador(GenArbol arbol) {
+		String valor = arbol.getValor();
+		if (valor == "OR" || valor == "AND" || valor == "NOT" || valor == "IF") return true;
+		else return false;
+	}
+	
+	private static int getAridad(String funcion) {
+		int aridad = 0;
+		
+		if (funcion == "IF") aridad = 3;
+		else if (funcion == "OR" || funcion == "AND") aridad = 2;
+		else System.out.println("[Mutacion-Permutacion] Argumento funcion no corresponde con ningun operador valido, devolviendo aridad 0");
+		
+		return aridad;
 	}
 }

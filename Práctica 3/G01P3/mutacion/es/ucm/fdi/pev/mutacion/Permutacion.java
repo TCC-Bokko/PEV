@@ -15,60 +15,77 @@ public class Permutacion {
 		float rand = r.nextFloat();
 		
 		if(rand < prob) {
-			muta(c);
-			haMutado = true;
+			haMutado = muta(c);
+			//haMutado = true;
 		}
 		return haMutado;
 	}
 	
-	private static void muta(Cromosoma c)
+	private static boolean muta(Cromosoma c)
 	{
-		// Permutación: Intercambia el orden de dos operandos.
+		// Permutación: Intercambia el orden de dos operandos en una funcion.
 		CromosomaP3 CA = (CromosomaP3) c;
+		CA.actualizaArbol();
 		List<GenArbol> nodos = CA.getListaNodos();
 		
-		//Obtenemos un nodo Funcion con un operador
-		int posNodo = buscaFuncion(nodos);
-		GenArbol nodoMutable = nodos.get(posNodo);
-		String valor = nodoMutable.getValor();
-		int aridad = getAridad(valor);
-		GenArbol aux;
-		Random r = new Random();
-		
-		// Intercambiamos los hijos del nodo.
-		if (aridad == 2) {
-			aux = nodoMutable.getHi();
-			nodoMutable.setHI(nodoMutable.getHd());
-			nodoMutable.setHD(aux);
-		} else if (aridad == 3) {
-			int intercambio = r.nextInt(3);
-			// Con 3 valores pueden aparecer 3 intercambios de 2 elementos.
-			if (intercambio == 0) {
-				// ICD to DCI
+		// Caso 1 solo nodo
+		int posNodo;
+		GenArbol nodoMutable;
+		int numNodos = nodos.size();
+		if (numNodos == 1) {
+			// Es una raiz operando, no hace nada
+			return false;
+		}		
+		else if (numNodos == 2) {
+			// Es un operando NOT con un operando, no hacemos nada
+			return false;
+		} else {
+			//Obtenemos un nodo Funcion con un operador
+			posNodo = buscaFuncion(nodos);
+			nodoMutable = nodos.get(posNodo);
+			String valor = nodoMutable.getValor();
+			int aridad = getAridad(valor);
+			GenArbol aux;
+			Random r = new Random();
+			
+			// Intercambiamos los hijos del nodo.
+			if (aridad == 2) {
 				aux = nodoMutable.getHi();
 				nodoMutable.setHI(nodoMutable.getHd());
 				nodoMutable.setHD(aux);
-			} else if (intercambio == 1) {
-				// ICD to CID
-				aux = nodoMutable.getHi();
-				nodoMutable.setHI(nodoMutable.getHc());
-				nodoMutable.setHC(aux);
-			} else if (intercambio == 2) {
-				// ICD to IDC
-				aux = nodoMutable.getHc();
-				nodoMutable.setHC(nodoMutable.getHd());
-				nodoMutable.setHD(aux);
+			} else if (aridad == 3) {
+				int intercambio = r.nextInt(3);
+				// Con 3 valores pueden aparecer 3 intercambios de 2 elementos.
+				if (intercambio == 0) {
+					// ICD to DCI
+					aux = nodoMutable.getHi();
+					nodoMutable.setHI(nodoMutable.getHd());
+					nodoMutable.setHD(aux);
+				} else if (intercambio == 1) {
+					// ICD to CID
+					aux = nodoMutable.getHi();
+					nodoMutable.setHI(nodoMutable.getHc());
+					nodoMutable.setHC(aux);
+				} else if (intercambio == 2) {
+					// ICD to IDC
+					aux = nodoMutable.getHc();
+					nodoMutable.setHC(nodoMutable.getHd());
+					nodoMutable.setHD(aux);
+				} else {
+					System.out.println("[Mutacion-Permutacion] Error intercambio en aridad 3. Devolviendo el cromosoma sin mutar.");
+				}
 			} else {
-				System.out.println("[Mutacion-Permutacion] Error intercambio en aridad 3. Devolviendo el cromosoma sin mutar.");
+				System.out.println("[Mutacion-Permutacion] Error: Aridad = 0. Devolviendo el cromosoma sin mutar.");
 			}
-		} else {
-			System.out.println("[Mutacion-Permutacion] Error: Aridad = 0. Devolviendo el cromosoma sin mutar.");
+			
+			//Lo metemos en la lista -- (A partir de aqui necesario?)
+			nodos.set(posNodo, nodoMutable);
+			CA.setListaNodos(nodos);
+			c = CA;
+			
+			return true;
 		}
 		
-		//Lo metemos en la lista -- (A partir de aqui necesario?)
-		nodos.set(posNodo, nodoMutable);
-		CA.setListaNodos(nodos);
-		c = CA;
 	}
 	
 	//Devuelve la posición del nodo operador valido.

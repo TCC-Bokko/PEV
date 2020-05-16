@@ -61,9 +61,16 @@
 [OK] Arreglar generacion valores multiplexor
 [OK] Arreglar profundidades, raiz = prof 1
 [OK] Arreglar obtencion fenotipo
-[] Arreglar seleccion que peta al poco.
-[] Arreglar calculo de k.
-
+[OK] Arreglar seleccion que peta al poco.
+[OK] Arreglar calculo de k.
+[OK] Error: Calcula mal el numero de nodos
+[OK] Uso de Bloating y opcion de no usar
+[OK] Arreglar fenotipo mostrado en GUI al final.
+[OK] Arreglar creacion creciente, adaptar cruce creciente y adaptar 
+[OK] Arreglar mutacion Funcion creciente
+[OK] Arreglar mutacion Terminal
+[] Arreglar mutacion Subarbol
+[OK] Arreglar mutacion Permutacion
 
 :: DESARROLLANDO CONCEPTOS ::
 

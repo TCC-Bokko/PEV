@@ -161,7 +161,7 @@ public class FuncionEvalArbol {
 			
 		} else {
 			//Aqui no deberian llegar operandos, pero por si acaso, se tratan, si el nodo no corresponde ni a un operando saltará un mensaje de error.
-			System.out.printf("La función del nodo %s no es un operador válido. Tratando como operando. \n", nodo);
+			//System.out.printf("La función del nodo %s no es un operador válido. Tratando como operando. \n", nodo);
 			return operandoAboolean(nodo, valores);
 		}
 		

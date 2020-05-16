@@ -132,9 +132,9 @@ public class AGenetico
 		generacionActual = 1;
 		
 		// INICIALIZACIONES ESPECIFICAS P3
-		k = 0d;
-		profArbolMediaPobl = pmax;
-		// Inicialización del vector de operandos (Solo una vez durante toda la ejecución).
+		
+		
+		// Inicialización valores Multiplexor (Solo una vez durante toda la ejecución).
 		int tam = 0;
 		if (numAs == 2) {
 			tam = 6; // A0,A1,D0,D1,D2,D3
@@ -149,11 +149,19 @@ public class AGenetico
 		
 		// Llamadas a metodos de la ejecución
 		inicializaPoblacion();
-		evaluacion(); 
+		
 		double media = calculaMedia();
+		// Relativo al Bloating (P3)
+		if (bloat == "Penalizacion") {
+			calculaK();
+		}
+		else if (bloat == "Tarpeian") {
+			profArbolMediaPobl = calculaProfMed();
+			nodosArbolMediaPobl = calculaNodosMed();
+		}
+		evaluacion(); 
+		
 		_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media);
-		
-		
 		
 		// BUCLE PRINCIPAL
 		while (!terminado()) 
@@ -167,14 +175,17 @@ public class AGenetico
 
 			mutacion();
 			
+			// Evaluacion depende de el uso de bloating, así que se actualiza antes de evaluar
+			if (bloat == "Penalizacion") calculaK(); // Calculo de coeficiente para penalizar en bloating (Actualiza k) Primera ejecución k = 0;
+			else if (bloat == "Tarpeian") {
+				nodosArbolMediaPobl = calculaNodosMed(); // Primera ejecución coge el tamMax. En siguientes lee de variable.
+				profArbolMediaPobl = calculaProfMed(); 
+			}
 			evaluacion();	
 			
 			media = calculaMedia();
 			
-			// Especificos de P3
-			nodosArbolMediaPobl = calculaNodosMed(); // Primera ejecución coge el tamMax. En siguientes lee de variable.
-			calculaK(); // Calculo de coeficiente para penalizar en bloating (Actualiza k) Primera ejecución k = 0;
-			
+			// GUI
 			_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media); //Pasa los datos de esta generacion a la grafica, calcula media y compara maxAbsoluto.
 		
 			generacionActual++;
@@ -187,35 +198,23 @@ public class AGenetico
 		System.out.printf("Cruces: %d\n", numCrucesTotal);
 		System.out.printf("Mutaciones: %d\n", numMutacionesTotal);
 		// Obtener mejor cromosoma absoluto del algoritmo genético
-		Gen[] genes = mejor_abs.getGenes();
+		CromosomaP3 CAma = (CromosomaP3) mejor_abs;
 		String textoMejorAbs = "Mejor Invididuo. Genes: [";
-		int value;
-		for (int i = 0; i < genes.length; i++) {
-			GenEntero GMJ = (GenEntero) genes[i];
-			value = GMJ.getAlelo();
-			textoMejorAbs = textoMejorAbs + Integer.toString(value);
-			textoMejorAbs = textoMejorAbs + ", ";
-		}
+		textoMejorAbs = textoMejorAbs + CAma.fenotipoArbol();
 		textoMejorAbs = textoMejorAbs + "]";
 		System.out.println(textoMejorAbs);
 		System.out.printf("Mejor fitness: %d\n", (int) mejor_fitness);
 		System.out.printf("Generacion del mejor: %d\n", generacionMejor);
 		// Obtener peor cromosoma
-		genes = peor_abs.getGenes();
+		CromosomaP3 CApa = (CromosomaP3) peor_abs;
 		String textoPeorAbs = "Peor Invididuo. Genes: [";
-		for (int i = 0; i < genes.length; i++) {
-			GenEntero GMJ = (GenEntero) genes[i];
-			value = GMJ.getAlelo();
-			textoPeorAbs = textoPeorAbs + Integer.toString(value);
-			textoPeorAbs = textoPeorAbs + ", ";
-		}
+		textoPeorAbs = textoPeorAbs + CApa.fenotipoArbol();
 		textoPeorAbs = textoPeorAbs + "]";
 		System.out.println(textoPeorAbs);
 		System.out.printf("Peor fitness: %d\n", (int) peor_fitness);
 		System.out.printf("Generacion del peor: %d\n", generacionPeor);
-		System.out.printf("Cantidad nodos medio poblacion: %d", nodosArbolMediaPobl);
-		System.out.printf("Profundidad media poblacion: %d", profArbolMediaPobl);
-		System.out.printf("Coef. Bloating penalizacion: %d", k);
+		
+		// DIBUJADO DE GRAFICA
 		_grafica.dibujaGrafica();
 	}
 	
@@ -237,7 +236,7 @@ public class AGenetico
 	protected void creaPoblacion()
 	{			
 		if (debugEjecucion) System.out.printf("[AGenetico.creaPoblacion()] InitC = %s\n", initC);
-		if (initC == "RampedAndHalf") {
+		if (initC == "RampedANDHalf") {
 			//Debemos dividir la población en grupos
 			// Tantos grupos como PROF_MAX-1
 			int grupos = pmax - 1;
@@ -246,30 +245,38 @@ public class AGenetico
 			boolean dividesWell = false;
 			int sobran = tamPoblacion % grupos;
 			if (sobran == 0) dividesWell = true;
-			int indXgrupo = tamPoblacion / grupos;
-			int indv = 0;	//Itedrador de individuo.
-			int groupLimit = indXgrupo;
+			float indXgrupo = tamPoblacion / grupos;
+			//int indv = 0;	//Itedrador de individuo.
+			int groupLimit = Math.round(indXgrupo);
 			int INDVcount = 0; //Para garantizar que estan todos.
+			
+			//DEBUG SETUP R&H
+			System.out.printf("Grupos: %d\n", grupos);
+			System.out.printf("Limite por grupo: %d\n", groupLimit);
+			System.out.printf("Individuos por grupo: %f\n", indXgrupo);
+			System.out.printf("Sobran: %d\n", sobran);
 			
 			//Bucle recorrido por la población.
 			for (int g = 0; g < grupos; g++) {
-				for (int i = indv; i < groupLimit; i++) {
+				for (int i = 0; i < groupLimit; i++) { // i = ind
 					if (i % 2 == 0) {
 						//Creción completa
 						System.out.println("////////////////////");
-						System.out.printf("Nuevo Arbol número (empieza en 1): %d\n", INDVcount+1);
-						poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
+						System.out.printf("Nuevo Arbol número: %d\n", INDVcount+1);
+						System.out.printf("Grupo: %d\n", g);
+						System.out.printf("Individuo PAR dentro del grupo: %d\n", i);
+						poblacion[INDVcount] = new CromosomaP3(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
 						INDVcount++;
 					} else {
 						//Creación creciente
-						System.out.println("////////////////////");
-						System.out.printf("Nuevo Arbol número (empieza en 1): %d\n", INDVcount+1);
-						poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
+						System.out.printf("Nuevo Arbol número: %d\n", INDVcount+1);
+						System.out.printf("Grupo: %d\n", g);
+						System.out.printf("Individuo IMPAR dentro del grupo: %d\n", i);
+						poblacion[INDVcount] = new CromosomaP3(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
 						INDVcount++;
 					}
-					indv = i;
+					//indv = i;
 				}
-				groupLimit = groupLimit + indXgrupo;
 				
 				//Control de los individuos que puedan sobrar al final al no dividir bien poblacion entre grupos
 				if (g == grupos-1 && !dividesWell) {
@@ -278,20 +285,20 @@ public class AGenetico
 							//Creción completa
 							System.out.println("////////////////////");
 							System.out.printf("Nuevo Arbol número (empieza en 1): %d\n", INDVcount+1);
-							poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
+							poblacion[INDVcount] = new CromosomaP3(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
 							INDVcount++;
 						} else {
 							//Creación creciente
 							System.out.println("////////////////////");
 							System.out.printf("Nuevo Arbol número (empieza en 1): %d\n", INDVcount+1);
-							poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
+							poblacion[INDVcount] = new CromosomaP3(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
 							INDVcount++;
 						}
 					}
 				}
 				
 				//Comprobación final
-				if (INDVcount == tamPoblacion) {
+				if (INDVcount <= tamPoblacion) {
 					System.out.println("[RAMPED AND HALF] Se ha inicializado toda la población.");
 				} else {
 					System.out.println("[RAMPED AND HALF] ERROR!!!!!! NO SE HA INICIALIZADO TODA LA POBLACION.");
@@ -331,7 +338,13 @@ public class AGenetico
 	private void seleccion()
 	{		
 		if (debugEjecucion) System.out.println("[AGenetico.Seleccion()]");
+		tamPoblacion = poblacion.length;
+		System.out.printf("Poblacion prev seleccion: %d\n", tamPoblacion);
+		
+		System.out.println("[Genera nueva poblacion.]");
 		Cromosoma[] nueva_pob = new Cromosoma[poblacion.length];
+		
+		System.out.println("[Genera vector indices.]");
 		int[] pob_idx = new int[poblacion.length]; // Indices de los individuos seleccionados
 		//Switch dependiendo del tipo de cruce
 		
@@ -362,13 +375,18 @@ public class AGenetico
 		}
 		
 		// Sustitucion de los individuos seleccionados
+		System.out.println("[Sustituye individuos seleccionados.]");
 		for(int i = 0; i < pob_idx.length; i++)
 		{
 			int idx = pob_idx[i];
-			nueva_pob[i] = poblacion[idx].clone(); //sustituyeCromosoma(poblacion[idx]);
+			nueva_pob[i] = poblacion[idx];
 		}
 		
+		System.out.println("[Sustituye elites.]");
 		poblacion = sustituyeElite(nueva_pob);
+		
+		tamPoblacion = poblacion.length;
+		System.out.printf("Poblacion tras seleccion: %d\n", tamPoblacion);
 	}
 	
 	private void cruce() 
@@ -444,9 +462,11 @@ public class AGenetico
 		if (debugEjecucion) { 
 			System.out.println("[AGenetico.Evaluacion()]");
 			System.out.printf("Población: %d individuos.\n", poblacion.length);
-			System.out.printf("Valor k: %f\n", k);
-			System.out.printf("Cantidad nodos medio poblacion: %f\n", nodosArbolMediaPobl);
-			System.out.printf("Profundidad media poblacion: %f\n", profArbolMediaPobl);
+			if (bloat == "Penalizacion") System.out.printf("Valor k: %f\n", k);
+			else if (bloat == "Tarpeian") {
+				System.out.printf("Cantidad nodos medio poblacion: %f\n", nodosArbolMediaPobl);
+				System.out.printf("Profundidad media poblacion: %f\n", profArbolMediaPobl); 
+			}
 		}
 		fitness_total = 0;
 		mejor_fitness = 0; //poblacion[0].getFitness();
@@ -685,6 +705,7 @@ public class AGenetico
 	}
 	
 	protected void calculaK() {
+		// Utilizado en el control de Bloating 
 		if (debugEjecucion) System.out.println("[AGenetico.calculaK()]");
 		Double Cov;
 		Double Var;
@@ -843,8 +864,16 @@ public class AGenetico
 	public float[] getMejorFeno() {
 		return mejor_abs.fenotipos();
 	}
+	public String getMejorFenoString() {
+		// Especifico para P3
+		CromosomaP3 CAma = (CromosomaP3) mejor_abs;
+		return CAma.fenotipoArbol();
+	}
 	public String getMutacion() {
 		return tipoMutacion;
+	}
+	public int getNumProbl() {
+		return numProblema;
 	}
 
 }
