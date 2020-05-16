@@ -84,7 +84,8 @@ public class AGenetico
 	//protected int pmin;
 	protected String initC;
 	protected String bloat;
-	protected double tamArbolMedioPobl;
+	protected double nodosArbolMediaPobl;
+	protected double profArbolMediaPobl;
 	protected double k; // Coeficiente penalizacion para bloating.
 	protected double nodos_total;
 	// Para la evaluación.
@@ -132,12 +133,12 @@ public class AGenetico
 		
 		// INICIALIZACIONES ESPECIFICAS P3
 		k = 0d;
-		tamArbolMedioPobl = pmax;
+		profArbolMediaPobl = pmax;
 		// Inicialización del vector de operandos (Solo una vez durante toda la ejecución).
 		int tam = 0;
 		if (numAs == 2) {
 			tam = 6; // A0,A1,D0,D1,D2,D3
-			valoresMultiplexor = new String[128];
+			valoresMultiplexor = new String[64];
 		} else if (numAs == 3) {
 			tam = 11; // A0, A1, A2, D0, D1, D2, D3, D4, D5, D6, D7
 			valoresMultiplexor = new String[2048];
@@ -171,7 +172,7 @@ public class AGenetico
 			media = calculaMedia();
 			
 			// Especificos de P3
-			tamArbolMedioPobl = calculaTamMed(); // Primera ejecución coge el tamMax. En siguientes lee de variable.
+			nodosArbolMediaPobl = calculaNodosMed(); // Primera ejecución coge el tamMax. En siguientes lee de variable.
 			calculaK(); // Calculo de coeficiente para penalizar en bloating (Actualiza k) Primera ejecución k = 0;
 			
 			_grafica.actualizaGrafica(poblacion, generacionActual, mejor_fitness, abs_fitness, (float)media); //Pasa los datos de esta generacion a la grafica, calcula media y compara maxAbsoluto.
@@ -212,7 +213,8 @@ public class AGenetico
 		System.out.println(textoPeorAbs);
 		System.out.printf("Peor fitness: %d\n", (int) peor_fitness);
 		System.out.printf("Generacion del peor: %d\n", generacionPeor);
-		System.out.printf("Tamaño medio poblacion: %d", tamArbolMedioPobl);
+		System.out.printf("Cantidad nodos medio poblacion: %d", nodosArbolMediaPobl);
+		System.out.printf("Profundidad media poblacion: %d", profArbolMediaPobl);
 		System.out.printf("Coef. Bloating penalizacion: %d", k);
 		_grafica.dibujaGrafica();
 	}
@@ -254,10 +256,14 @@ public class AGenetico
 				for (int i = indv; i < groupLimit; i++) {
 					if (i % 2 == 0) {
 						//Creción completa
+						System.out.println("////////////////////");
+						System.out.printf("Nuevo Arbol número (empieza en 1): %d\n", INDVcount+1);
 						poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
 						INDVcount++;
 					} else {
 						//Creación creciente
+						System.out.println("////////////////////");
+						System.out.printf("Nuevo Arbol número (empieza en 1): %d\n", INDVcount+1);
 						poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
 						INDVcount++;
 					}
@@ -270,10 +276,14 @@ public class AGenetico
 					for (int i = 0; i < sobran; i++) {
 						if (i % 2 == 0) {
 							//Creción completa
+							System.out.println("////////////////////");
+							System.out.printf("Nuevo Arbol número (empieza en 1): %d\n", INDVcount+1);
 							poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Completa", bloat, valoresMultiplexor);
 							INDVcount++;
 						} else {
 							//Creación creciente
+							System.out.println("////////////////////");
+							System.out.printf("Nuevo Arbol número (empieza en 1): %d\n", INDVcount+1);
 							poblacion[i] = new CromosomaP3(numAs, useif, g+2, "Creciente", bloat, valoresMultiplexor);
 							INDVcount++;
 						}
@@ -290,19 +300,9 @@ public class AGenetico
 				}
 			}
 		} else {
-			// DEBUG
-			boolean MostrarEsto = false;;
-			if (MostrarEsto) {
-				System.out.println("[AGenetico.creaPoblacion()]");
-				System.out.println("Objetos enviados:");
-				System.out.printf("As: %d\n", numAs);
-				System.out.printf("uif: %s\n", useif);
-				System.out.printf("pmax: %d\n", pmax);
-				System.out.printf("initC: %s\n", initC);
-				System.out.printf("bloat: %s\n", bloat);
-			}
 			// Si no es ramped and half procedemos normalmente.
 			for (int i = 0; i < tamPoblacion; i++) {
+				System.out.println("////////////////////");
 				System.out.printf("Nuevo Arbol número (empieza en 1): %d\n", i+1);
 				poblacion[i] = new CromosomaP3(numAs, useif, pmax, initC, bloat, valoresMultiplexor); //Mirara el tipo de inicialización
 			}
@@ -441,20 +441,29 @@ public class AGenetico
 	
 	private void evaluacion() 
 	{
-		if (debugEjecucion) System.out.println("[AGenetico.Evaluacion()]");
+		if (debugEjecucion) { 
+			System.out.println("[AGenetico.Evaluacion()]");
+			System.out.printf("Población: %d individuos.\n", poblacion.length);
+			System.out.printf("Valor k: %f\n", k);
+			System.out.printf("Cantidad nodos medio poblacion: %f\n", nodosArbolMediaPobl);
+			System.out.printf("Profundidad media poblacion: %f\n", profArbolMediaPobl);
+		}
 		fitness_total = 0;
 		mejor_fitness = 0; //poblacion[0].getFitness();
 		
+		int contPob = 0;
 		for (Cromosoma c : poblacion)
 		{			
 			//ESPECIFICO P3 (Setup del Bloating)
 			CromosomaP3 CAp = (CromosomaP3) c;
-			CAp.setMediaPob(tamArbolMedioPobl);
+			CAp.setMediaPob(nodosArbolMediaPobl);
 			CAp.setk(k);
-			
 			
 			// Calculo de fitness de cada individuo
 			CAp.evalua();
+			
+			// Muestra
+			System.out.printf("Arbol %d - fitness: %d aciertos. Nodos: %d. Profundidad: %d\n", contPob+1, Math.round(CAp.getFitness()), CAp.getNodosInd(), CAp.getProfInd());
 			
 			// Calculo del fitness total de la poblacion		
 			fitness_total += CAp.getFitness();
@@ -462,6 +471,7 @@ public class AGenetico
 			evalua_mejor(CAp);
 			
 			c = CAp;
+			contPob++;
 		}
 		
 		switch (tipo)
@@ -512,7 +522,7 @@ public class AGenetico
 		
 	protected void evalua_mejor(Cromosoma c) 
 	{	
-		if (debugEjecucion) System.out.println("[AGenetico.evalua_mejor()]");
+		//if (debugEjecucion) System.out.println("[AGenetico.evalua_mejor()]");
 		if(c.compara_mejor_fitness(mejor_fitness))
 		{
 			mejor_fitness = c.getFitness();
@@ -640,7 +650,7 @@ public class AGenetico
 	
 	// METODOS ESPECIFICOS DE LA PRACTICA 3
 	
-	protected double calculaTamMed() {
+	protected double calculaNodosMed() {
 		if (debugEjecucion) System.out.println("[AGenetico.calculaTamMed()]");
 		double media = 0d;
 		double sumatorio = 0d;
@@ -648,7 +658,24 @@ public class AGenetico
 		// Sumatorio
 		for (int i = 0; i < tamPoblacion; i++) {
 			CromosomaP3 CA = (CromosomaP3) poblacion[i];
-			sumatorio += CA.getTamArbol(); //Nodos
+			sumatorio += CA.getNodosInd(); //Nodos
+		}
+		
+		// MEDIA
+		media = sumatorio / tamPoblacion;
+		
+		return media;
+	}
+	
+	protected int calculaProfMed() {
+		if (debugEjecucion) System.out.println("[AGenetico.calculaProfMed()]");
+		int media = 0;
+		int sumatorio = 0;
+		
+		// Sumatorio
+		for (int i = 0; i < tamPoblacion; i++) {
+			CromosomaP3 CA = (CromosomaP3) poblacion[i];
+			sumatorio += CA.getProfInd(); //Profundidad
 		}
 		
 		// MEDIA
@@ -675,16 +702,16 @@ public class AGenetico
 		double SumCov = 0d;
 		double operando1;
 		double fInd;
-		double tamArb;
+		double nodosArb;
 		
 		for (int i = 0; i < tamPoblacion; i++) {
 			// Obtenemos datos del individuo
 			fInd = poblacion[i].getFitness(); //Cov
 			CromosomaP3 CA = (CromosomaP3)poblacion[i];
-			tamArb = CA.getTamArbol();
-			tamRes = tamArb - tamArbolMedioPobl; //Var
+			nodosArb = CA.getNodosInd();
+			tamRes = nodosArb - nodosArbolMediaPobl; //Var
 			// Calculos
-			SumCov += fInd * tamArb; // Cov
+			SumCov += fInd * nodosArb; // Cov
 			SumVar += Math.pow(tamRes, 2); // Var
 		}
 		operando1 = SumCov / tamPoblacion;
@@ -692,29 +719,31 @@ public class AGenetico
 		// Tamaño y fitness Medio
 		double operando2;
 		double fitness_medio = fitness_total / tamPoblacion;
-		operando2 = tamArbolMedioPobl * fitness_medio;
+		operando2 = nodosArbolMediaPobl * fitness_medio;
 		
 		// Calculamos ambas partes Cov
 		Cov = operando1 - operando2;
-		System.out.printf("[Calculo K] Covarianza: %f", Cov);
+		System.out.printf("[Calculo K] Covarianza: %f\n", Cov);
 			
 		// Calculamos Var
 		Var = SumVar / tamPoblacion;
-		System.out.printf("[Calculo K] Varianza: %f", Var);
+		System.out.printf("[Calculo K] Varianza: %f\n", Var);
 		
 		//Actualizamos K (Factor corrección)
 		k = Cov / Var;
-		System.out.printf("[Calculo K] K final: %f", k);
+		System.out.printf("[Calculo K] K final: %f\n", k);
 	}
 	
 	protected String[] inicializaValores(String[] multiplex, int tam) {
-		if (debugEjecucion) System.out.println("[AGenetico.inicializaValores()]");
-		int num = 0;
-		String convertido;
+		//if (debugEjecucion) System.out.println("[AGenetico.inicializaValores()]");
+		String convertido = "";
 		
 		for (int f = 0; f < multiplex.length; f++) {
-			convertido = Integer.toBinaryString(num);
+			//System.out.printf("Posicion Multiplex y valor a codificar: %d\n", f);
+			convertido = Integer.toBinaryString(f);
+			//System.out.printf("Convertida posicion a string binario: %s\n", convertido);
 			convertido = alargaString(convertido, tam);
+			//System.out.printf("Alargado para tener formato adecuado: %s\n", convertido);
 			multiplex[f] = convertido;
 		}
 		

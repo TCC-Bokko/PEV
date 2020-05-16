@@ -20,10 +20,14 @@ public class CruceArbol {
 		////////////////////////////////////////////////////////////////////
 		// CARGA DE LOS PADRES
 		////////////////////////////////////////////////////////////////////
-		/*
+		
 		CromosomaP3 CA1 = (CromosomaP3) c1;
 		CromosomaP3 CA2 = (CromosomaP3) c2;
-		
+		CA1.actualizaArbol();
+		CA2.actualizaArbol();
+		c1 = CA1;
+		c2 = CA2;
+		/*
 		List<GenArbol> nodosP1 = CA1.getListaNodos();
 		List<GenArbol> nodosP2 = CA2.getListaNodos();
 		*/
@@ -81,16 +85,6 @@ public class CruceArbol {
 		subArb2.setPadre(padreSubArbol1);
 		
 		////////////////////////////////////////////////////////////////////
-		// Actualizamos listas de nodos
-		////////////////////////////////////////////////////////////////////
-		System.out.println("__HIJO_1__");
-		CromosomaP3 CA1 = (CromosomaP3) c1;
-		CA1.actualizaArbol();
-		System.out.println("__HIJO_2__");
-		CromosomaP3 CA2 = (CromosomaP3) c1;
-		CA2.actualizaArbol();
-		
-		////////////////////////////////////////////////////////////////////
 		// Devolvemos hijos
 		///////////////////////////////////////////////////////////////////
 		nodosP1[posCruce1] = subArb1;
@@ -98,6 +92,16 @@ public class CruceArbol {
 		
 		c1.setGenes(nodosP1);
 		c2.setGenes(nodosP2);
+		
+		////////////////////////////////////////////////////////////////////
+		// Actualizamos listas de nodos
+		////////////////////////////////////////////////////////////////////
+		System.out.println("__HIJO_1__");
+		CA1 = (CromosomaP3) c1;
+		CA1.actualizaArbol();
+		System.out.println("__HIJO_2__");
+		CA2 = (CromosomaP3) c1;
+		CA2.actualizaArbol();
 	}
 	
 	private static GenArbol eligeNodo(List<GenArbol> lista) {

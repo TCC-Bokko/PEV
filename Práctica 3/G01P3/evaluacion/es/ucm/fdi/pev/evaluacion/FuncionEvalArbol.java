@@ -2,18 +2,21 @@ package es.ucm.fdi.pev.evaluacion;
 import es.ucm.fdi.pev.estructura.GenArbol;
 
 public class FuncionEvalArbol {
+	static boolean debug = false;
+	
 	public static double funcionEvalArbol(GenArbol arbol, int numAs, String[] multiplexor) {
 		//WIP - TO DO
 		// FUNCION DE EVALUACION DEL ARBOL, VER CASOS CORRECTOS DONDE SALIDA CORRESPONDE A DATO APUNTADO.
 		double aciertos = 0;
 
 		//Integer[][] valoresMultiplexor;
-		System.out.printf("Primer valor del multiplexor: [%s]\n", multiplexor[0]);
+		//System.out.printf("Primer valor del multiplexor: [%s]\n", multiplexor[0]);
 		String[] valoresMultiplexor = multiplexor;
 		
 		// Pasar valores por el arbol de programación y
 		// Comprobar cuantos datos apuntados aciertan con el output.
 		for (int i = 0; i < valoresMultiplexor.length; i++) {
+			if (debug) System.out.printf("\nValor multiplexor en posicion i = %d\n", i);
 			if (ejecutaPrograma(arbol, valoresMultiplexor[i])) {
 				aciertos++;
 			}
@@ -34,6 +37,12 @@ public class FuncionEvalArbol {
 			direccion.concat(Character.toString(valores.charAt(1)));
 			int posSalida = Integer.parseInt(direccion)+2;
 			
+			// Mostramos
+			if (debug) System.out.println("A0  A1  D0  D1  D2  D3  OUTPUT");
+			if (debug) System.out.printf(valores);
+			if (debug) System.out.printf(Character.toString(resultado));
+			if (debug) System.out.println("");
+			
 			//Comparamos con el resultado de la ejecución
 			if (resultado == valores.charAt(posSalida)) return true;
 			else return false;
@@ -44,11 +53,17 @@ public class FuncionEvalArbol {
 			direccion.concat(Character.toString(valores.charAt(2)));
 			int posSalida = Integer.parseInt(direccion)+3;
 			
+			// Mostramos
+			if (debug) System.out.println("A0  A1  A2  D0  D1  D2  D3  D4  D5  D6  D7  OUTPUT");
+			if (debug) System.out.printf(valores);
+			if (debug) System.out.printf(Character.toString(resultado));
+			if (debug) System.out.println("");
+			
 			//Comparamos con el resultado de la ejecución
 			if (resultado == valores.charAt(posSalida)) return true;
 			else return false;
 		} else {
-			System.out.println("[Evaluacion-Arbol.ejecutaPrograma] Error: longitud de string valores no es 6 o 11. Devolviendo fallo.");
+			if (debug) System.out.println("[Evaluacion-Arbol.ejecutaPrograma] Error: longitud de string valores no es 6 o 11. Devolviendo fallo.");
 			return false;
 		}
 	

@@ -27,6 +27,7 @@ public class Funcion {
 		// Funcion: Cambia uno de los nodos operador (función).
 		// Ojo, debe tener el mismo nivel de aridad (cantidad de parametros)
 		CromosomaP3 CA = (CromosomaP3) c;
+		CA.actualizaArbol();
 		GenArbol[] nodos = (GenArbol[]) CA.getGenes();
 		//List<GenArbol> nodos = CA.getListaNodos();
 		

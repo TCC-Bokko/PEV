@@ -29,7 +29,7 @@ public class Subarbol {
 		
 		// DEBUG
 		System.out.println("__Arbol_ANTES_Mutacion_Subarbol__");
-		System.out.printf("Número de nodos: %d", CA.getTamArbol());
+		System.out.printf("Número de nodos: %d", CA.getNodosInd());
 		System.out.printf("Profundidad arbol: %d", CA.getProfInd());
 		
 		// Elegimos un nodo (Sin incluir raiz)

@@ -20,13 +20,13 @@ public abstract class Cromosoma  implements Comparable<Cromosoma> {
 	protected int longitud;
 	
 	public Cromosoma() {
-		System.out.println("[Cromosoma.Constructora()]");
+		//System.out.println("[Cromosoma.Constructora()]");
 		inicializaCromosoma();
 	}
 	public Cromosoma(Cromosoma c)
 	{	
 		setGenes(c.getGenes());
-		this.fenotipos = c.fenotipos.clone();
+		//this.fenotipos = c.fenotipos.clone();
 		this.fitness = c.fitness;
 		this.puntuacion = c.puntuacion;
 		this.punt_acum = c.punt_acum;

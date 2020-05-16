@@ -22,6 +22,4 @@ public abstract class CromosomaArbol extends Cromosoma {
 		genes[0] = raizArbol;
 	}
 	
-	abstract void inicializaGenes();
-	
 }

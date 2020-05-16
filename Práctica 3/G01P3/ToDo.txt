@@ -55,6 +55,16 @@
 	[OK] Selector de mutación
 	[OK] Selector de Control Bloating
 
+
+:: COSAS A ARREGLAR TRAS TEST EJECUCION ::
+[OK] Reestructura codigo con arbol como Gen
+[OK] Arreglar generacion valores multiplexor
+[OK] Arreglar profundidades, raiz = prof 1
+[] Arreglar obtencion fenotipo
+[] Arreglar seleccion que peta al poco.
+[] Arreglar calculo de k.
+
+
 :: DESARROLLANDO CONCEPTOS ::
 
 BLOATING
