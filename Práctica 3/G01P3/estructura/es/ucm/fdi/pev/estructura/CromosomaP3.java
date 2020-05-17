@@ -564,8 +564,7 @@ public class CromosomaP3 extends CromosomaArbol {
 		// Si es un OPERANDO simplemente se añade a la lista de nodos.
 		
 		// Empezamos a recorrer por la raizArbol
-		nodos.add(a);
-		
+		nodos.add(a);	
 	}
 	
 	public void actualizaGenes() {
@@ -597,21 +596,17 @@ public class CromosomaP3 extends CromosomaArbol {
 		if (raiz == null) return 0;
 		int mayor = 0;
 		int temp = 0;
-		if (raiz == null) {
-			return 0;
-		} else {
-			int hijos = raiz.getHijos();
-			if (hijos == 0) return 1;
-			else {
-				for (int i = 0; i < hijos; i++) {
-					if (i == 0) temp = profundidadArbol(raiz.getHi());
-					if (i == 1) temp = profundidadArbol(raiz.getHd());
-					if (i == 2) temp = profundidadArbol(raiz.getHc());
-					if (temp > mayor) mayor = temp;
-				}
+		int hijos = raiz.getHijos();
+		if (hijos == 0) return 1;
+		else {
+			for (int i = 0; i < hijos; i++) {
+				if (i == 0) temp = profundidadArbol(raiz.getHi());
+				if (i == 1) temp = profundidadArbol(raiz.getHd());
+				if (i == 2) temp = profundidadArbol(raiz.getHc());
+				if (temp > mayor) mayor = temp;
 			}
-			return mayor+1;
 		}
+		return mayor+1;
 	}
 	
 	// GETTERS Y SETTERS

@@ -81,45 +81,25 @@ public class FuncionEvalArbol {
 			// Obtener valores de hijos
 			// Llamadas recursivas si son operador
 			// H. IZQUIERDO
-			if (isOperador(arbol.getHi().getValor())) {
-				bIzq = ejecutaArbol(arbol.getHi(), valores);
-			} else {
-				bIzq = operandoAboolean(arbol.getHi().getValor(), valores);
-			}
-			// H.Central
-			if (isOperador(arbol.getHc().getValor())) {
-				bCen = ejecutaArbol(arbol.getHc(), valores);
-			} else {
-				bCen = operandoAboolean(arbol.getHc().getValor(), valores);
-			}
-			// H. Derecho
-			if (isOperador(arbol.getHd().getValor())) {
-				bDer = ejecutaArbol(arbol.getHd(), valores);
-			} else {
-				bDer = operandoAboolean(arbol.getHd().getValor(), valores);
-			}
+			
+			bIzq = ejecutaArbol(arbol.getHi(), valores);
+			bCen = ejecutaArbol(arbol.getHc(), valores);
+			bDer = ejecutaArbol(arbol.getHd(), valores);
+			
+			
 			// Devolviendo el resultado de la operación lógica
 			if(bIzq) return bCen;
 			else return bDer;
 		
 		// BLOQUE OR
-		} else if (nodo == "OR" ) {
+		} else if (nodo == "OR") {
 			boolean bIzq;
 			boolean bDer;
 			
-			// Obtener valores de hijos
-			// H. Izquierdo
-			if (isOperador(arbol.getHi().getValor())) {
-				bIzq = ejecutaArbol(arbol.getHi(), valores);
-			} else {
-				bIzq = operandoAboolean(arbol.getHi().getValor(), valores);
-			}
-			// H. Derecho
-			if (isOperador(arbol.getHd().getValor())) {
-				bDer = ejecutaArbol(arbol.getHd(), valores);
-			} else {
-				bDer = operandoAboolean(arbol.getHd().getValor(), valores);
-			}
+			// Obtener valores de hijos	
+			bIzq = ejecutaArbol(arbol.getHi(), valores);	
+			bDer = ejecutaArbol(arbol.getHd(), valores);
+			
 			// Devolviendo el resultado de la operacion lógica
 			return (bIzq || bDer);
 		
@@ -127,20 +107,10 @@ public class FuncionEvalArbol {
 		} else if (nodo == "AND") {
 			boolean bIzq;
 			boolean bDer;
-			
-			//Obtener valores de hijos
-			// H. Izquierdo
-			if (isOperador(arbol.getHi().getValor())) {
-				bIzq = ejecutaArbol(arbol.getHi(), valores);
-			} else {
-				bIzq = operandoAboolean(arbol.getHi().getValor(), valores);
-			}
-			// H. Derecho
-			if (isOperador(arbol.getHd().getValor())) {
-				bDer = ejecutaArbol(arbol.getHd(), valores);
-			} else {
-				bDer = operandoAboolean(arbol.getHd().getValor(), valores);
-			}
+				
+			bIzq = ejecutaArbol(arbol.getHi(), valores);	
+			bDer = ejecutaArbol(arbol.getHd(), valores);
+	
 			
 			//Devolver operacion AND
 			return (bIzq && bDer);
@@ -148,23 +118,14 @@ public class FuncionEvalArbol {
 		// BLOQUE NOT
 		} else if (nodo == "NOT") {
 			boolean bIzq;
-		
-			//Obtener valor hijo
-			// H. Izquierdo
-			if (isOperador(arbol.getHi().getValor())) {
-				bIzq = ejecutaArbol(arbol.getHi(), valores);
-			} else {
-				bIzq = operandoAboolean(arbol.getHi().getValor(), valores);
-			}
-			
+				
+			bIzq = ejecutaArbol(arbol.getHi(), valores);
 			return !bIzq;
 			
+			
 		} else {
-			//Aqui no deberian llegar operandos, pero por si acaso, se tratan, si el nodo no corresponde ni a un operando saltará un mensaje de error.
-			//System.out.printf("La función del nodo %s no es un operador válido. Tratando como operando. \n", nodo);
 			return operandoAboolean(nodo, valores);
 		}
-		
 	}
 	
 	// Devuelve si el valor es true o falso desde los valores
