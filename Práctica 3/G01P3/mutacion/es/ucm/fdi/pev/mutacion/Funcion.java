@@ -29,7 +29,7 @@ public class Funcion {
 		CromosomaP3 CA = (CromosomaP3) c;
 		CA.actualizaArbol();
 		int numNodos = CA.getNodosInd();
-		System.out.printf("Numero nodos: %d", numNodos);
+		//System.out.printf("Numero nodos: %d", numNodos);
 		
 		if (numNodos == 1) {
 			// Es una raiz operando. No hacer nada.
@@ -41,11 +41,12 @@ public class Funcion {
 			//List<GenArbol> nodos = CA.getListaNodos();
 			
 			//Obtenemos un nodo Funcion con un operador
-			System.out.println("Busca Funcion.");
+			//System.out.println("Busca Funcion.");
 			int posNodo = buscaFuncion(nodos);
 			GenArbol nodoMutable = nodos[posNodo];
 			//GenArbol nodoMutable = nodos.get(posNodo);
 			String valor = nodoMutable.getValor();
+			String viejoValor = valor;
 			int aridad = getAridad(valor);
 			
 			if (aridad == 0) {
@@ -75,10 +76,13 @@ public class Funcion {
 					nuevoValor = operadoresAridad3[selec];
 				}
 				
+				if (nuevoValor == viejoValor) return false;
+				
 				//Se lo pasamos al nodo
 				nodoMutable.setValor(nuevoValor);
 				
 				//Lo metemos en la lista -- (A partir de aqui necesario?)
+				System.out.printf("Nodo en posicion #%d mutado de funcion %s a funcion %s ", posNodo, viejoValor, nuevoValor);
 				nodos[posNodo] = nodoMutable;
 				//nodos.set(posNodo, nodoMutable);
 				CA.setGenes(nodos);
@@ -105,7 +109,7 @@ public class Funcion {
 			//Si es una de las funciones
 			if (tipo == "AND" || tipo == "OR" || tipo == "NOT" || tipo == "IF") {
 				valido = true;
-				System.out.printf("PosValido: %d", i);
+				//System.out.printf("PosValido: %d", i);
 			}
 			
 			if(valido && i == -1) System.out.println("[Mutacion Funcion] ERROR: nodo valido pero en posicion -1.");
@@ -126,7 +130,7 @@ public class Funcion {
 			//Si es una de las funciones
 			if (tipo == "AND" || tipo == "OR" || tipo == "NOT" || tipo == "IF") {
 				valido = true;
-				System.out.printf("PosValido: %d", posValido);
+				//System.out.printf("PosValido: %d", posValido);
 			}
 			
 			if(valido && posValido == -1) System.out.println("[Mutacion Funcion] ERROR: nodo valido pero en posicion -1.");

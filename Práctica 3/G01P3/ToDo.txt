@@ -72,6 +72,10 @@
 [OK] Arreglar mutacion Subarbol
 [OK] Arreglar mutacion Permutacion
 [OK] Arreglar get profundidad
+[OK] Mostrar generación mejor en GUI
+[OK] Evitar encadenar NOTs
+[OK] Evitar repetir operando en funciones OR, AND
+[] Mostrar Nodos y profundidad del mejor
 
 :: DESARROLLANDO CONCEPTOS ::
 

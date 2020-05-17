@@ -23,15 +23,10 @@ public class CruceArbol {
 		// Arbol completo
 		CromosomaP3 CA1 = (CromosomaP3) c1;
 		CromosomaP3 CA2 = (CromosomaP3) c2;
+		
 		// DEBUG
-		System.out.println("__PADRE_1__");
-		System.out.printf("Profundidad ANTES cruce: %d\n", CA1.getProfInd());
-		System.out.printf("Nodos Arbol ANTES cruce: %d\n", CA1.getNodosInd()); //List<Arbol> usa .size()
-		System.out.println(CA1.fenotipoArbol());
-		System.out.println("__PADRE_2__");
-		System.out.printf("Profundidad ANTES cruce: %d\n", CA2.getProfInd());
-		System.out.printf("Nodos Arbol ANTES cruce: %d\n", CA2.getNodosInd());
-		System.out.println(CA2.fenotipoArbol());
+		System.out.printf("[Padre 1] Profundidad: %d.  Nodos: %d. Fenotipo: %s.\n", CA1.getProfInd(), CA1.getNodosInd(), CA1.fenotipoArbol());
+		System.out.printf("[Padre 2] Profundidad: %d.  Nodos: %d. Fenotipo: %s.\n", CA2.getProfInd(), CA2.getNodosInd(), CA2.fenotipoArbol());
 		
 		List<GenArbol> nodosP1 = CA1.getListaNodos();
 		List<GenArbol> nodosP2 = CA2.getListaNodos();
@@ -110,16 +105,8 @@ public class CruceArbol {
 		////////////////////////////////////////////////////////////////////
 		// Actualizamos listas de nodos
 		////////////////////////////////////////////////////////////////////
-		System.out.println("__HIJO_1__");
-		System.out.printf("Posicion de cruce: %d\n", posCruce1);
-		System.out.printf("Profundidad Despues cruce: %d\n", CA1.getProfInd());
-		System.out.printf("Nodos Arbol Despues cruce: %d\n", CA1.getNodosInd()); //List<Arbol> usa .size()
-		System.out.println(CA1.fenotipoArbol());
-		System.out.println("__HIJO_2__");
-		System.out.printf("Posicion de cruce: %d\n", posCruce2);
-		System.out.printf("Profundidad Despues cruce: %d\n", CA2.getProfInd());
-		System.out.printf("Nodos Arbol Despues cruce: %d\n", CA2.getNodosInd());
-		System.out.println(CA2.fenotipoArbol());
+		System.out.printf("[Hijo  1] Profundidad: %d.  Nodos: %d. Pos.Cruce: %d. Fenotipo: %s.\n", CA1.getProfInd(), CA1.getNodosInd(), posCruce1, CA1.fenotipoArbol());
+		System.out.printf("[Hijo  2] Profundidad: %d.  Nodos: %d. Pos.Cruce: %d. Fenotipo: %s.\n", CA2.getProfInd(), CA2.getNodosInd(), posCruce2, CA2.fenotipoArbol());
 	}
 	
 	private static int eligeNodo(List<GenArbol> lista) {

@@ -166,7 +166,7 @@ public class AGenetico
 		// BUCLE PRINCIPAL
 		while (!terminado()) 
 		{	
-			System.out.println("-------- GENERACION " + generacionActual + " --------" );
+			System.out.println("\n-------- GENERACION " + generacionActual + " --------" );
 			
 			//El modifica internamente la poblacion
 			seleccion();
@@ -296,15 +296,15 @@ public class AGenetico
 						}
 					}
 				}
-				
-				//Comprobación final
-				if (INDVcount <= tamPoblacion) {
-					System.out.println("[RAMPED AND HALF] Se ha inicializado toda la población.");
-				} else {
-					System.out.println("[RAMPED AND HALF] ERROR!!!!!! NO SE HA INICIALIZADO TODA LA POBLACION.");
-					System.out.printf("INDVCount: %d\n", INDVcount);
-					System.out.printf("tamPoblacion: %d\n", tamPoblacion);
-				}
+			}
+			
+			//Comprobación final
+			if (INDVcount >= tamPoblacion) {
+				System.out.println("[RAMPED AND HALF] Se ha inicializado toda la población.");
+			} else {
+				System.out.println("[RAMPED AND HALF] ERROR!!!!!! NO SE HA INICIALIZADO TODA LA POBLACION.");
+				System.out.printf("INDVCount: %d\n", INDVcount);
+				System.out.printf("tamPoblacion: %d\n", tamPoblacion);
 			}
 		} else {
 			// Si no es ramped and half procedemos normalmente.
@@ -339,12 +339,12 @@ public class AGenetico
 	{		
 		if (debugEjecucion) System.out.println("[AGenetico.Seleccion()]");
 		tamPoblacion = poblacion.length;
-		System.out.printf("Poblacion prev seleccion: %d\n", tamPoblacion);
+		//System.out.printf("Poblacion prev seleccion: %d\n", tamPoblacion);
 		
-		System.out.println("[Genera nueva poblacion.]");
+		//System.out.println("[Genera nueva poblacion.]");
 		Cromosoma[] nueva_pob = new Cromosoma[poblacion.length];
 		
-		System.out.println("[Genera vector indices.]");
+		//System.out.println("[Genera vector indices.]");
 		int[] pob_idx = new int[poblacion.length]; // Indices de los individuos seleccionados
 		//Switch dependiendo del tipo de cruce
 		
@@ -353,6 +353,7 @@ public class AGenetico
 		// CAMBIAR AQUI LA SELECCION
 		//
 		//////////////////////////////////////
+		System.out.printf("[Tipo de selección: %s.]", tipoSeleccion);
 		switch (tipoSeleccion) {
 			case "Ruleta":
 				pob_idx = Ruleta.ruleta(poblacion);
@@ -386,12 +387,12 @@ public class AGenetico
 		poblacion = sustituyeElite(nueva_pob);
 		
 		tamPoblacion = poblacion.length;
-		System.out.printf("Poblacion tras seleccion: %d\n", tamPoblacion);
+		//System.out.printf("Poblacion tras seleccion: %d\n", tamPoblacion);
 	}
 	
 	private void cruce() 
 	{		
-		if (debugEjecucion) System.out.println("[AGenetico.Cruce()]");
+		if (debugEjecucion) System.out.println("\n[AGenetico.Cruce()]");
 		// Array con los indices de los padres seleccionados para cruzarse
 		ArrayList<Integer> sel = new ArrayList<Integer>();
 		
@@ -414,6 +415,7 @@ public class AGenetico
 			int padre1 = sel.get(i);
 			int padre2 = sel.get(i+1);
 			
+			if (debugEjecucion) System.out.printf("Cruzamiento entre Individuo1 #%d e Individuo2 #%d.\n", padre1, padre2);
 			// PRACTICA 3
 			// Solo hay un tipo de cruzamiento.
 			CruceArbol.cruceArbol(poblacion[padre1], poblacion[padre2]);
@@ -424,8 +426,10 @@ public class AGenetico
 	
 	private void mutacion()
 	{			
-		if (debugEjecucion) System.out.println("[AGenetico.Mutacion()]");
+		if (debugEjecucion) System.out.println("\n[AGenetico.Mutacion()]");
 		boolean haMutado = false;
+		int i = 0; //indice individuos
+		int mutacionesGeneracion = 0;
 		for (Cromosoma c : poblacion) {
 			switch (tipoMutacion)
 			{
@@ -453,20 +457,34 @@ public class AGenetico
 			 	break;
 			}
 			
-			if (haMutado) numMutacionesTotal++;
+			if (haMutado) {
+				System.out.printf("en el individuo #%d.\n", i);
+				numMutacionesTotal++;
+				mutacionesGeneracion++;
+			}
+			
+			i++;
 		}
+		if (mutacionesGeneracion == 0) System.out.println("No se han producido mutaciones en esta generación.");
+		else System.out.printf("Se han producido %d mutaciones esta generación.", mutacionesGeneracion);
 	}
 	
 	private void evaluacion() 
 	{
 		if (debugEjecucion) { 
-			System.out.println("[AGenetico.Evaluacion()]");
-			System.out.printf("Población: %d individuos.\n", poblacion.length);
-			if (bloat == "Penalizacion") System.out.printf("Valor k: %f\n", k);
-			else if (bloat == "Tarpeian") {
+			System.out.println("\n[AGenetico.Evaluacion()]");
+			//System.out.printf("Población: %d individuos.\n", poblacion.length);
+			if (bloat == "Penalizacion") {
+				System.out.println("Control de Bloating: PENALIZACION.");
+				System.out.printf("Valor k: %f\n", k);
+			} else if (bloat == "Tarpeian") {
+				System.out.println("Control de Bloating: TARPEIAN.");
 				System.out.printf("Cantidad nodos medio poblacion: %f\n", nodosArbolMediaPobl);
 				System.out.printf("Profundidad media poblacion: %f\n", profArbolMediaPobl); 
+			} else {
+				System.out.println("Control de Bloating desactivado.");
 			}
+			
 		}
 		fitness_total = 0;
 		mejor_fitness = 0; //poblacion[0].getFitness();
@@ -874,6 +892,9 @@ public class AGenetico
 	}
 	public int getNumProbl() {
 		return numProblema;
+	}
+	public int getGenMejor() {
+		return generacionMejor;
 	}
 
 }

@@ -243,12 +243,14 @@ public class CromosomaP3 extends CromosomaArbol {
 		//if (debugEjecucion) System.out.println("[CromosomaP3.creaArbolCompleto()]");
 		// Completa genera nodos de tipo operador hasta alcanzar profundidad maxima donde genera nodos operando.
 		GenArbol arbol = new GenArbol();
+		String funcPadre = "";
 		
 		//Profundidad de este nodo.
 		arbol.setProfundidad(nivel);
 		//Padre
 		if (padre != null) {
 			arbol.setPadre(padre);
+			funcPadre = padre.getValor();
 		} 
 		
 		//Si no es hoja
@@ -256,6 +258,13 @@ public class CromosomaP3 extends CromosomaArbol {
 			//Generar subardol usando operador {IF, NOT, OR, AND}
 			int it = r.nextInt(operadores.length);
 			String operador = operadores[it];
+			
+			// Evitar encadenar NOTs
+			while (funcPadre == "NOT" && operador == "NOT") {
+				it = r.nextInt(operadores.length);
+				operador = operadores[it];
+			}
+			
 			arbol.setValor(operador);
 			
 			//GENERAR HIJOS
@@ -287,6 +296,29 @@ public class CromosomaP3 extends CromosomaArbol {
 			//Generar subarbol usando datos de tipo operandos
 			int it = r.nextInt(operandos.length);
 			String operando = operandos[it];
+			
+			// Evitar obtener el mismo operando en ambos hijos de un operador AND u OR.
+			if (funcPadre == "OR" || funcPadre == "AND") {
+				// Si este es el hijo derecho
+				if (padre.getHi() != null) {
+					String valorHI = padre.getHi().getValor();
+					while (operando == valorHI) {
+						it = r.nextInt(operandos.length);
+						operando = operandos[it];
+					}
+				}
+			}
+			// Evitar que el 2o y 3er operando de un IF sean iguales.
+			if (funcPadre == "IF") {
+				if (padre.getHc() != null) {
+					String valorHC = padre.getHc().getValor();
+					while (operando == valorHC) {
+						it = r.nextInt(operandos.length);
+						operando = operandos[it];
+					}
+				}
+			}
+						
 			arbol.setValor(operando);
 			arbol.setNumNodos(arbol.getNumNodos()+1);			
 		}
@@ -301,20 +333,32 @@ public class CromosomaP3 extends CromosomaArbol {
 		// Crecientea genera nodos aleatorios de cualquier tipo
 		// hasta alcanzar profundidad maxima donde únicamente genera nodos operando.
 		GenArbol arbol = new GenArbol();
+		String funcPadre = "";
+		
 		//Profundidad de este nodo.
 		arbol.setProfundidad(nivel);
 		//Padre
 		if (padre != null) {
 			arbol.setPadre(padre);
+			funcPadre = padre.getValor();
 		}
 		
 		//Si no es hoja
 		if (nivel < prof_max) {
 			//Generar subardol usando operador u operando {IF, NOT, OR, AND}
-			int type = r.nextInt(2);
-			if (type == 0) {
+			int type = r.nextInt(10); // 70% de ser Operador y 30% Operando
+			// OPERADOR
+			if (type < 7) {
 				int it = r.nextInt(operadores.length);
 				String operador = operadores[it];
+				
+				// Evitar encadenar NOTs
+				while (funcPadre == "NOT" && operador == "NOT") {
+					it = r.nextInt(operadores.length);
+					operador = operadores[it];
+				}
+				
+				
 				arbol.setValor(operador);
 				
 				//GENERAR HIJOS si ha salido un operador
@@ -337,10 +381,33 @@ public class CromosomaP3 extends CromosomaArbol {
 					arbol.setHD(creaArbolCompleto(nivel+1, prof_max, arbol));
 					arbol.setNumNodos(arbol.getNumNodos() + arbol.getHd().getNumNodos());
 				}
+			// OPERANDO
 			} else {
 				// En el caso de que se genere un operando
 				int it = r.nextInt(operandos.length);
 				String operando = operandos[it];
+				// Evitar obtener el mismo operando en ambos hijos de un operador AND u OR.
+				if (funcPadre == "OR" || funcPadre == "AND") {
+					// Si este es el hijo derecho
+					if (padre.getHi() != null) {
+						String valorHI = padre.getHi().getValor();
+						while (operando == valorHI) {
+							it = r.nextInt(operandos.length);
+							operando = operandos[it];
+						}
+					}
+				}	
+				// Evitar que el 2o y 3er operando de un IF sean iguales.
+				if (funcPadre == "IF") {
+					if (padre.getHc() != null) {
+						String valorHC = padre.getHc().getValor();
+						while (operando == valorHC) {
+							it = r.nextInt(operandos.length);
+							operando = operandos[it];
+						}
+					}
+				}
+				
 				arbol.setValor(operando);
 				arbol.setNumNodos(arbol.getNumNodos()+1);	
 			}					
@@ -351,6 +418,28 @@ public class CromosomaP3 extends CromosomaArbol {
 			//Generar subarbol usando datos de tipo operandos
 			int it = r.nextInt(operandos.length);
 			String operando = operandos[it];
+			// Evitar obtener el mismo operando en ambos hijos de un operador AND u OR.
+			if (funcPadre == "OR" || funcPadre == "AND") {
+				// Si este es el hijo derecho
+				if (padre.getHi() != null) {
+					String valorHI = padre.getHi().getValor();
+					while (operando == valorHI) {
+						it = r.nextInt(operandos.length);
+						operando = operandos[it];
+					}
+				}
+			}
+			// Evitar que el 2o y 3er operando de un IF sean iguales.
+			if (funcPadre == "IF") {
+				if (padre.getHc() != null) {
+					String valorHC = padre.getHc().getValor();
+					while (operando == valorHC) {
+						it = r.nextInt(operandos.length);
+						operando = operandos[it];
+					}
+				}
+			}
+			
 			arbol.setValor(operando);
 			arbol.setNumNodos(arbol.getNumNodos()+1);			
 		}
@@ -442,8 +531,6 @@ public class CromosomaP3 extends CromosomaArbol {
 		
 		return isValid;
 	}
-	
-
 	
 	public void actualizaArbol() {
 		//if (debugEjecucion) System.out.println("[CromosomaP3.actualizaArbol()]");

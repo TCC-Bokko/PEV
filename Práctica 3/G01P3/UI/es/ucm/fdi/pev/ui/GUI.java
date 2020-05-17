@@ -121,9 +121,9 @@ public class GUI extends JFrame {
 				int numProblema = algorGenetico.getNumProbl();
 				System.out.printf("Num problema: %d\n", numProblema);
 				if (numProblema == 10) {
-					actualizaLabel(algorGenetico.getMejorFenoString(), algorGenetico.getMejorFit(), textoBestOne);
+					actualizaLabel(algorGenetico.getMejorFenoString(), algorGenetico.getMejorFit(), algorGenetico.getGenMejor(), textoBestOne);
 				} else {
-					actualizaLabel(algorGenetico.getMejorFeno(), algorGenetico.getMejorFit(), textoBestOne);					
+					actualizaLabel(algorGenetico.getMejorFeno(), algorGenetico.getMejorFit(), algorGenetico.getGenMejor(), textoBestOne);					
 				}
 			}
 		});
@@ -133,7 +133,7 @@ public class GUI extends JFrame {
 
 	}
 
-	public void actualizaLabel(float[] xs, float y, JLabel label) {
+	public void actualizaLabel(float[] xs, float y, int g, JLabel label) {
 		// Obtener mejor cromosoma absoluto del algoritmo genético
 		textoMejorAbs = "Mejor Invididuo. Genes: [";
 		float X;
@@ -147,24 +147,31 @@ public class GUI extends JFrame {
 		}
 		
 		// Fitness del mejor cromosoma (Y)
-		textoMejorAbs = textoMejorAbs + "].  FITNESS: ";
+		textoMejorAbs = textoMejorAbs + "]. Fitness: ";
 		value = String.valueOf(y);
 		textoMejorAbs = textoMejorAbs + value;
+		
+		// Generacion
+		textoMejorAbs = textoMejorAbs + ". Generación: ";
+		textoMejorAbs = textoMejorAbs + g;
 		
 		label.setText(textoMejorAbs);
 	}
 	
-	public void actualizaLabel(String xs, float y, JLabel label) {
+	public void actualizaLabel(String xs, float y, int g, JLabel label) {
 		// Obtener mejor cromosoma absoluto del algoritmo genético
-		textoMejorAbs = "Mejor Invididuo (String). Genes: [";
-		String value;
-		
+		textoMejorAbs = "Mejor Invididuo. Genes: [";
 		textoMejorAbs = textoMejorAbs + xs;
 		
 		// Fitness del mejor cromosoma (Y)
-		textoMejorAbs = textoMejorAbs + "].  FITNESS: ";
+		textoMejorAbs = textoMejorAbs + "].  Fitness: ";
+		String value;
 		value = String.valueOf(y);
 		textoMejorAbs = textoMejorAbs + value;
+		
+		// Generacion
+		textoMejorAbs = textoMejorAbs + ". Generación: ";
+		textoMejorAbs = textoMejorAbs + g;
 		
 		label.setText(textoMejorAbs);
 	}
@@ -232,8 +239,8 @@ public class GUI extends JFrame {
 		// Para pasarselo mediante métodos.
 		
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
-		public int maxGen = 3;
-		public int tamPob = 100;
+		public int maxGen = 10;
+		public int tamPob = 10;
 		public String funcion = "Max. Aciertos";
 		public String cruce = "Permutacion";
 		public String seleccion = "Ruleta";
@@ -375,6 +382,9 @@ public class GUI extends JFrame {
 		}
 		public String getbloating() {
 			return this.bloating;
+		}
+		public int getGenMejor() {
+			return aGen.getGenMejor();
 		}
 		
 
