@@ -239,16 +239,16 @@ public class GUI extends JFrame {
 		// Para pasarselo mediante métodos.
 		
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
-		public int maxGen = 10;
+		public int maxGen = 100;
 		public int tamPob = 10;
 		public String funcion = "Max. Aciertos";
 		public String cruce = "Permutacion";
 		public String seleccion = "Ruleta";
-		public String mutacion = "Funcion";
+		public String mutacion = "Subarbol";
 		public String bloating = "No usar";
 		public double elitismo = 0.05;
 		public double probCruce = 0.4;
-		public double probMut = 0.05;
+		public double probMut = 0.25;
 		protected AGenetico aGen;
 		// P3
 		public String numAs = "2";
@@ -275,6 +275,12 @@ public class GUI extends JFrame {
 		public int getNumProbl() {
 			return aGen.getNumProbl();
 		}
+		
+		public float getMejorFit() {
+			return aGen.getMejorFit();
+		}
+		
+		
 
 		//GETTERS Y SETTERS REQUERIDOS POR EL CONTROL PANEL
 		// Si se ha llamado a la gráfica con la constructora vacía
@@ -327,9 +333,7 @@ public class GUI extends JFrame {
 		public void setProbMut(double ProbMut) {
 			this.probMut = ProbMut;
 		}
-		public float getMejorFit() {
-			return mejor_fit;
-		}
+		
 		public float[] getMejorFeno() {
 			return mejor_feno;
 		}

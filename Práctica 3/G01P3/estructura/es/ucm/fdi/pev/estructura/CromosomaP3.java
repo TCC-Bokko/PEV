@@ -158,10 +158,10 @@ public class CromosomaP3 extends CromosomaArbol {
 	@Override
 	public float evalua() {
 		float result = (float) FuncionEvalArbol.funcionEvalArbol(raizArbol, numAs, valoresMultiplexor);
+	
+		if (Bloating != "No usar") result = controlBloating();
 		
 		fitness = result;
-		
-		if (Bloating != "No usar") fitness = controlBloating();
 		
 		return fitness;
 	}

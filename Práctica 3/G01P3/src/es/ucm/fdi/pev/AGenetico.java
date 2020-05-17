@@ -876,9 +876,16 @@ public class AGenetico
 	public String getTipCru() {
 		return tipoCruce;
 	}
+	
 	public float getMejorFit() {
-		return mejor_abs.getFitness();
+		// Especifico para P3
+		/*
+		CromosomaP3 CAma = (CromosomaP3) mejor_abs;
+		return CAma.getFitness();
+		*/
+		return abs_fitness;
 	}
+	
 	public float[] getMejorFeno() {
 		return mejor_abs.fenotipos();
 	}
