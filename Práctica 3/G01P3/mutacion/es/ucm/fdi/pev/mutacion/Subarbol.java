@@ -23,11 +23,19 @@ public class Subarbol {
 	
 	private static boolean muta(Cromosoma c)
 	{
+		GenArbol padreNodo;
+		String posHijoEnPadre; 
+		int nivel;
+		Random r = new Random();
+		int profmax = r.nextInt(4); // Genera un nuevo arbol de profundidad variable de 0 (hoja) a 3
+		GenArbol nuevoNodo;
+		
 		// Subarbol: descarta un subarbol y vuelve a generarlo aleatoriamente.
 		CromosomaP3 CA = (CromosomaP3) c;
 		CA.actualizaArbol();
 		List<GenArbol> nodos = CA.getListaNodos();
 		
+		// Obtenemos nodo mutable
 		int numNodos = nodos.size();
 		int posNodo;
 		if (numNodos == 1) {
@@ -37,65 +45,75 @@ public class Subarbol {
 			// Cambia un subarbol
 			posNodo = buscaNodo(nodos);
 		}
+		GenArbol nodoMutable = nodos.get(posNodo);
+		padreNodo = nodoMutable.getPadre();
 		
 		// DEBUG
 		System.out.println("__Arbol_ANTES_Mutacion_Subarbol__");
 		System.out.printf("Número de nodos: %d\n", CA.getNodosInd());
 		System.out.printf("Profundidad arbol: %d\n", CA.getProfInd());
 		
-		// Elegimos un nodo (Sin incluir raiz)
-		GenArbol nodoMutable = nodos.get(posNodo);
-		GenArbol padreNodo;
-		String posicion;
-		// Nos quedamos con el padre
-		if (numNodos > 1) {
-			 padreNodo = nodoMutable.getPadre();
-			posicion = "NA";
+		// Gestion del padre
+		
+		if (padreNodo == null) {
+			// No tiene padre, simplemente cambiar la raiz
+			nivel = nodoMutable.getProfundidad();
+			nuevoNodo = CA.creaArbolCreciente(nivel, profmax+nivel, null);
+			CA.setArbol(nuevoNodo);
+		} else {
+			// Nos quedamos con el padre
+			posHijoEnPadre = "NA";
+			
+			// Vemos la cantidad de hijos del padre
 			int aridad = getAridad(padreNodo.getValor());
 			
 			//buscar en el arbol
-			if (padreNodo.getHi() == nodoMutable) posicion = "Izq";
-			if (aridad == 3) {
-				// Comprobar si es el centro
-				if (padreNodo.getHc() == nodoMutable) posicion = "Cnt";
+			if (aridad == 0) {
+				System.out.println("[Mutacion Subarbol] ERROR!!!! Padre es un operando.");
 			}
-			if (aridad >= 2) {
-				if (padreNodo.getHi() == nodoMutable) posicion = "Der";
-				
+			else if (aridad == 1) {
+				posHijoEnPadre = "Izq";
+			} 
+			else if (aridad == 2) {
+				if (padreNodo.getHi() == nodoMutable) posHijoEnPadre = "Izq";
+				else if (padreNodo.getHd() == nodoMutable) posHijoEnPadre = "Der";
+			}
+			else if (aridad == 3) {
+				// Comprobar si es el centro
+				if (padreNodo.getHi() == nodoMutable) posHijoEnPadre = "Izq";
+				else if (padreNodo.getHc() == nodoMutable) posHijoEnPadre = "Cnt";
+				else if (padreNodo.getHi() == nodoMutable) posHijoEnPadre = "Der";
 			}
 			
-		}
-		
-		// Reconstruimos el nodo (de modo completo)
-		Random r = new Random();
-		int profmax = r.nextInt(4); // Genera un nuevo arbol de profundidad variable de 0 (hoja) a 3
-		int nivel = nodoMutable.getProfundidad();
-		profmax = profmax + nivel;
-		// Crear arbol nuevo
-		GenArbol nuevoNodo = CA.creaArbolCreciente(nivel, profmax, padreNodo);
-		// Enlazar con el padre.
-		if (numNodos > 1) {
-			if (posicion == "Izq") {
+			nivel = nodoMutable.getProfundidad();
+			nuevoNodo = CA.creaArbolCreciente(nivel, profmax+nivel, padreNodo);
+			
+			// Enlazar con el padre.
+			if (posHijoEnPadre == "Izq") {
 				padreNodo.setHI(nuevoNodo);
-			} else if (posicion == "Cnt"){
+			} else if (posHijoEnPadre == "Cnt"){
 				padreNodo.setHC(nuevoNodo);
-			} else if (posicion == "Der") {
+			} else if (posHijoEnPadre == "Der") {
 				padreNodo.setHD(nuevoNodo);	
 			} else {
-				System.out.println("[MutacionSubarbol] Error: Devolviendo el mismo hijo.");
+				//System.out.println("[MutacionSubarbol] Error: Devolviendo el mismo hijo.");
+				return false;
 			}
+			
 		}
 		
 		// Tenemos que recalcular el cromosoma (generar lista nodos, ver profundidad, ver cantidad nodos)
 		CA.actualizaArbol();
-		
-		// DEBUG
-		System.out.println("__Arbol_DESPUES_Mutacion_Subarbol__");
-		
 		//Devolvemos el cromosoma mutado
 		c = CA;
 		
+		// DEBUG
+		System.out.println("__Arbol_DESPUES_Mutacion_Subarbol__");
+		System.out.printf("Número de nodos: %d\n", CA.getNodosInd());
+		System.out.printf("Profundidad arbol: %d\n", CA.getProfInd());
+		
 		return true;
+		
 	}
 		
 	//Devuelve la posición del nodo operador valido.

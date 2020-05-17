@@ -69,8 +69,9 @@
 [OK] Arreglar creacion creciente, adaptar cruce creciente y adaptar 
 [OK] Arreglar mutacion Funcion creciente
 [OK] Arreglar mutacion Terminal
-[] Arreglar mutacion Subarbol
+[OK] Arreglar mutacion Subarbol
 [OK] Arreglar mutacion Permutacion
+[OK] Arreglar get profundidad
 
 :: DESARROLLANDO CONCEPTOS ::
 

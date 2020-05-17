@@ -177,7 +177,7 @@ public class GUI extends JFrame {
 		
 		///////////// NUESTRAS OPCIONES /////////////////
 		String[] funciones = new String[] {"Max. Aciertos"};
-		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE", "Ranking", "Truncamiento", "Restos"};
+		String[] selectores = new String[] {"Ruleta", "Torneo", "MUE", "Ranking", "Restos"};
 		String[] cruces = new String[] {"Permutacion"};
 		String[] entradas = new String[] {"2", "3"};
 		String[] mutaciones = new String[] {"Funcion", "Terminal", "Permutacion", "Subarbol"}; //, "Hoist", "Expansion", "Contraccion", };
@@ -232,8 +232,8 @@ public class GUI extends JFrame {
 		// Para pasarselo mediante métodos.
 		
 		/// VARIABLES PARA CONFIGURAR EL ALGEN
-		public int maxGen = 10;
-		public int tamPob = 10;
+		public int maxGen = 3;
+		public int tamPob = 100;
 		public String funcion = "Max. Aciertos";
 		public String cruce = "Permutacion";
 		public String seleccion = "Ruleta";

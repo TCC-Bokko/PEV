@@ -10,7 +10,7 @@ import es.ucm.fdi.pev.evaluacion.FuncionesEv;
 public class CromosomaP3 extends CromosomaArbol {
 	//Variables propias
 	//Raiz
-	protected GenArbol raizArbol;
+	protected GenArbol raizArbol = null;
 	
 	//Auxiliares
 	protected GenArbol HI;	
@@ -443,19 +443,7 @@ public class CromosomaP3 extends CromosomaArbol {
 		return isValid;
 	}
 	
-	protected int checkProfundidad() {
-		//if (debugEjecucion) System.out.println("[CromosomaP3.checkProfundidad()]");
-		int maxProf = 0;
-		int actProf;
-		GenArbol actArb;
-		for (int i = 0; i < nodos.size(); i++) {
-			actArb = nodos.get(i);
-			actProf = actArb.getProfundidad();
-			if (actProf > maxProf) maxProf = actProf;
-		}
-		
-		return maxProf;
-	}
+
 	
 	public void actualizaArbol() {
 		//if (debugEjecucion) System.out.println("[CromosomaP3.actualizaArbol()]");
@@ -467,6 +455,7 @@ public class CromosomaP3 extends CromosomaArbol {
 		
 		// actualiza profundidad
 		profundidadIndividuo = checkProfundidad();
+		//profundidadIndividuo = profundidadArbol(raizArbol);
 	}
 	
 	protected void actualizaLista(GenArbol a) {
@@ -501,6 +490,43 @@ public class CromosomaP3 extends CromosomaArbol {
 		}
 	}
 	
+	protected int checkProfundidad() {
+		//if (debugEjecucion) System.out.println("[CromosomaP3.checkProfundidad()]");
+		int maxProf = 0;
+		
+		// Usando Lista
+		int actProf;
+		GenArbol actArb;
+		for (int i = 0; i < nodos.size(); i++) {
+			actArb = nodos.get(i);
+			actProf = actArb.getProfundidad();
+			if (actProf > maxProf) maxProf = actProf;
+		}
+		
+		return maxProf;
+	}
+	
+	protected int profundidadArbol(GenArbol raiz) {
+		if (raiz == null) return 0;
+		int mayor = 0;
+		int temp = 0;
+		if (raiz == null) {
+			return 0;
+		} else {
+			int hijos = raiz.getHijos();
+			if (hijos == 0) return 1;
+			else {
+				for (int i = 0; i < hijos; i++) {
+					if (i == 0) temp = profundidadArbol(raiz.getHi());
+					if (i == 1) temp = profundidadArbol(raiz.getHd());
+					if (i == 2) temp = profundidadArbol(raiz.getHc());
+					if (temp > mayor) mayor = temp;
+				}
+			}
+			return mayor+1;
+		}
+	}
+	
 	// GETTERS Y SETTERS
 	public GenArbol getArbol() {
 		return raizArbol;
@@ -515,8 +541,11 @@ public class CromosomaP3 extends CromosomaArbol {
 	}
 	
 	public int getProfInd(){
-		checkProfundidad();
-		return profundidadIndividuo;
+		//checkProfundidad();
+		//actualizaArbol();
+		//return profundidadIndividuo;
+		return profundidadArbol(raizArbol);
+		
 	}
 	
 	public int getNumAs() { //Usado por la mutación

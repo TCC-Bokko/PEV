@@ -72,10 +72,12 @@ public class Permutacion {
 					nodoMutable.setHC(nodoMutable.getHd());
 					nodoMutable.setHD(aux);
 				} else {
-					System.out.println("[Mutacion-Permutacion] Error intercambio en aridad 3. Devolviendo el cromosoma sin mutar.");
+					//System.out.println("[Mutacion-Permutacion] Error intercambio en aridad 3. Devolviendo el cromosoma sin mutar.");
+					return false;
 				}
 			} else {
-				System.out.println("[Mutacion-Permutacion] Error: Aridad = 0. Devolviendo el cromosoma sin mutar.");
+				//System.out.println("[Mutacion-Permutacion] Error: Aridad = 0. Devolviendo el cromosoma sin mutar.");
+				return false;
 			}
 			
 			//Lo metemos en la lista -- (A partir de aqui necesario?)
@@ -113,7 +115,7 @@ public class Permutacion {
 		
 		if (funcion == "IF") aridad = 3;
 		else if (funcion == "OR" || funcion == "AND") aridad = 2;
-		else System.out.println("[Mutacion-Permutacion] Argumento funcion no corresponde con ningun operador valido, devolviendo aridad 0");
+		//else System.out.println("[Mutacion-Permutacion] Argumento funcion no corresponde con ningun operador valido, devolviendo aridad 0");
 		
 		return aridad;
 	}

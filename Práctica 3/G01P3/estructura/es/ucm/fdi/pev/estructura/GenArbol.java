@@ -12,6 +12,7 @@ public class GenArbol implements Gen, Cloneable {
 	private GenArbol Hd;		//Hijo derecho
 	private int num_nodos;	//Número de nodos (Tamaño del arbol)
 	private int profundidad; //profundidad a la que se encuentra la raiz de este nodo.
+	private int num_hijos;
 	
 	public GenArbol() {
 		num_nodos = 0;
@@ -30,6 +31,22 @@ public class GenArbol implements Gen, Cloneable {
 		Hd = a.Hd;
 		num_nodos = a.num_nodos;
 		profundidad = a.profundidad;
+	}
+	
+	private int checkHijos() {
+		switch (dato) {
+		case "NOT":
+			return 1;
+		case "OR":
+			return 2;
+		case "AND":
+			return 2;
+		case "IF":
+			return 3;
+		default:
+			//Si no es un operador
+			return 0;
+		}
 	}
 	
 	//GETTERS
@@ -58,6 +75,9 @@ public class GenArbol implements Gen, Cloneable {
 	}
 	public GenArbol getPadre() {
 		return this.padre;
+	}
+	public int getHijos() {
+		return checkHijos();
 	}
 	
 	//SETTERS
