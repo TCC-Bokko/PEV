@@ -65,8 +65,7 @@ public class FuncionEvalArbol {
 		} else {
 			if (debug) System.out.println("[Evaluacion-Arbol.ejecutaPrograma] Error: longitud de string valores no es 6 o 11. Devolviendo fallo.");
 			return false;
-		}
-	
+		}	
 	}
 	
 	private static boolean ejecutaArbol(GenArbol arbol, String valores) {
@@ -196,6 +195,5 @@ public class FuncionEvalArbol {
 			return false;
 		}
 		
-	}
-	
+	}	
 }

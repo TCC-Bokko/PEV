@@ -35,7 +35,7 @@ public class CromosomaP3 extends CromosomaArbol {
 	protected boolean useIf;
 	
 	protected String[] operadores;
-	protected String[] operandos; 
+	protected String[] operandos;
 	protected boolean debugEjecucion = true;
 	
 	// METODOS CROMOSOMAS

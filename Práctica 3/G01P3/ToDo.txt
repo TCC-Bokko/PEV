@@ -115,6 +115,11 @@ Función de Aptitud
 Se mira el total de aciertos (maximizar) o fallos (minimizar) sobre los 64 casos posibles de prueba
 
 
+		NOT
+	A1		OR
+		A1		D2
+
+
 POSIBILIDADES REALES (128)  - Posibilidades a considerar (64) SOLO ENTRADA Y SALIDA CORRECTA. Ver aciertos y fallos.
 
 	A0	A1	D0	D1	D2	D3	OUTPUT	Resultado
