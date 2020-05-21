@@ -13,7 +13,11 @@ public class CromosomaP3 extends CromosomaArbol {
 
 	public static final String terminales6[] = { "A0", "A1", "D0", "D1", "D2", "D3" };
 	public static final String terminales11[] = { "A0", "A1", "A2", "D0", "D1", "D2", "D3", "D4", "D5", "D6", "D7" };
+	
 	public static final String funciones[] = { "AND", "OR", "NOT", "IF" };
+	public static final String funcionesAridad1[] = { "NOT" };
+	public static final String funcionesAridad2[] = { "AND", "OR" };
+	public static final String funcionesAridad3[] = { "IF" };
 	
 	public static ArrayList<String> permutaciones;
 	public static int numEntradas;
@@ -33,18 +37,18 @@ public class CromosomaP3 extends CromosomaArbol {
 	}
 	
 	
-	public CromosomaP3(int profundidad, int tipoCreacion, boolean useIf) 
+	public CromosomaP3(int profundidad, String tipoCreacion, boolean useIf) 
 	{
 		arbol = new GenArbol(profundidad);
 		switch(tipoCreacion)
 		{
-		case 0:
-			inicializacionCreciente(arbol, 0, useIf);
-			break;
-		case 1:
+		case "Completa":
 			inicializacionCompleta(arbol, 0, 0, useIf);
 			break;
-		case 2:
+		case "Creciente":
+			inicializacionCreciente(arbol, 0, useIf);
+			break;
+		case "RampedANDHalf":
 			int ini = new Random().nextInt(2);
 			if(ini == 0) inicializacionCreciente(arbol, 0, useIf);
 			else inicializacionCompleta(arbol, 0, 0, useIf);
@@ -159,9 +163,22 @@ public class CromosomaP3 extends CromosomaArbol {
 		// En caso de llegar a la profundidad máxima, añadimos los terminales
 		else
 		{
-			int terminal = rnd.nextInt(terminales6.length);
-			
-			a.setValor(terminales6[terminal]);
+			int terminal;
+			switch (numEntradas)
+			{
+			case 2: 
+				terminal = rnd.nextInt(terminales6.length);	
+				a.setValor(terminales6[terminal]);
+				break;
+				
+			case 3:
+				terminal = rnd.nextInt(terminales11.length);
+				a.setValor(terminales11[terminal]);
+				break;
+			default:
+				throw new IllegalArgumentException("Unexpected value: " + numEntradas);
+			}
+					
 			a.setHoja();
 		}
 		
@@ -180,13 +197,6 @@ public class CromosomaP3 extends CromosomaArbol {
 	@Override
 	public float evalua() 
 	{	
-		
-		/*
-		System.out.println("NODOS: " + obtieneNodos(arbol, 0));
-		System.out.println("SIZE: " + arbol.size());
-		System.out.println("Genotipo: " + genotipo());
-		*/
-		
 		boolean output;
 		fitness = 0;
 		
@@ -313,13 +323,13 @@ public class CromosomaP3 extends CromosomaArbol {
 	public int insertTerminal(ArrayList<GenArbol> list_hijos, GenArbol terminal, int index, int pos)
 	{
 		int p = pos;
-		for(int i = 0; i < list_hijos.size() && p != -1; i++)
+		for(int i = 0; i < list_hijos.size(); i++)
 		{
 			if(list_hijos.get(i).esHoja() && (p == index))
 			{
 				//terminal.padre = list_hijos.get(i).padre;
 				list_hijos.set(i, (GenArbol) terminal.clone());
-				p = -1;
+				return p;
 			}
 			else if(list_hijos.get(i).esHoja() && (p != index))
 				p++;
@@ -330,22 +340,22 @@ public class CromosomaP3 extends CromosomaArbol {
 		return p;
 	}
 	
-	public int insertFuncion(ArrayList<GenArbol> list_hijos, GenArbol terminal, int index, int pos)
+	public int insertFuncion(ArrayList<GenArbol> list_hijos, GenArbol funcion, int index, int pos)
 	{
 		int p = pos;
 		
-		for(int i = 0; i < list_hijos.size() && p != -1; i++)
+		for(int i = 0; i < list_hijos.size(); i++)
 		{
 			if(list_hijos.get(i).esRaiz() && (p == index))
 			{
 				//terminal.padre = list_hijos.get(i).padre;
-				list_hijos.set(i, (GenArbol) terminal.clone());
-				p = -1;
+				list_hijos.set(i, (GenArbol) funcion.clone());
+				return p;
 			}
 			else if(list_hijos.get(i).esRaiz() && (p != index))
 			{
 				p++;
-				p = insertFuncion(list_hijos.get(i).getHijos(), terminal, index, p);
+				p = insertFuncion(list_hijos.get(i).getHijos(), funcion, index, p);
 			}			
 		}
 		return p;

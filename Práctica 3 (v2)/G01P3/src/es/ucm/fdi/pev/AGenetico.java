@@ -2,14 +2,9 @@ package es.ucm.fdi.pev;
 
 import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.cruce.*;
-import es.ucm.fdi.pev.seleccion.*;
 import es.ucm.fdi.pev.estructura.*;
-import es.ucm.fdi.pev.mutacion.Basica;
-import es.ucm.fdi.pev.mutacion.Desplazamiento;
-import es.ucm.fdi.pev.mutacion.Heuristica;
-import es.ucm.fdi.pev.mutacion.Insercion;
-import es.ucm.fdi.pev.mutacion.Intercambio;
-import es.ucm.fdi.pev.mutacion.Inversion;
+import es.ucm.fdi.pev.mutacion.Funcion;
+import es.ucm.fdi.pev.mutacion.Terminal;
 import es.ucm.fdi.pev.ui.GUI;
 import es.ucm.fdi.pev.ui.Grafica;
 
@@ -74,7 +69,7 @@ public class AGenetico
 	
 	
 	// Práctica 3
-	protected int numAs;	//cantidad de lineas de direccionamiento (Adress)
+	protected int entradas;	//cantidad de lineas de direccionamiento (Adress)
 	protected String useif;
 	protected int pmax;
 	//protected int pmin;
@@ -206,10 +201,12 @@ public class AGenetico
 		poblacion = new Cromosoma[tamPoblacion];
 		elite = new LinkedList<Cromosoma>();
 		
-		CromosomaP3.creaPermutaciones(2);
+		CromosomaP3.creaPermutaciones(entradas);
 		
 		for(int i = 0; i < tamPoblacion; i++)
-			poblacion[i] = new CromosomaP3(1, 1, true);
+			poblacion[i] = new CromosomaP3(pmax, initC, true);
+		
+	
 		
 		// Valores por defecto inicializados:
 		mejor_abs = poblacion[0];
@@ -305,29 +302,45 @@ public class AGenetico
 	private void mutacion()
 	{			
 		boolean haMutado = false;
-		for (Cromosoma c : poblacion)
-		switch (tipoMutacion)
-		{
-		case "Basica":
-			haMutado = Basica.basica(c, prob_mutacion);
-			break;
-		case "Inversion":
-			haMutado = Inversion.inversion(c, prob_mutacion);
-			break;
-		case "Insercion":
-			haMutado = Insercion.insercion(c, prob_mutacion);
-			break;
-		case "Intercambio":
-			haMutado = Intercambio.intercambio(c, prob_mutacion);
-			break;
-		case "Heuristica":
-			haMutado = Heuristica.heuristica(c, prob_mutacion);
-			break;
-		case "Desplazamiento":
-			haMutado = Desplazamiento.desplazamiento(c, prob_mutacion);
-			break;		
+		int i = 0; //indice individuos
+		int mutacionesGeneracion = 0;
+		for (Cromosoma c : poblacion) {
+			switch (tipoMutacion)
+			{
+			 // PRACTICA 3
+			 case "Terminal":
+			 	haMutado = Terminal.terminal(c, entradas, prob_mutacion);
+			 	break;
+			 case "Funcion":
+			 	haMutado = Funcion.funcion(c, prob_mutacion);
+			 	break;
+			 case "Permutacion":
+			 	//haMutado = Permutacion.permutacion(c, prob_mutacion);
+			 	break;
+			 case "Hoist":
+			 //	haMutado = Hoist.hoist(c, prob_mutacion);
+			 	break;
+			 case "Expansion":
+			 //	haMutado = Expansion.expansion(c, prob_mutacion);
+			 	break;
+			 case "Contraccion":
+			 //	haMutado = Contraccion.contraccion(c, prob_mutacion);
+			 	break;
+			 case "Subarbol":
+			 //	haMutado = Subarbol.subarbol(c, prob_mutacion);
+			 	break;
+			}
+			
+			if (haMutado) {
+				System.out.printf("en el individuo #%d.\n", i);
+				numMutacionesTotal++;
+				mutacionesGeneracion++;
+			}
+			
+			i++;
 		}
-		if (haMutado) numMutacionesTotal++;
+		if (mutacionesGeneracion == 0) System.out.println("No se han producido mutaciones en esta generación.");
+		else System.out.printf("Se han producido %d mutaciones esta generación. \n", mutacionesGeneracion);
 	}
 	
 	private void evaluacion() 
@@ -345,9 +358,6 @@ public class AGenetico
 			fitness_total += c.getFitness();
 					
 			evalua_mejor(c);
-			
-			System.out.println("Fitness: " + c.getFitness());
-			
 		}
 		
 		
@@ -554,8 +564,8 @@ public class AGenetico
 	}
 	// Setters Práctica 3
 	public void setNumAs(String As) {
-		if (As == "2") numAs = 2;
-		else if (As == "3") numAs = 3;
+		if (As == "2") entradas = 2;
+		else if (As == "3") entradas = 3;
 	}
 	public void setUseIf(String uif){
 		useif = uif;

@@ -61,7 +61,7 @@ public class CruceArbol
 		{
 			if(esRaiz)
 			//dependiendo de qué tipo era el nodo que ya no va a estar, se inserta el nuevo
-				hijo.insertFuncion(hijo.getArbol().getHijos(), temp, puntoCruce, 0);	
+				hijo.insertFuncion(hijo.getArbol().getHijos(), temp, puntoCruce, 0);
 			else
 				hijo.insertTerminal(hijo.getArbol().getHijos(), temp, puntoCruce, 0);
 		}

@@ -415,7 +415,7 @@ public class GUI extends JFrame {
 			this.aGen.setTipCru(this.cruce);
 			this.aGen.setMutacion(this.mutacion);
 			
-			/*
+			
 			//Practica3
 			this.aGen.setNumAs(this.numAs);
 			this.aGen.setPmax(this.maxProf);
@@ -423,7 +423,7 @@ public class GUI extends JFrame {
 			this.aGen.setUseIf(this.useIf);
 			this.aGen.setInitType(this.generador);
 			this.aGen.setBloat(this.bloating);
-			*/
+			
 		}
 
 		public void ejecutaEvolucion(Grafica grafica) {

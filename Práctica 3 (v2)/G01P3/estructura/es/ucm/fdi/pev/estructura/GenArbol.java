@@ -88,6 +88,25 @@ public class GenArbol implements Gen, Cloneable {
 		return s;
 	}
 	
+	
+	
+	public void set(GenArbol a, int index) 
+	{
+		set(this, 0, index, a);
+	} 
+		
+	private void set(GenArbol a, int pos, int index, GenArbol n)
+	{
+		if(pos >= index) a = (GenArbol) n.clone();
+		
+		else if(a.getNumHijos() > 0)
+		{
+				for(int i = 0; i < a.getNumHijos(); i++)
+					set(a.getHijos().get(i), pos+i+1, index, n);
+		}
+	}
+	
+	
 	public int getNumHijos() { return numHijos; }
 
 	public ArrayList<GenArbol> getHijos() { return hijos; }
@@ -132,7 +151,7 @@ public class GenArbol implements Gen, Cloneable {
 		{
 			if(hijos.get(i).esRaiz())
 			{
-				nodos.add((GenArbol) hijos.get(i).clone());
+				nodos.add((GenArbol) hijos.get(i));
 				getRaices(hijos.get(i).hijos, nodos);
 			}
 		}
@@ -153,13 +172,12 @@ public class GenArbol implements Gen, Cloneable {
 		for(int i = 0; i < hijos.size(); i++)
 		{
 			if(hijos.get(i).esHoja())
-			{
-				nodos.add((GenArbol) hijos.get(i).clone());
+				nodos.add((GenArbol) hijos.get(i));
+			else
 				getHojas(hijos.get(i).hijos, nodos);
-			}
 		}
 	}
-	
+
 	
 	public void addHijo(GenArbol h) {
 		hijos.add(h);
