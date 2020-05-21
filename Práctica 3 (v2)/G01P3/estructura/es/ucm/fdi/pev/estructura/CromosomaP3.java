@@ -207,7 +207,7 @@ public class CromosomaP3 extends CromosomaArbol {
 			else
 				output = true;
 			
-		//	System.out.println("Genotipo: " + genotipo());
+			System.out.println("Genotipo: " + genotipo());
 			
 			if(evalua_rec(arbol, p) == output)
 				fitness++;

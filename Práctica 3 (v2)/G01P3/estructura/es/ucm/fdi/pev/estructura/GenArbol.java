@@ -89,7 +89,6 @@ public class GenArbol implements Gen, Cloneable {
 	}
 	
 	
-	
 	public void set(GenArbol a, int index) 
 	{
 		set(this, 0, index, a);

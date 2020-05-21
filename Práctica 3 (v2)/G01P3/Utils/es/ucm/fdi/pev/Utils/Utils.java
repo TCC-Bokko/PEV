@@ -44,4 +44,43 @@ public class Utils {
 	        genes[i] = genes[j]; 
 	        genes[j] = aux;
 		}
+		
+		
+		public static float media(ArrayList<Float> v) 
+		{
+			int tam = v.size();
+			
+		    float sum = 0; 
+		    for(int i = 0; i < tam; i++) 
+		        sum = sum + v.get(i); 
+		    
+		    return sum / tam; 
+		}
+		
+		public static float covarianza(ArrayList<Float> v1, ArrayList<Float> v2) 
+		{
+			int tam = v1.size();
+
+			float med1 = media(v1);
+			float med2 = media(v2);
+		      
+			float sum = 0; 
+		    for(int i = 0; i < tam; i++) 
+		        sum = sum + (v1.get(i) - med1) * (v2.get(i) - med2);
+		    
+		    return sum / (tam - 1); 
+		}
+		
+		public static float varianza(ArrayList<Float> v) 
+		{ 
+			int tam = v.size();
+			
+			float med = media(v); 
+		
+			float sqDiff = 0; 
+			for (int i = 0; i < tam; i++)  
+			  sqDiff += (v.get(i) - med) * (v.get(i) - med); 
+			
+			return sqDiff / tam;
+		}
 }

@@ -485,6 +485,7 @@ public class AGenetico
 				System.out.println("Control de Bloating desactivado.");
 			}
 			
+		
 		}
 		fitness_total = 0;
 		mejor_fitness = 0; //poblacion[0].getFitness();

@@ -1,6 +1,7 @@
 package es.ucm.fdi.pev;
 
 import es.ucm.fdi.pev.seleccion.*;
+import es.ucm.fdi.pev.Utils.Utils;
 import es.ucm.fdi.pev.cruce.*;
 import es.ucm.fdi.pev.estructura.*;
 import es.ucm.fdi.pev.mutacion.Funcion;
@@ -75,10 +76,11 @@ public class AGenetico
 	//protected int pmin;
 	protected String initC;
 	protected String bloat;
-	protected double nodosArbolMediaPobl;
-	protected double profArbolMediaPobl;
+	
+	protected double mediaNodos;
+	protected double mediaProfundidad;
 	protected double k; // Coeficiente penalizacion para bloating.
-	protected double nodos_total;
+
 		// Para la evaluación.
 	
 	// -------- GRAFICA --------- // 
@@ -344,8 +346,7 @@ public class AGenetico
 	}
 	
 	private void evaluacion() 
-	{
-		
+	{	
 		fitness_total = 0;
 		mejor_fitness = poblacion[0].getFitness();
 		
@@ -356,7 +357,6 @@ public class AGenetico
 			
 			// Calculo del fitness total de la poblacion		
 			fitness_total += c.getFitness();
-					
 			evalua_mejor(c);
 		}
 		
@@ -374,8 +374,79 @@ public class AGenetico
 			break;
 		}
 		
+		bloating();
+
 		elitismo();
 	}
+	
+	protected void bloating()
+	{	
+		switch (bloat) 
+		{
+		case "Tarpeian": 
+			bloating_tarpeian();
+			break;
+			
+		case "Penalizacion":
+			bloating_penalizacion();
+			break;
+		default:
+			break;
+		}
+		
+		for (Cromosoma c : poblacion)
+			bloating((CromosomaP3) c);
+	}
+	
+	protected void bloating(CromosomaP3 c) 
+	{
+		switch (bloat) 
+		{
+		case "Tarpeian": 
+			
+			int n = 2; // Se mirara probabilidad 1/n
+			int rnd = new Random().nextInt();
+			
+			// Ponemos un fitness muy bajo
+			if(c.getArbol().size() > mediaNodos && rnd % n == 0)
+				c.setFitness(1);
+			break;
+			
+		case "Penalizacion":
+			float f = c.getFitness() - (float)(k * c.getArbol().size());
+			c.setFitness(f);
+			break;
+			
+		default:
+			break;
+		}
+	}
+	
+	
+	protected void bloating_tarpeian() {
+		int nodos = 0;
+		
+		for(Cromosoma c: poblacion)
+			nodos += ((CromosomaP3) c).getArbol().size();
+			
+		mediaNodos = nodos / poblacion.length;
+	}
+	
+
+	protected void bloating_penalizacion() {
+		
+		ArrayList<Float> nodos = new ArrayList<Float>();
+		ArrayList<Float> fitness = new ArrayList<Float>();
+		
+		for(Cromosoma c : poblacion)
+		{
+			nodos.add((float) ((CromosomaP3) c).getArbol().size());
+			fitness.add(c.getFitness());
+		}
+		
+		k = Utils.covarianza(nodos, fitness) / Utils.varianza(nodos);		
+	}
+	
 	
 	protected void elitismo()
 	{
