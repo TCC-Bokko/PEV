@@ -201,10 +201,12 @@ public class GenArbol implements Gen, Cloneable {
 	@Override
 	public String genotipo() {
 		String f = "";
+
 		for(GenArbol h : hijos)
 		{
 			 f += h.genotipo();
 		}
+		
 		return valor + " " + f;	
 	}
 	

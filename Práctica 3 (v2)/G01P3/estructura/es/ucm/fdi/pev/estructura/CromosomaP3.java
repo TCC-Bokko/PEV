@@ -22,6 +22,9 @@ public class CromosomaP3 extends CromosomaArbol {
 	public static ArrayList<String> permutaciones;
 	public static int numEntradas;
 	
+	
+	public static int debug = 0;
+	
 	protected String fenotipo;
 	protected double fitness_bruto;
 	
@@ -200,6 +203,8 @@ public class CromosomaP3 extends CromosomaArbol {
 		boolean output;
 		fitness = 0;
 		
+	//	System.out.println("Genotipo: " + arbol.genotipo());
+		
 		for(String p : permutaciones)
 		{	
 			if(p.charAt(p.length() - 1) == '0')
@@ -207,7 +212,7 @@ public class CromosomaP3 extends CromosomaArbol {
 			else
 				output = true;
 			
-			System.out.println("Genotipo: " + genotipo());
+			debug = 0;
 			
 			if(evalua_rec(arbol, p) == output)
 				fitness++;
@@ -219,8 +224,12 @@ public class CromosomaP3 extends CromosomaArbol {
 	
 	protected boolean evalua_rec(GenArbol a, String p) 
 	{
+		debug++;
+		System.out.println("Ejecc: " + debug);
+		
 		String nodo = a.getValor();	
-			
+		System.out.println("Valor: " + nodo);
+				
 		if(a.esHoja())
 		{
 			if (devuelve_terminal(nodo, p) == '0')
@@ -267,9 +276,8 @@ public class CromosomaP3 extends CromosomaArbol {
 			else if (nodo == "NOT") 
 			{		
 				boolean bIzq = evalua_rec(hijos.get(0), p);
-				
-				return !bIzq;
-				
+
+				return !bIzq;				
 			} 
 		}
 		
@@ -279,7 +287,6 @@ public class CromosomaP3 extends CromosomaArbol {
 	
 	
 	protected char devuelve_terminal(String v, String p) {
-		boolean value;
 		
 		switch (numEntradas) 
 		{
@@ -289,7 +296,9 @@ public class CromosomaP3 extends CromosomaArbol {
 					return p.charAt(i);
 			break;
 		case 3:
-			
+			for(int i = 0; i < terminales11.length ;i++)
+				if(v == terminales11[i])
+					return p.charAt(i);
 			break;
 		default:
 			throw new IllegalArgumentException("Unexpected value: " + numEntradas);

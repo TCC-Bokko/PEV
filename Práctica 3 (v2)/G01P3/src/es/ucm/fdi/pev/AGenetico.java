@@ -134,7 +134,7 @@ public class AGenetico
 		
 			cruce();
 
-			//mutacion();
+			mutacion();
 			
 			evaluacion();	
 			
@@ -404,12 +404,12 @@ public class AGenetico
 		{
 		case "Tarpeian": 
 			
-			int n = 2; // Se mirara probabilidad 1/n
+			int n = 1; // Se mirara probabilidad 1/n
 			int rnd = new Random().nextInt();
 			
 			// Ponemos un fitness muy bajo
 			if(c.getArbol().size() > mediaNodos && rnd % n == 0)
-				c.setFitness(1);
+				c.setFitness(-1000000);
 			break;
 			
 		case "Penalizacion":
