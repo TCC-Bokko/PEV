@@ -150,35 +150,7 @@ public class AGenetico
 		System.out.printf("Generaciones: %d\n", maxGeneraciones);
 		System.out.printf("Cruces: %d\n", numCrucesTotal);
 		System.out.printf("Mutaciones: %d\n", numMutacionesTotal);
-		// Obtener mejor cromosoma absoluto del algoritmo genético
-		/*
-		Gen[] genes = mejor_abs.getGenes();
-		String textoMejorAbs = "Mejor Invididuo. Genes: [";
-		int value;
-		for (int i = 0; i < genes.length; i++) {
-			GenEntero GMJ = (GenEntero) genes[i];
-			value = GMJ.getAlelo();
-			textoMejorAbs = textoMejorAbs + Integer.toString(value);
-			textoMejorAbs = textoMejorAbs + ", ";
-		}
-		textoMejorAbs = textoMejorAbs + "]";
-		System.out.println(textoMejorAbs);
-		System.out.printf("Mejor fitness: %d\n", (int) mejor_fitness);
-		System.out.printf("Generacion del mejor: %d\n", generacionMejor);
-		// Obtener peor cromosoma
-		genes = peor_abs.getGenes();
-		String textoPeorAbs = "Peor Invididuo. Genes: [";
-		for (int i = 0; i < genes.length; i++) {
-			GenEntero GMJ = (GenEntero) genes[i];
-			value = GMJ.getAlelo();
-			textoPeorAbs = textoPeorAbs + Integer.toString(value);
-			textoPeorAbs = textoPeorAbs + ", ";
-		}
-		textoPeorAbs = textoPeorAbs + "]";
-		System.out.println(textoPeorAbs);
-		System.out.printf("Peor fitness: %d\n", (int) peor_fitness);
-		System.out.printf("Generacion del peor: %d\n", generacionPeor);
-		*/
+
 		_grafica.dibujaGrafica();
 	}
 	
@@ -289,7 +261,7 @@ public class AGenetico
 			int padre2 = sel.get(i+1);
 			
 			switch (tipoCruce) {
-				case "Arbol":
+				case "Permutacion":
 					CruceArbol.cruceArbol((CromosomaP3)poblacion[padre1], (CromosomaP3)poblacion[padre2]);
 					break;
 					
@@ -373,6 +345,9 @@ public class AGenetico
 			adapta_puntuacion();
 			break;
 		}
+		
+		System.out.println("Mejor fitness gen.: " + mejor_fitness);
+		System.out.println("Abs fitness: " + abs_fitness);
 		
 		bloating();
 

@@ -49,12 +49,16 @@ public class CromosomaP3 extends CromosomaArbol {
 			inicializacionCompleta(arbol, 0, 0, useIf);
 			break;
 		case "Creciente":
-			inicializacionCreciente(arbol, 0, useIf);
+			//inicializacionCreciente(arbol, 0, useIf);
+			inicializacionCompleta(arbol, 0, 0, useIf);
 			break;
 		case "RampedANDHalf":
+			inicializacionCompleta(arbol, 0, 0, useIf);
+			/*
 			int ini = new Random().nextInt(2);
 			if(ini == 0) inicializacionCreciente(arbol, 0, useIf);
 			else inicializacionCompleta(arbol, 0, 0, useIf);
+			*/
 			break;
 		}
 	}
@@ -202,8 +206,6 @@ public class CromosomaP3 extends CromosomaArbol {
 	{	
 		boolean output;
 		fitness = 0;
-		
-	//	System.out.println("Genotipo: " + arbol.genotipo());
 		
 		for(String p : permutaciones)
 		{	
